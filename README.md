@@ -35,5 +35,5 @@ This project collects data from the public API [swapi.tech](https://www.swapi.te
 
 1. Clone the repository:
    ```bash
-   git clone <your-repository-url>
+   git clone https://github.com/Double-Bee-24/4.Nest-js.git
    cd <your-repository-folder>
