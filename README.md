@@ -1,4 +1,4 @@
-# Star Wars Data Viewer
+# Star Wars Universe Observer
 
 A project for displaying data from the Star Wars universe in tables. It uses NestJS, TypeORM with PostgreSQL for the backend and React for the frontend.
 
