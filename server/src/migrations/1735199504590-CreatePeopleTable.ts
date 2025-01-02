@@ -4,7 +4,9 @@ export class CreatePeopleTable1735199504590 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE people (
-        id varchar(24),
+        id INT PRIMARY KEY,
+        created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         description text,
         height varchar(50),
         mass varchar(50),
@@ -13,13 +15,9 @@ export class CreatePeopleTable1735199504590 implements MigrationInterface {
         "eyeColor" varchar(50),
         "birthYear" varchar(50),
         gender varchar(50),
-        created varchar(50),
-        edited varchar(50),
         name varchar(255),
         homeworld varchar(255),
-        url varchar(255),
-        "speciesId" varchar(24),
-        PRIMARY KEY (id)
+        "speciesId" varchar(24)
       )
     `);
   }

@@ -4,7 +4,9 @@ export class CreateSpeciesTable1735302567277 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE species (
-        id VARCHAR(24) PRIMARY KEY,
+        id INT PRIMARY KEY,
+        created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         description TEXT,
         classification VARCHAR(255),
         designation VARCHAR(255),
@@ -15,12 +17,9 @@ export class CreateSpeciesTable1735302567277 implements MigrationInterface {
         "eyeColors" VARCHAR(255),
         homeworld VARCHAR(255),
         language VARCHAR(255),
-        people TEXT[],
-        created TIMESTAMP,
-        edited TIMESTAMP,
+        people VARCHAR(255),
         name VARCHAR(255),
-        "speciesId" varchar(24),
-        url VARCHAR(255)
+        "speciesId" varchar(24)
       );
     `);
   }

@@ -12,23 +12,20 @@ export class PeopleService {
   ) {}
 
   // Fetches all the rows from People table
-  async getData(): Promise<People[]> {
+  getPeople(): Promise<People[]> {
     return this.peopleRepository.find();
   }
 
-  async createPerson(peopleDto: PeopleDto): Promise<People> {
+  createPerson(peopleDto: PeopleDto): Promise<People> {
     const newPerson = this.peopleRepository.create(peopleDto);
     return this.peopleRepository.save(newPerson);
   }
 
-  async updatePerson(
-    _id: string,
-    updateDate: Partial<PeopleDto>,
-  ): Promise<UpdateResult> {
-    return this.peopleRepository.update(_id, updateDate);
+  updatePerson(id: number, updateDate: PeopleDto): Promise<UpdateResult> {
+    return this.peopleRepository.update(id, updateDate);
   }
 
-  async remove(_id: string): Promise<DeleteResult> {
-    return await this.peopleRepository.delete(_id);
+  deletePerson(id: number): Promise<DeleteResult> {
+    return this.peopleRepository.delete(id);
   }
 }

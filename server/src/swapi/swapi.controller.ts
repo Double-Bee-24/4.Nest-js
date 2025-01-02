@@ -5,8 +5,13 @@ import { SwapiService } from './swapi.service';
 export class SwapiController {
   constructor(private swapiService: SwapiService) {}
 
+  // @Get()
+  // performAllActions() {
+  //   this.swapiService.fillAllRepositories();
+  // }
+
   @Get()
-  performAllActions() {
-    this.swapiService.fillAllRepositories();
+  makeMagic() {
+    this.swapiService.makeMagic();
   }
 }

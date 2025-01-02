@@ -1,9 +1,10 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { People } from 'src/people/entities/people.entity';
+import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Planets {
-  @PrimaryColumn('varchar', { length: 24 })
-  id: string;
+  @PrimaryColumn()
+  id: number;
 
   @Column()
   description: string;
@@ -41,6 +42,6 @@ export class Planets {
   @Column()
   name: string;
 
-  @Column()
-  url: string;
+  @ManyToMany(() => People, (people) => people.planets)
+  people: People[];
 }

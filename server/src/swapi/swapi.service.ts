@@ -43,9 +43,9 @@ export class SwapiService {
     this.swapiUrl = this.configService.get<string>('SWAPI_URL');
   }
 
-  toCamelCaseFlat(
-    obj: Record<string, string | number>,
-  ): Record<string, string | number> {
+  toCamelCase(
+    obj: Record<string, string | number | null | string[]>,
+  ): Record<string, string | number | null | string[]> {
     return Object.keys(obj).reduce(
       (acc, key) => {
         const camelKey = key.replace(/_([a-z])/g, (_, letter) =>
@@ -54,7 +54,7 @@ export class SwapiService {
         acc[camelKey] = obj[key];
         return acc;
       },
-      {} as Record<string, string | number>,
+      {} as Record<string, string | number | null | string[]>,
     );
   }
 
@@ -101,11 +101,26 @@ export class SwapiService {
     const data = await this.downloadDataFromSwapi(entityType);
 
     // Prepare data to be inserted into db
-    const newData = data.map((item) => ({
-      ...item.properties,
-      id: item.uid,
-      description: item.description,
-    }));
+    const newData = data
+      .map((item) => {
+        if ('homeworld' in item.properties) {
+          item.properties.homeworld = 'planet';
+        }
+
+        const {
+          url: _url,
+          created: _created,
+          edited: _edited,
+          ...restProperties
+        } = item.properties; // Excludes fields from received data
+
+        return {
+          ...restProperties,
+          id: item.uid,
+          description: item.description,
+        };
+      })
+      .map((item) => this.toCamelCase(item));
 
     await repository.save(newData);
   }
@@ -122,6 +137,16 @@ export class SwapiService {
     for (const repositoryName in repositories) {
       await this.uploadDataToDb(repositoryName, repositories[repositoryName]);
     }
+  }
+
+  async makeMagic() {
+    const person = await this.peopleRepository.findOne({ where: { id: 2 } });
+
+    const planet = await this.planetsRepository.findOne({ where: { id: 1 } });
+
+    person.planets = [planet];
+    await this.peopleRepository.save(person);
+    console.log(person, planet);
   }
 }
 

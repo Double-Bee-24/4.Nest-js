@@ -4,7 +4,9 @@ export class CreateStarshipsTable1735302585810 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE starships (
-        id VARCHAR(24) PRIMARY KEY,
+        id INT PRIMARY KEY,
+        created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         model VARCHAR(255),
         "starshipClass" VARCHAR(255),
         manufacturer VARCHAR(255),
@@ -17,11 +19,8 @@ export class CreateStarshipsTable1735302585810 implements MigrationInterface {
         "MGLT" VARCHAR(255),
         "cargoCapacity" VARCHAR(255),
         consumables VARCHAR(255),
-        pilots TEXT[],
-        created TIMESTAMP,
-        edited TIMESTAMP,
+        pilots VARCHAR(255),
         name VARCHAR(255),
-        url VARCHAR(255),
         description TEXT
       );
     `);

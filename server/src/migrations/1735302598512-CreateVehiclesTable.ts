@@ -4,7 +4,9 @@ export class CreateVehiclesTable1735302598512 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE vehicles (
-        id VARCHAR(24) PRIMARY KEY,
+        id INT PRIMARY KEY,
+        created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         model VARCHAR(255),
         "vehicleClass" VARCHAR(255),
         manufacturer VARCHAR(255),
@@ -15,12 +17,9 @@ export class CreateVehiclesTable1735302598512 implements MigrationInterface {
         "maxAtmospheringSpeed" VARCHAR(255),
         "cargoCapacity" VARCHAR(255),
         consumables VARCHAR(255),
-        films TEXT[],
-        pilots TEXT[],
-        created TIMESTAMP,
-        edited TIMESTAMP,
+        films VARCHAR(255),
+        pilots VARCHAR(255),
         name VARCHAR(255),
-        url VARCHAR(255),
         description TEXT
       );
     `);

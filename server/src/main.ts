@@ -14,10 +14,9 @@ async function bootstrap() {
 
   // Configurating Swagger
   const config = new DocumentBuilder()
-    .setTitle('My API')
-    .setDescription('API documentation for my project')
+    .setTitle('Starwars universe API')
+    .setDescription('API documentation for Starwars universe project')
     .setVersion('1.0')
-    .addTag('users') // Additional tag for a route
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
@@ -29,6 +28,12 @@ async function bootstrap() {
       forbidNonWhitelisted: true, // Generates a mistake if unnecessary properties passed
     }),
   );
+
+  app.enableCors({
+    origin: 'http://localhost:3001',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
 
   await app.listen(process.env.PORT ?? 3000);
 }

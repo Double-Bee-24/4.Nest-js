@@ -2,8 +2,8 @@ import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 @Entity()
 export class Vehicles {
-  @PrimaryColumn('varchar', { length: 24 })
-  id: string;
+  @PrimaryColumn()
+  id: number;
 
   @Column()
   model: string;
@@ -35,11 +35,10 @@ export class Vehicles {
   @Column()
   consumables: string;
 
-  @Column('text', { array: true })
-  films: string[];
+  @Column()
+  films: string;
 
-  @Column('text', { array: true })
-  pilots: string[];
+  pilots: string;
 
   @Column()
   created: string;
@@ -49,9 +48,6 @@ export class Vehicles {
 
   @Column()
   name: string;
-
-  @Column()
-  url: string;
 
   @Column()
   description: string;

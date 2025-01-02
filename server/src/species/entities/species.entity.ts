@@ -1,10 +1,9 @@
-import { People } from 'src/people/entities/people.entity';
-import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Species {
-  @PrimaryColumn('varchar', { length: 24 })
-  id: string;
+  @PrimaryColumn()
+  id: number;
 
   @Column()
   description: string;
@@ -44,10 +43,4 @@ export class Species {
 
   @Column()
   name: string;
-
-  @Column()
-  url: string;
-
-  @OneToMany(() => People, (people) => people.species)
-  people: People[];
 }

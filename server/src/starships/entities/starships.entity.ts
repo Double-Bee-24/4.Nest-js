@@ -2,8 +2,8 @@ import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 @Entity()
 export class Starships {
-  @PrimaryColumn('varchar', { length: 24 })
-  id: string;
+  @PrimaryColumn()
+  id: number;
 
   @Column()
   model: string;
@@ -41,8 +41,8 @@ export class Starships {
   @Column()
   consumables: string;
 
-  @Column('text', { array: true })
-  pilots: string[];
+  @Column()
+  pilots: string;
 
   @Column()
   created: string;
@@ -52,9 +52,6 @@ export class Starships {
 
   @Column()
   name: string;
-
-  @Column()
-  url: string;
 
   @Column()
   description: string;

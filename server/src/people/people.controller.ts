@@ -14,23 +14,23 @@ import { PeopleDto } from './dto/people.dto';
 export class PeopleController {
   constructor(private peopleService: PeopleService) {}
 
+  @Get()
+  getPeople() {
+    return this.peopleService.getPeople();
+  }
+
   @Post()
-  create(@Body() peopleDto: PeopleDto) {
+  createPerson(@Body() peopleDto: PeopleDto) {
     return this.peopleService.createPerson(peopleDto);
   }
 
-  @Get()
-  getData() {
-    return this.peopleService.getData();
-  }
-
   @Put(':id')
-  updatePerson(@Param('id') id: string, @Body() peopleDto: PeopleDto) {
+  updatePerson(@Param('id') id: number, @Body() peopleDto: PeopleDto) {
     return this.peopleService.updatePerson(id, peopleDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.peopleService.remove(id);
+  delete(@Param('id') id: number) {
+    return this.peopleService.deletePerson(id);
   }
 }

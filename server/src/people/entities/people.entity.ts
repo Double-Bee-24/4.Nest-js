@@ -1,10 +1,10 @@
-import { Species } from 'src/species/entities/species.entity';
-import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
+import { Planets } from 'src/planets/entities/planets.entity';
+import { Entity, Column, PrimaryColumn, ManyToMany, JoinTable } from 'typeorm';
 
 @Entity()
 export class People {
-  @PrimaryColumn('varchar', { length: 24 })
-  id: string;
+  @PrimaryColumn()
+  id: number;
 
   @Column()
   description: string;
@@ -42,9 +42,11 @@ export class People {
   @Column()
   homeworld: string;
 
-  @Column()
-  url: string;
-
-  @ManyToOne(() => Species, (species) => species.people)
-  species: Species;
+  @ManyToMany(() => Planets, (planets) => planets.people, { cascade: true })
+  @JoinTable({
+    name: 'peopleplanets',
+    joinColumn: { name: 'peopleId', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'planetsId', referencedColumnName: 'id' },
+  })
+  planets: Planets[];
 }
