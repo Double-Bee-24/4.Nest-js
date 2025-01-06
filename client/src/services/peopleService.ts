@@ -3,9 +3,7 @@ import IPerson from "../interfaces/IPerson";
 
 const getAllPeople = async (): Promise<IPerson[]> => {
   try {
-    const data: IPerson[] = await instance.get("/");
-
-    return data;
+    return instance.get("/people");
   } catch (error) {
     console.error("Error performing getAllPeople function: ", error);
 

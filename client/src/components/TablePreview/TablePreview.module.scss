@@ -1,0 +1,22 @@
+.table-preview {
+  width: 400px;
+  height: 200px;
+  background-color: #f4f9f4;
+  border: 2px solid #86c232;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Arial", sans-serif;
+  font-size: 1.2rem;
+  color: #344e41;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 20px;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}
