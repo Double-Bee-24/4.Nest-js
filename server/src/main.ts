@@ -1,5 +1,5 @@
 // try {
-//   throw new Error('Error here');
+//   throw new Error('Error in main.ts');
 // } catch (e) {
 //   console.log(e.stack);
 // }
@@ -37,4 +37,6 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 3000);
 }
-bootstrap();
+bootstrap().catch((error: unknown) => {
+  console.error('Error during bootstrap:', error);
+});

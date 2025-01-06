@@ -5,13 +5,13 @@ import { SwapiService } from './swapi.service';
 export class SwapiController {
   constructor(private swapiService: SwapiService) {}
 
-  // @Get()
-  // performAllActions() {
-  //   this.swapiService.fillAllRepositories();
-  // }
-
   @Get()
-  makeMagic() {
-    this.swapiService.makeMagic();
+  async seedDatabase() {
+    await this.swapiService.seedDatabase();
   }
+
+  // @Get()
+  // async makeMagic() {
+  //   await this.swapiService.setDbRelationships();
+  // }
 }

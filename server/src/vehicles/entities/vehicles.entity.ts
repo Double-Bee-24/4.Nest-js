@@ -3,52 +3,53 @@ import { Entity, PrimaryColumn, Column } from 'typeorm';
 @Entity()
 export class Vehicles {
   @PrimaryColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  model: string;
+  model: string = '';
 
   @Column()
-  vehicleClass: string;
+  vehicleClass: string = '';
 
   @Column()
-  manufacturer: string;
+  manufacturer: string = '';
 
   @Column()
-  costInCredits: string;
+  costInCredits: string = '';
 
   @Column()
-  length: string;
+  length: string = '';
 
   @Column()
-  crew: string;
+  crew: string = '';
 
   @Column()
-  passengers: string;
+  passengers: string = '';
 
   @Column()
-  maxAtmospheringSpeed: string;
+  maxAtmospheringSpeed: string = '';
 
   @Column()
-  cargoCapacity: string;
+  cargoCapacity: string = '';
 
   @Column()
-  consumables: string;
+  consumables: string = '';
 
   @Column()
-  films: string;
-
-  pilots: string;
+  films: string = '';
 
   @Column()
-  created: string;
+  pilots: string = '';
 
   @Column()
-  edited: string;
+  created: string = '';
 
   @Column()
-  name: string;
+  edited: string = '';
 
   @Column()
-  description: string;
+  name: string = '';
+
+  @Column()
+  description: string = '';
 }

@@ -7,81 +7,81 @@ export class PeopleDto {
     example: '1',
   })
   @IsNumber()
-  id: number;
+  id!: number;
 
   @ApiProperty({
     description: 'Short description of the person',
     example: 'Jedi Master and hero of the Clone Wars',
   })
   @IsString()
-  description: string;
+  description: string = '';
 
   @ApiProperty({
     description: 'Height of the person in centimeters',
     example: '180',
   })
   @IsString()
-  height: string;
+  height: string = '';
 
   @ApiProperty({
     description: 'Mass of the person in kilograms',
     example: '75',
   })
   @IsString()
-  mass: string;
+  mass: string = '';
 
   @ApiProperty({ description: 'Hair color of the person', example: 'Blond' })
   @IsString()
-  hairColor: string;
+  hairColor: string = '';
 
   @ApiProperty({ description: 'Skin color of the person', example: 'Fair' })
   @IsString()
-  skinColor: string;
+  skinColor: string = '';
 
   @ApiProperty({ description: 'Eye color of the person', example: 'Blue' })
   @IsString()
-  eyeColor: string;
+  eyeColor: string = '';
 
   @ApiProperty({
     description: 'Birth year of the person (e.g., BBY or ABY)',
     example: '19BBY',
   })
   @IsString()
-  birthYear: string;
+  birthYear: string = '';
 
   @ApiProperty({ description: 'Gender of the person', example: 'Male' })
   @IsString()
-  gender: string;
+  gender: string = '';
 
   @ApiProperty({
     description: 'Date when the record was created',
     example: '2023-12-01T12:00:00Z',
   })
   @IsDateString()
-  created: string;
+  created: string = '';
 
   @ApiProperty({
     description: 'Date when the record was last edited',
     example: '2023-12-02T15:30:00Z',
   })
   @IsDateString()
-  edited: string;
+  edited: string = '';
 
   @ApiProperty({ description: 'Name of the person', example: 'Luke Skywalker' })
   @IsString()
-  name: string;
+  name: string = '';
 
   @ApiProperty({
     description: 'Homeworld URL of the person',
     example: 'https://swapi.dev/api/planets/1/',
   })
   @IsString()
-  homeworld: string;
+  homeworld: string = '';
 
   @ApiProperty({
     description: 'URL to the person’s resource',
     example: 'https://swapi.dev/api/people/1/',
   })
   @IsUrl()
-  url: string;
+  url: string = '';
 }

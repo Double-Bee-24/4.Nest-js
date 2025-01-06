@@ -3,56 +3,56 @@ import { Entity, PrimaryColumn, Column } from 'typeorm';
 @Entity()
 export class Starships {
   @PrimaryColumn()
-  id: number;
+  id!: number;
 
-  @Column()
-  model: string;
+  @Column({ default: '' })
+  model: string = '';
 
-  @Column()
-  starshipClass: string;
+  @Column({ default: '' })
+  starshipClass: string = '';
 
-  @Column()
-  manufacturer: string;
+  @Column({ default: '' })
+  manufacturer: string = '';
 
-  @Column()
-  costInCredits: string;
+  @Column({ default: '' })
+  costInCredits: string = '';
 
-  @Column()
-  length: string;
+  @Column({ default: '' })
+  length: string = '';
 
-  @Column()
-  crew: string;
+  @Column({ default: '' })
+  crew: string = '';
 
-  @Column()
-  passengers: string;
+  @Column({ default: '' })
+  passengers: string = '';
 
-  @Column()
-  maxAtmospheringSpeed: string;
+  @Column({ default: '' })
+  maxAtmospheringSpeed: string = '';
 
-  @Column()
-  hyperdriveRating: string;
+  @Column({ default: '' })
+  hyperdriveRating: string = '';
 
-  @Column()
-  MGLT: string;
+  @Column({ default: '' })
+  MGLT: string = '';
 
-  @Column()
-  cargoCapacity: string;
+  @Column({ default: '' })
+  cargoCapacity: string = '';
 
-  @Column()
-  consumables: string;
+  @Column({ default: '' })
+  consumables: string = '';
 
-  @Column()
-  pilots: string;
+  @Column({ default: '' })
+  pilots: string = '';
 
-  @Column()
-  created: string;
+  @Column({ default: '' })
+  created: string = '';
 
-  @Column()
-  edited: string;
+  @Column({ default: '' })
+  edited: string = '';
 
-  @Column()
-  name: string;
+  @Column({ default: '' })
+  name: string = '';
 
-  @Column()
-  description: string;
+  @Column({ default: '' })
+  description: string = '';
 }

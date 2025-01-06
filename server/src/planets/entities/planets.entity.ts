@@ -4,44 +4,44 @@ import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
 @Entity()
 export class Planets {
   @PrimaryColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  description: string;
+  description: string = '';
 
   @Column()
-  diameter: string;
+  diameter: string = '';
 
   @Column()
-  rotationPeriod: string;
+  rotationPeriod: string = '';
 
   @Column()
-  orbitalPeriod: string;
+  orbitalPeriod: string = '';
 
   @Column()
-  gravity: string;
+  gravity: string = '';
 
   @Column()
-  population: string;
+  population: string = '';
 
   @Column()
-  climate: string;
+  climate: string = '';
 
   @Column()
-  terrain: string;
+  terrain: string = '';
 
   @Column()
-  surfaceWater: string;
+  surfaceWater: string = '';
 
   @Column()
-  created: string;
+  created: string = '';
 
   @Column()
-  edited: string;
+  edited: string = '';
 
   @Column()
-  name: string;
+  name: string = '';
 
   @ManyToMany(() => People, (people) => people.planets)
-  people: People[];
+  people!: People[];
 }

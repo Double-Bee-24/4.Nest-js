@@ -4,43 +4,43 @@ import { Entity, Column, PrimaryColumn, ManyToMany, JoinTable } from 'typeorm';
 @Entity()
 export class People {
   @PrimaryColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  description: string;
+  description: string = '';
 
   @Column()
-  height: string;
+  height: string = '';
 
   @Column()
-  mass: string;
+  mass: string = '';
 
   @Column()
-  hairColor: string;
+  hairColor: string = '';
 
   @Column()
-  skinColor: string;
+  skinColor: string = '';
 
   @Column()
-  eyeColor: string;
+  eyeColor: string = '';
 
   @Column()
-  birthYear: string;
+  birthYear: string = '';
 
   @Column()
-  gender: string;
+  gender: string = '';
 
   @Column()
-  created: string;
+  created: string = '';
 
   @Column()
-  edited: string;
+  edited: string = '';
 
   @Column()
-  name: string;
+  name: string = '';
 
   @Column()
-  homeworld: string;
+  homeworld: string = '';
 
   @ManyToMany(() => Planets, (planets) => planets.people, { cascade: true })
   @JoinTable({
@@ -48,5 +48,5 @@ export class People {
     joinColumn: { name: 'peopleId', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'planetsId', referencedColumnName: 'id' },
   })
-  planets: Planets[];
+  planets!: Planets[];
 }

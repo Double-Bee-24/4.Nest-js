@@ -7,7 +7,8 @@ module.exports = {
   },
   plugins: ['@typescript-eslint/eslint-plugin'],
   extends: [
-    'plugin:@typescript-eslint/recommended',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/strict-type-checked',
     'plugin:prettier/recommended',
   ],
   root: true,
@@ -28,5 +29,7 @@ module.exports = {
         argsIgnorePattern: '^_', // Ignores function arguments starting with "_"
       },
     ],
+    '@typescript-eslint/restrict-template-expressions': 'off',
+    '@typescript-eslint/no-extraneous-class': 'off',
   },
 };

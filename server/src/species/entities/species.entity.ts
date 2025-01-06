@@ -3,44 +3,44 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 @Entity()
 export class Species {
   @PrimaryColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  description: string;
+  description: string = '';
 
   @Column()
-  classification: string;
+  classification: string = '';
 
   @Column()
-  designation: string;
+  designation: string = '';
 
   @Column()
-  averageHeight: string;
+  averageHeight: string = '';
 
   @Column()
-  averageLifespan: string;
+  averageLifespan: string = '';
 
   @Column()
-  hairColors: string;
+  hairColors: string = '';
 
   @Column()
-  skinColors: string;
+  skinColors: string = '';
 
   @Column()
-  eyeColors: string;
+  eyeColors: string = '';
 
   @Column()
-  homeworld: string;
+  homeworld: string = '';
 
   @Column()
-  language: string;
+  language: string = '';
 
   @Column()
-  created: string;
+  created: string = '';
 
   @Column()
-  edited: string;
+  edited: string = '';
 
   @Column()
-  name: string;
+  name: string = '';
 }

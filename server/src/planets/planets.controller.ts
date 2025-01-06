@@ -30,7 +30,7 @@ export class PlanetsController {
   }
 
   @Delete(':id')
-  deletePlanet(@Param('id') id: number) {
-    this.planetsService.deletePlanet(id);
+  async deletePlanet(@Param('id') id: number) {
+    await this.planetsService.deletePlanet(id);
   }
 }

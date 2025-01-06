@@ -16,6 +16,7 @@ import { Planets } from './planets/entities/planets.entity';
 import { Species } from './species/entities/species.entity';
 import { Starships } from './starships/entities/starships.entity';
 import { Vehicles } from './vehicles/entities/vehicles.entity';
+import { Films } from './films/entities/films.entity';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { Vehicles } from './vehicles/entities/vehicles.entity';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [People, Planets, Species, Starships, Vehicles],
+        entities: [People, Planets, Species, Starships, Vehicles, Films],
         synchronize: false,
         migrations: [],
       }),

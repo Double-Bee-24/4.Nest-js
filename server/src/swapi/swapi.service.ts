@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
+import { AxiosError } from 'axios';
 import { Repository } from 'typeorm';
 import { lastValueFrom } from 'rxjs';
 import { People } from 'src/people/entities/people.entity';
@@ -10,16 +11,44 @@ import { Species } from 'src/species/entities/species.entity';
 import { Starships } from 'src/starships/entities/starships.entity';
 import { Vehicles } from 'src/vehicles/entities/vehicles.entity';
 import {
-  SpeciesResponse,
-  PlanetsResponse,
-  StarshipsResponse,
-  VehiclesResponse,
-  PeopleResponse,
-} from './interfaces';
+  SpeciesResponseSchema,
+  PeopleResponseSchema,
+  PlanetsResponseSchema,
+  VehiclesResponseSchema,
+  StarshipsResponseSchema,
+  FilmsResponseSchema,
+  SpeciesResult,
+  PeopleResult,
+  PlanetsResult,
+  VehiclesResult,
+  StarshipsResult,
+  FilmsResult,
+} from './schemas';
+import { toCamelCase } from 'src/utils/object-utils';
+import { extractNumber } from 'src/utils/string-utils';
+import { Films } from 'src/films/entities/films.entity';
 
 @Injectable()
 export class SwapiService {
   private swapiUrl: string;
+
+  private repositories = {
+    people: this.peopleRepository,
+    planets: this.planetsRepository,
+    vehicles: this.vehiclesRepository,
+    starships: this.starshipsRepository,
+    species: this.speciesRepository,
+    films: this.filmsRepository,
+  } as const;
+
+  private schemaMap = {
+    people: PeopleResponseSchema,
+    planets: PlanetsResponseSchema,
+    vehicles: VehiclesResponseSchema,
+    starships: StarshipsResponseSchema,
+    species: SpeciesResponseSchema,
+    films: FilmsResponseSchema,
+  } as const;
 
   constructor(
     @InjectRepository(People)
@@ -37,49 +66,52 @@ export class SwapiService {
     @InjectRepository(Vehicles)
     private vehiclesRepository: Repository<Vehicles>,
 
+    @InjectRepository(Films)
+    private filmsRepository: Repository<Films>,
+
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
   ) {
-    this.swapiUrl = this.configService.get<string>('SWAPI_URL');
-  }
-
-  toCamelCase(
-    obj: Record<string, string | number | null | string[]>,
-  ): Record<string, string | number | null | string[]> {
-    return Object.keys(obj).reduce(
-      (acc, key) => {
-        const camelKey = key.replace(/_([a-z])/g, (_, letter) =>
-          letter.toUpperCase(),
-        );
-        acc[camelKey] = obj[key];
-        return acc;
-      },
-      {} as Record<string, string | number | null | string[]>,
-    );
+    this.swapiUrl =
+      this.configService.get<string>('SWAPI_URL') ||
+      'https://www.swapi.tech/api';
   }
 
   async getAmountOfDataFromSwapi(entityType: string): Promise<number> {
     const { data } = await lastValueFrom(
       this.httpService.get<{ total_records: number }>(
-        `${this.swapiUrl}/${entityType}`,
+        `${this.swapiUrl}/${entityType}`, // url to get the total number of records
       ),
     );
 
     return data.total_records;
   }
 
-  async downloadDataFromSwapi(entityType: string): Promise<SwapiResponse[]> {
-    const totalRecords = await this.getAmountOfDataFromSwapi(entityType);
+  async downloadDataFromSwapi(
+    entityType: keyof typeof this.schemaMap,
+  ): Promise<SwapiResult[]> {
+    let totalRecords;
+
+    if (entityType === 'films') {
+      totalRecords = 6; // There are 6 films in the swapi database, and we don't have a way to get the total number of records
+    } else {
+      totalRecords = await this.getAmountOfDataFromSwapi(entityType);
+    }
 
     const requests = Array.from({ length: totalRecords }, async (_, index) => {
       try {
         const response = await lastValueFrom(
           this.httpService.get(`${this.swapiUrl}/${entityType}/${index + 1}`),
         );
-        return response.data.result;
+
+        const schema = this.schemaMap[entityType];
+
+        const validatedResponse = schema.parse(response.data);
+
+        return validatedResponse.result;
       } catch (error) {
         // Swapi server may not contain records with certain ids, in such cases we want our method to continue working
-        if (error.response?.status === 404) {
+        if ((error as AxiosError).response?.status === 404) {
           console.log(`Data for ID ${index + 1} not found`);
           return null;
         }
@@ -90,21 +122,34 @@ export class SwapiService {
 
     const responses = await Promise.all(requests);
 
-    const peopleData: PeopleResponse[] = responses.filter(
-      (elem): elem is PeopleResponse => elem !== null,
-    );
+    const peopleData = responses.filter((elem) => elem !== null);
 
     return peopleData;
   }
 
-  async uploadDataToDb(entityType: string, repository: Repository<EntityName>) {
-    const data = await this.downloadDataFromSwapi(entityType);
+  async uploadDataToDb(
+    entityType: keyof typeof this.schemaMap,
+    repository: Repository<EntityName>,
+  ) {
+    const swapiData = await this.downloadDataFromSwapi(entityType);
 
     // Prepare data to be inserted into db
-    const newData = data
+    const editedSwapiData = swapiData
       .map((item) => {
-        if ('homeworld' in item.properties) {
-          item.properties.homeworld = 'planet';
+        // Creates a new string with the number extracted from the URL for further relationship management
+        Object.entries(item.properties).forEach(([key, value]) => {
+          if (Array.isArray(value)) {
+            (item.properties as Record<string, string>)[key] = value
+              .map((cur) => String(extractNumber(cur)))
+              .join(',');
+          }
+        });
+
+        // Extract the number from the URL (as its stored in the database)
+        if ('homeworld' in item.properties && item.properties.homeworld) {
+          item.properties.homeworld = String(
+            extractNumber(item.properties.homeworld),
+          );
         }
 
         const {
@@ -120,41 +165,43 @@ export class SwapiService {
           description: item.description,
         };
       })
-      .map((item) => this.toCamelCase(item));
+      .map((item) => toCamelCase(item));
 
-    await repository.save(newData);
+    await repository.save(editedSwapiData);
   }
 
-  async fillAllRepositories() {
-    const repositories = {
-      people: this.peopleRepository,
-      planets: this.planetsRepository,
-      vehicles: this.vehiclesRepository,
-      starships: this.starshipsRepository,
-      species: this.speciesRepository,
-    };
-
-    for (const repositoryName in repositories) {
-      await this.uploadDataToDb(repositoryName, repositories[repositoryName]);
+  async seedDatabase() {
+    for (const [repositoryName, repository] of Object.entries(
+      this.repositories,
+    )) {
+      await this.uploadDataToDb(
+        repositoryName as keyof typeof this.schemaMap,
+        repository,
+      );
     }
   }
 
-  async makeMagic() {
+  // Sets releationships between entities in the database
+  async setDbRelationships() {
     const person = await this.peopleRepository.findOne({ where: { id: 2 } });
 
     const planet = await this.planetsRepository.findOne({ where: { id: 1 } });
 
+    if (!person || !planet) {
+      throw new Error('Person or planet not found');
+    }
+
     person.planets = [planet];
     await this.peopleRepository.save(person);
-    console.log(person, planet);
   }
 }
 
-type EntityName = People | Planets | Vehicles | Starships | Species;
+type EntityName = People | Planets | Vehicles | Starships | Species | Films;
 
-type SwapiResponse =
-  | PeopleResponse
-  | PlanetsResponse
-  | VehiclesResponse
-  | StarshipsResponse
-  | SpeciesResponse;
+type SwapiResult =
+  | PeopleResult
+  | PlanetsResult
+  | VehiclesResult
+  | StarshipsResult
+  | SpeciesResult
+  | FilmsResult;
