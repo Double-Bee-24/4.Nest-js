@@ -11,4 +11,16 @@ const getAllPlanets = async (): Promise<IPlanet[]> => {
   }
 };
 
-export { getAllPlanets };
+const getPlanet = async (id: number): Promise<IPlanet> => {
+  try {
+    const data: IPlanet = await instance.get(`/planets/${id}`);
+
+    return data;
+  } catch (error) {
+    console.error("Error performing getPlanet function: ", error);
+
+    return {} as IPlanet;
+  }
+};
+
+export { getAllPlanets, getPlanet };

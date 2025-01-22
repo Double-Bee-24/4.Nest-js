@@ -1,8 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import StarwarsMainPage from "./pages/StarwarsMainPage/StarwarsMainPage";
-import Table from "./components/Table/Table";
+import TablePage from "./pages/TablePage/TablePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
+import EntityDetailsPage from "./pages/EntityDetailsPage/EntityDetailsPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -12,8 +13,9 @@ function App() {
     },
     {
       path: "/table/:tableName",
-      element: <Table />,
+      element: <TablePage />,
     },
+    { path: "table/:tableName/:id", element: <EntityDetailsPage /> },
     { path: "login", element: <LoginPage /> },
     { path: "admin", element: <AdminPage /> },
   ]);

@@ -11,4 +11,16 @@ const getAllVehicles = async (): Promise<IVehicle[]> => {
   }
 };
 
-export { getAllVehicles };
+const getVehicle = async (id: number): Promise<IVehicle> => {
+  try {
+    const data: IVehicle = await instance.get(`/vehicles/${id}`);
+
+    return data;
+  } catch (error) {
+    console.error("Error performing getVehicle function: ", error);
+
+    return {} as IVehicle;
+  }
+};
+
+export { getAllVehicles, getVehicle };

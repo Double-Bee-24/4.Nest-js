@@ -11,7 +11,7 @@ export interface IVehicle {
   cargoCapacity: string;
   consumables: string;
   films: string;
-  pilots: string;
+  pilots: string[];
   created: string;
   edited: string;
   name: string;

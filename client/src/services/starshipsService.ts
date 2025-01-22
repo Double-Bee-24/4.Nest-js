@@ -11,4 +11,16 @@ const getAllStarships = async (): Promise<IStarship[]> => {
   }
 };
 
-export { getAllStarships };
+const getStarship = async (id: number): Promise<IStarship> => {
+  try {
+    const data: IStarship = await instance.get(`/starships/${id}`);
+
+    return data;
+  } catch (error) {
+    console.error("Error performing getStarship function: ", error);
+
+    return {} as IStarship;
+  }
+};
+
+export { getAllStarships, getStarship };

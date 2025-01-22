@@ -1,0 +1,80 @@
+.entity-details-page {
+  position: relative;
+  height: 86vh;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  background-image: url(/space-cartoon.jpg);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  color: white;
+
+  .entity-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 5px;
+  }
+}
+
+.avatar {
+  width: 300px;
+  height: 300px;
+  border-radius: 3px;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    margin: 10px 0;
+  }
+}
+
+.avatar-submit {
+  width: 100px;
+  display: none;
+}
+
+.avatar-container {
+  position: relative;
+}
+
+.avatar-file-upload {
+  width: 100px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.avatar-upload-form label {
+  position: absolute;
+  display: flex;
+  cursor: pointer;
+  bottom: 0px;
+  opacity: 0;
+
+  width: 100%;
+  height: 15%;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+
+  background-color: rgba(222, 222, 222, 0.5);
+}
+
+.avatar-container:hover .avatar-upload-form label {
+  opacity: 1;
+  cursor: pointer;
+}
