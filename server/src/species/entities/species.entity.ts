@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Films } from 'src/films/entities/films.entity';
+import { Entity, Column, PrimaryColumn, ManyToMany } from 'typeorm';
 
 @Entity()
 export class Species {
@@ -30,7 +31,7 @@ export class Species {
   eyeColors: string = '';
 
   @Column()
-  homeworld: string = '';
+  homeworld!: number;
 
   @Column()
   language: string = '';
@@ -43,4 +44,10 @@ export class Species {
 
   @Column()
   name: string = '';
+
+  @ManyToMany(() => Films, (films) => films.species)
+  films!: Films[];
+
+  @Column('simple-array', { nullable: true })
+  peopleIds: number[] = [];
 }

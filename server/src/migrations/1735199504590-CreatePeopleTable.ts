@@ -16,13 +16,14 @@ export class CreatePeopleTable1735199504590 implements MigrationInterface {
         "birthYear" varchar(50),
         gender varchar(50),
         name varchar(255),
-        homeworld varchar(255),
-        "speciesId" varchar(24)
-      )
+        homeworld INT,
+        "speciesId" varchar(24),
+        avatar varchar(255)
+      );
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP TABLE people`);
+    await queryRunner.query(`DROP TABLE people;`);
   }
 }

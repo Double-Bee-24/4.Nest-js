@@ -19,6 +19,11 @@ export class FilmsController {
     return this.filmsService.getAllFilms();
   }
 
+  @Get(':id')
+  getFilm(@Param('id') id: number) {
+    return this.filmsService.getFilm(id);
+  }
+
   @Post()
   createFilm(@Body() filmsDto: FilmsDto) {
     return this.filmsService.createFilm(filmsDto);

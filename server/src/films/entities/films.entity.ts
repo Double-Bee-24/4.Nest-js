@@ -43,23 +43,60 @@ export class Films {
   @Column()
   description: string = '';
 
-  @ManyToMany(() => People)
-  @JoinTable()
+  @ManyToMany(() => People, (people) => people.films, { cascade: true })
+  @JoinTable({
+    name: 'filmspeople',
+    joinColumn: { name: 'filmsId', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'peopleId', referencedColumnName: 'id' },
+  })
   characters!: People[];
 
-  @ManyToMany(() => Planets)
-  @JoinTable()
+  @ManyToMany(() => Planets, (planets) => planets.films, { cascade: true })
+  @JoinTable({
+    name: 'filmsplanets',
+    joinColumn: { name: 'filmsId', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'planetsId', referencedColumnName: 'id' },
+  })
   planets!: Planets[];
 
-  @ManyToMany(() => Starships)
-  @JoinTable()
+  @ManyToMany(() => Starships, (starships) => starships.films, {
+    cascade: true,
+  })
+  @JoinTable({
+    name: 'filmsstarships',
+    joinColumn: { name: 'filmsId', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'starshipsId', referencedColumnName: 'id' },
+  })
   starships!: Starships[];
 
-  @ManyToMany(() => Vehicles)
-  @JoinTable()
+  @ManyToMany(() => Vehicles, (vehicles) => vehicles.films, { cascade: true })
+  @JoinTable({
+    name: 'filmsvehicles',
+    joinColumn: { name: 'filmsId', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'vehiclesId', referencedColumnName: 'id' },
+  })
   vehicles!: Vehicles[];
 
-  @ManyToMany(() => Species)
-  @JoinTable()
+  @ManyToMany(() => Species, (species) => species.films, { cascade: true })
+  @JoinTable({
+    name: 'filmsspecies',
+    joinColumn: { name: 'filmsId', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'speciesId', referencedColumnName: 'id' },
+  })
   species!: Species[];
+
+  @Column('simple-array', { nullable: true })
+  charactersIds?: number[]; // Array of character IDs
+
+  @Column('simple-array', { nullable: true })
+  planetsIds?: number[]; // Array of planet IDs
+
+  @Column('simple-array', { nullable: true })
+  starshipsIds?: number[]; // Array of starship IDs
+
+  @Column('simple-array', { nullable: true })
+  vehiclesIds?: number[]; // Array of vehicle IDs
+
+  @Column('simple-array', { nullable: true })
+  speciesIds?: number[]; // Array of species IDs
 }

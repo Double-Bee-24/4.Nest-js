@@ -1,4 +1,6 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Films } from 'src/films/entities/films.entity';
+import { People } from 'src/people/entities/people.entity';
+import { Entity, PrimaryColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 
 @Entity()
 export class Vehicles {
@@ -36,12 +38,6 @@ export class Vehicles {
   consumables: string = '';
 
   @Column()
-  films: string = '';
-
-  @Column()
-  pilots: string = '';
-
-  @Column()
   created: string = '';
 
   @Column()
@@ -52,4 +48,21 @@ export class Vehicles {
 
   @Column()
   description: string = '';
+
+  @ManyToMany(() => People, (people) => people.vehicles, { cascade: true })
+  @JoinTable({
+    name: 'vehiclespeople',
+    joinColumn: { name: 'vehiclesId', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'peopleId', referencedColumnName: 'id' },
+  })
+  pilots!: People[];
+
+  @ManyToMany(() => Films, (films) => films.vehicles)
+  films!: Films[];
+
+  @Column('simple-array', { nullable: true })
+  pilotsIds: number[] = [];
+
+  @Column('simple-array', { nullable: true })
+  filmsIds: number[] = [];
 }

@@ -17,13 +17,9 @@ import {
   VehiclesResponseSchema,
   StarshipsResponseSchema,
   FilmsResponseSchema,
-  SpeciesResult,
-  PeopleResult,
-  PlanetsResult,
-  VehiclesResult,
-  StarshipsResult,
-  FilmsResult,
+  numberArraySchema,
 } from './schemas';
+import { SwapiResult, EntityName } from './types';
 import { toCamelCase } from 'src/utils/object-utils';
 import { extractNumber } from 'src/utils/string-utils';
 import { Films } from 'src/films/entities/films.entity';
@@ -87,6 +83,8 @@ export class SwapiService {
     return data.total_records;
   }
 
+  delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
   async downloadDataFromSwapi(
     entityType: keyof typeof this.schemaMap,
   ): Promise<SwapiResult[]> {
@@ -107,6 +105,11 @@ export class SwapiService {
         const schema = this.schemaMap[entityType];
 
         const validatedResponse = schema.parse(response.data);
+
+        if ((index + 1) % 20 === 0) {
+          console.log(`Pausing for 2 seconds after ${index + 1} requests...`);
+          await this.delay(2000);
+        }
 
         return validatedResponse.result;
       } catch (error) {
@@ -132,16 +135,17 @@ export class SwapiService {
     repository: Repository<EntityName>,
   ) {
     const swapiData = await this.downloadDataFromSwapi(entityType);
-
     // Prepare data to be inserted into db
     const editedSwapiData = swapiData
       .map((item) => {
         // Creates a new string with the number extracted from the URL for further relationship management
         Object.entries(item.properties).forEach(([key, value]) => {
           if (Array.isArray(value)) {
-            (item.properties as Record<string, string>)[key] = value
-              .map((cur) => String(extractNumber(cur)))
-              .join(',');
+            // Put array of relation-IDs into a new field
+            const newKey = `${key}Ids`;
+
+            (item.properties as Record<string, string[] | string>)[newKey] =
+              `{${value.map((cur) => extractNumber(cur)).join(',')}}`;
           }
         });
 
@@ -166,7 +170,6 @@ export class SwapiService {
         };
       })
       .map((item) => toCamelCase(item));
-
     await repository.save(editedSwapiData);
   }
 
@@ -181,27 +184,87 @@ export class SwapiService {
     }
   }
 
-  // Sets releationships between entities in the database
   async setDbRelationships() {
-    const person = await this.peopleRepository.findOne({ where: { id: 2 } });
+    const films = await this.filmsRepository.find({
+      relations: ['planets', 'characters', 'vehicles', 'starships', 'species'],
+    });
 
-    const planet = await this.planetsRepository.findOne({ where: { id: 1 } });
-
-    if (!person || !planet) {
-      throw new Error('Person or planet not found');
+    if (!films.length) {
+      console.error('No films found');
+      return;
     }
 
-    person.planets = [planet];
-    await this.peopleRepository.save(person);
+    for (const film of films) {
+      for (const [repositoryName, repository] of Object.entries(
+        this.repositories,
+      )) {
+        if (repositoryName === 'films') {
+          continue;
+        }
+
+        await this.setFilmsRelationships(
+          film,
+          repositoryName as
+            | 'planets'
+            | 'vehicles'
+            | 'starships'
+            | 'species'
+            | 'people',
+          repository,
+        );
+      }
+
+      await this.filmsRepository.save(film);
+    }
+  }
+
+  async setFilmsRelationships(
+    film: Films,
+    repositoryName:
+      | 'people'
+      | 'planets'
+      | 'vehicles'
+      | 'starships'
+      | 'species'
+      | 'characters',
+    repository: Exclude<Repository<EntityName>, Repository<Films>>,
+  ): Promise<void> {
+    for (const [key, idsArray] of Object.entries(film)) {
+      if (repositoryName === 'people') {
+        repositoryName = 'characters';
+      }
+      if (!(key === `${repositoryName}Ids` && Array.isArray(idsArray))) {
+        continue;
+      }
+
+      const validatedIdsArray = numberArraySchema.parse(idsArray);
+
+      for (const id of validatedIdsArray) {
+        try {
+          const repositoryItem = await repository.findOne({
+            where: { id },
+            relations: ['films'],
+          });
+
+          if (repositoryItem) {
+            if (Array.isArray(film[repositoryName])) {
+              (film[repositoryName] as unknown as EntityName[]).push(
+                repositoryItem,
+              );
+            }
+          }
+        } catch (error: unknown) {
+          console.error(error);
+        }
+      }
+    }
+  }
+
+  async showFilms() {
+    const films = await this.filmsRepository.find({
+      relations: ['planets', 'characters', 'vehicles', 'starships', 'species'],
+    });
+
+    console.log(films);
   }
 }
-
-type EntityName = People | Planets | Vehicles | Starships | Species | Films;
-
-type SwapiResult =
-  | PeopleResult
-  | PlanetsResult
-  | VehiclesResult
-  | StarshipsResult
-  | SpeciesResult
-  | FilmsResult;

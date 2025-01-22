@@ -11,8 +11,18 @@ export class PlanetsService {
     private planetsRepository: Repository<Planets>,
   ) {}
 
-  getPlanets(): Promise<Planets[]> {
+  getAllPlanets(): Promise<Planets[]> {
     return this.planetsRepository.find();
+  }
+
+  async getPlanet(id: number): Promise<Planets> {
+    const planet = await this.planetsRepository.findOneBy({ id });
+
+    if (!planet) {
+      throw new Error('planet with such id not found');
+    }
+
+    return planet;
   }
 
   createPlanet(planetsDto: PlanetsDto): Promise<Planets> {

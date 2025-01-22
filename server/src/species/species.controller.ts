@@ -15,8 +15,13 @@ export class SpeciesController {
   constructor(private speciesService: SpeciesService) {}
 
   @Get()
-  getSpecies() {
-    return this.speciesService.getSpecies();
+  getAllSpecies() {
+    return this.speciesService.getAllSpecies();
+  }
+
+  @Get(':id')
+  getSpecies(@Param('id') id: number) {
+    return this.speciesService.getSpecies(id);
   }
 
   @Post()

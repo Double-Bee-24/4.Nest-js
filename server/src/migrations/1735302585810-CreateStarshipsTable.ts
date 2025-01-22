@@ -19,9 +19,10 @@ export class CreateStarshipsTable1735302585810 implements MigrationInterface {
         "MGLT" VARCHAR(255),
         "cargoCapacity" VARCHAR(255),
         consumables VARCHAR(255),
-        pilots VARCHAR(255),
+        "pilotsIds" INT[],
         name VARCHAR(255),
-        description TEXT
+        description TEXT,
+        avatar varchar(255)
       );
     `);
   }

@@ -1,3 +1,4 @@
+import { Films } from 'src/films/entities/films.entity';
 import { People } from 'src/people/entities/people.entity';
 import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
 
@@ -44,4 +45,7 @@ export class Planets {
 
   @ManyToMany(() => People, (people) => people.planets)
   people!: People[];
+
+  @ManyToMany(() => Films, (films) => films.planets)
+  films!: Films[];
 }

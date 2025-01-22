@@ -11,8 +11,18 @@ export class VehiclesService {
     private vehiclesRepository: Repository<Vehicles>,
   ) {}
 
-  getVehicles(): Promise<Vehicles[]> {
+  getAllVehicles(): Promise<Vehicles[]> {
     return this.vehiclesRepository.find();
+  }
+
+  async getVehicle(id: number): Promise<Vehicles> {
+    const vehicle = await this.vehiclesRepository.findOneBy({ id });
+
+    if (!vehicle) {
+      throw new Error('vehicle with such id not found');
+    }
+
+    return vehicle;
   }
 
   createVehicle(vehiclesDto: VehiclesDto): Promise<Vehicles> {

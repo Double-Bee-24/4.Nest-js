@@ -16,6 +16,6 @@ export class CreateSpeciesPlanetsTable1735661595742
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP TABLE speciesplanets`);
+    await queryRunner.query(`DROP TABLE speciesplanets;`);
   }
 }

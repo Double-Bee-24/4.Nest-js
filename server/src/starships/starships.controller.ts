@@ -15,8 +15,13 @@ export class StarshipsController {
   constructor(private starshipsService: StarshipsService) {}
 
   @Get()
-  getStarships() {
-    return this.starshipsService.getStarships();
+  getAllStarships() {
+    return this.starshipsService.getAllStarships();
+  }
+
+  @Get(':id')
+  getStarship(@Param('id') id: number) {
+    return this.starshipsService.getStarship(id);
   }
 
   @Post()

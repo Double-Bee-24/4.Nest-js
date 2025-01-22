@@ -11,8 +11,18 @@ export class SpeciesService {
     private speciesRepository: Repository<Species>,
   ) {}
 
-  getSpecies(): Promise<Species[]> {
+  getAllSpecies(): Promise<Species[]> {
     return this.speciesRepository.find();
+  }
+
+  async getSpecies(id: number): Promise<Species> {
+    const species = await this.speciesRepository.findOneBy({ id });
+
+    if (!species) {
+      throw new Error('species with such id not found');
+    }
+
+    return species;
   }
 
   createSpecies(speciesDto: SpeciesDto): Promise<Species> {

@@ -15,8 +15,13 @@ export class PlanetsController {
   constructor(private planetsService: PlanetsService) {}
 
   @Get()
-  getPlanets() {
-    return this.planetsService.getPlanets();
+  getAllPlanets() {
+    return this.planetsService.getAllPlanets();
+  }
+
+  @Get(':id')
+  getPlanet(@Param('id') id: number) {
+    return this.planetsService.getPlanet(id);
   }
 
   @Post()

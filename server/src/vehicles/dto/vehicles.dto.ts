@@ -59,18 +59,11 @@ export class VehiclesDto {
   consumables: string = '';
 
   @ApiProperty({
-    example: '["https://swapi.dev/api/films/1/"]',
-    description: 'List of films where the vehicle appears',
-    type: 'string',
-  })
-  films: string = '';
-
-  @ApiProperty({
     example: '["https://swapi.dev/api/people/1/"]',
     description: 'List of pilots associated with the vehicle',
     type: 'string',
   })
-  pilots: string = '';
+  pilotsIds: number[] = [];
 
   @ApiProperty({
     example: '2023-01-01T00:00:00Z',

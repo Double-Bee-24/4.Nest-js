@@ -84,7 +84,7 @@ export class StarshipsDto {
     description: 'A list of pilots associated with the starship',
     example: '["Luke Skywalker", "Wedge Antilles"]',
   })
-  pilots: string = '';
+  pilots: string[] = [];
 
   @ApiProperty({
     description: 'The date when the starship record was created',

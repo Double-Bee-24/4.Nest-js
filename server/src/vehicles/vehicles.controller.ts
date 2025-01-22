@@ -16,7 +16,12 @@ export class VehiclesController {
 
   @Get()
   getAllVehicles() {
-    return this.vehicleService.getVehicles();
+    return this.vehicleService.getAllVehicles();
+  }
+
+  @Get(':id')
+  getVehicle(@Param('id') id: number) {
+    return this.vehicleService.getVehicle(id);
   }
 
   @Post()

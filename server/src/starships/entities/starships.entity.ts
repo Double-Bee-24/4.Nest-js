@@ -1,4 +1,5 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Films } from 'src/films/entities/films.entity';
+import { Entity, PrimaryColumn, Column, ManyToMany } from 'typeorm';
 
 @Entity()
 export class Starships {
@@ -42,9 +43,6 @@ export class Starships {
   consumables: string = '';
 
   @Column({ default: '' })
-  pilots: string = '';
-
-  @Column({ default: '' })
   created: string = '';
 
   @Column({ default: '' })
@@ -55,4 +53,10 @@ export class Starships {
 
   @Column({ default: '' })
   description: string = '';
+
+  @ManyToMany(() => Films, (films) => films.starships)
+  films!: Films[];
+
+  @Column('simple-array', { nullable: true })
+  pilotsIds: number[] = [];
 }

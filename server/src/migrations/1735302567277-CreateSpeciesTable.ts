@@ -15,11 +15,13 @@ export class CreateSpeciesTable1735302567277 implements MigrationInterface {
         "hairColors" VARCHAR(255),
         "skinColors" VARCHAR(255),
         "eyeColors" VARCHAR(255),
-        homeworld VARCHAR(255),
+        homeworld INT,
         language VARCHAR(255),
-        people VARCHAR(255),
+        pilots VARCHAR(255),
+        "peopleIds" INT[],
         name VARCHAR(255),
-        "speciesId" varchar(24)
+        "speciesId" varchar(24),
+        avatar varchar(255)
       );
     `);
   }

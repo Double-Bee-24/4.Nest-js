@@ -1,4 +1,4 @@
-import { IsDateString, IsNumber, IsString, IsUrl } from 'class-validator';
+import { IsDateString, IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class PeopleDto {
@@ -76,12 +76,5 @@ export class PeopleDto {
     example: 'https://swapi.dev/api/planets/1/',
   })
   @IsString()
-  homeworld: string = '';
-
-  @ApiProperty({
-    description: 'URL to the person’s resource',
-    example: 'https://swapi.dev/api/people/1/',
-  })
-  @IsUrl()
-  url: string = '';
+  homeworld!: number;
 }

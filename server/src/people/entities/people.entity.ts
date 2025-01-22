@@ -1,4 +1,6 @@
+import { Films } from 'src/films/entities/films.entity';
 import { Planets } from 'src/planets/entities/planets.entity';
+import { Vehicles } from 'src/vehicles/entities/vehicles.entity';
 import { Entity, Column, PrimaryColumn, ManyToMany, JoinTable } from 'typeorm';
 
 @Entity()
@@ -40,7 +42,7 @@ export class People {
   name: string = '';
 
   @Column()
-  homeworld: string = '';
+  homeworld!: number;
 
   @ManyToMany(() => Planets, (planets) => planets.people, { cascade: true })
   @JoinTable({
@@ -49,4 +51,13 @@ export class People {
     inverseJoinColumn: { name: 'planetsId', referencedColumnName: 'id' },
   })
   planets!: Planets[];
+
+  @ManyToMany(() => Films, (films) => films.characters)
+  films!: Films[];
+
+  @ManyToMany(() => Vehicles, (vehicles) => vehicles.pilots)
+  vehicles!: Vehicles[];
+
+  @Column()
+  avatar: string = '';
 }

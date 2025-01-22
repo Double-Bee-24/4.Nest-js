@@ -11,8 +11,18 @@ export class StarshipsService {
     private starshipsRepository: Repository<Starships>,
   ) {}
 
-  getStarships(): Promise<Starships[]> {
+  getAllStarships(): Promise<Starships[]> {
     return this.starshipsRepository.find();
+  }
+
+  async getStarship(id: number): Promise<Starships> {
+    const starship = await this.starshipsRepository.findOneBy({ id });
+
+    if (!starship) {
+      throw new Error('starship with such id not found');
+    }
+
+    return starship;
   }
 
   createStarship(starshipsDto: StarshipsDto): Promise<Starships> {

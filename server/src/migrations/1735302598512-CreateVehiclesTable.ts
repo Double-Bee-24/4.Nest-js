@@ -17,10 +17,12 @@ export class CreateVehiclesTable1735302598512 implements MigrationInterface {
         "maxAtmospheringSpeed" VARCHAR(255),
         "cargoCapacity" VARCHAR(255),
         consumables VARCHAR(255),
-        films VARCHAR(255),
         pilots VARCHAR(255),
+        "pilotsIds" INT[],
+        "filmsIds" INT[],
         name VARCHAR(255),
-        description TEXT
+        description TEXT,
+        avatar varchar(255)
       );
     `);
   }

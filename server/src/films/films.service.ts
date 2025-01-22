@@ -3,6 +3,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { Films } from './entities/films.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FilmsDto } from './dto/films.dto';
+// import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class FilmsService {
@@ -11,8 +12,23 @@ export class FilmsService {
     private readonly filmsRepository: Repository<Films>,
   ) {}
 
-  getAllFilms(): Promise<Films[]> {
-    return this.filmsRepository.find();
+  async getAllFilms(): Promise<Films[]> {
+    const films = await this.filmsRepository.find();
+    // return this.filmsRepository.find({
+    //   relations: ['planets', 'characters', 'vehicles', 'starships', 'species'],
+    // });
+    // return plainToInstance(Films, films, { excludeExtraneousValues: true });
+    return films;
+  }
+
+  async getFilm(id: number): Promise<Films> {
+    const film = await this.filmsRepository.findOneBy({ id });
+
+    if (!film) {
+      throw new Error('film with such id not found');
+    }
+
+    return film;
   }
 
   createFilm(filmsDto: FilmsDto): Promise<Films> {

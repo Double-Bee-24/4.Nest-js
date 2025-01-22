@@ -16,6 +16,6 @@ export class CreatePeopleSpeciesTable1735661427089
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`DROP TABLE peoplespecies`);
+    await queryRunner.query(`DROP TABLE peoplespecies;`);
   }
 }

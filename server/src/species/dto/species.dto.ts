@@ -59,7 +59,7 @@ export class SpeciesDto {
     description: 'The name of the homeworld of the species',
     example: 'Naboo',
   })
-  homeworld: string = '';
+  homeworld!: number;
 
   @ApiProperty({
     description: 'The primary language spoken by the species',

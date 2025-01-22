@@ -4,3 +4,4 @@ export * from './species-response.schema';
 export * from './vehicles-response.schema';
 export * from './starships-response.schema';
 export * from './films-response.schema';
+export * from './number-array.schema';
