@@ -48,4 +48,7 @@ export class Planets {
 
   @ManyToMany(() => Films, (films) => films.planets)
   films!: Films[];
+
+  @Column()
+  avatar: string = '';
 }

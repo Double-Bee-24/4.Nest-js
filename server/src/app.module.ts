@@ -17,6 +17,10 @@ import { Species } from './species/entities/species.entity';
 import { Starships } from './starships/entities/starships.entity';
 import { Vehicles } from './vehicles/entities/vehicles.entity';
 import { Films } from './films/entities/films.entity';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { Users } from './users/entities/users.entity';
+import { Sessions } from './utils/typeorm-session';
 
 @Module({
   imports: [
@@ -31,7 +35,16 @@ import { Films } from './films/entities/films.entity';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [People, Planets, Species, Starships, Vehicles, Films],
+        entities: [
+          People,
+          Planets,
+          Species,
+          Starships,
+          Vehicles,
+          Films,
+          Users,
+          Sessions,
+        ],
         synchronize: false,
         migrations: [],
       }),
@@ -43,6 +56,8 @@ import { Films } from './films/entities/films.entity';
     StarshipsModule,
     VehiclesModule,
     SwapiModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

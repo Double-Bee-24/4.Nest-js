@@ -50,4 +50,7 @@ export class Species {
 
   @Column('simple-array', { nullable: true })
   peopleIds: number[] = [];
+
+  @Column()
+  avatar: string = '';
 }

@@ -265,6 +265,6 @@ export class SwapiService {
       relations: ['planets', 'characters', 'vehicles', 'starships', 'species'],
     });
 
-    console.log(films);
+    return films;
   }
 }

@@ -2,8 +2,6 @@
 import { instance } from "../api/axiosConfig";
 import IPerson from "../interfaces/IPerson";
 
-// const validatePerson = typia.createValidate<IPerson>();
-
 const getAllPeople = async (): Promise<IPerson[]> => {
   try {
     return instance.get("/people");
@@ -13,14 +11,6 @@ const getAllPeople = async (): Promise<IPerson[]> => {
     return [];
   }
 };
-
-// const getImage = async (): Promise<void> => {
-//   try {
-//     const data = await instance.get("/people/image");
-//   } catch (error) {
-//     console.error("Error performing getImage function: ", error);
-//   }
-// };
 
 const getPerson = async (id: number): Promise<IPerson> => {
   try {
@@ -34,4 +24,23 @@ const getPerson = async (id: number): Promise<IPerson> => {
   }
 };
 
-export { getAllPeople, getPerson };
+const uploadPersonAvatar = async (id: number, file: File) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await instance.post(`/people/upload/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error performing uploadPersonAvatar function: ", error);
+
+    return {} as IPerson;
+  }
+};
+
+export { getAllPeople, getPerson, uploadPersonAvatar };

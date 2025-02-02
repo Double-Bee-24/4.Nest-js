@@ -3,7 +3,8 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { Films } from './entities/films.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FilmsDto } from './dto/films.dto';
-// import { plainToInstance } from 'class-transformer';
+import { sendImage } from 'src/utils/img-utils';
+import { Response } from 'express';
 
 @Injectable()
 export class FilmsService {
@@ -42,5 +43,40 @@ export class FilmsService {
 
   deleteFilm(id: number): Promise<DeleteResult> {
     return this.filmsRepository.delete(id);
+  }
+
+  // Writes path to avatar to database
+  async uploadImage(id: number, file: Express.Multer.File): Promise<Films> {
+    const filePath = `./images/${file.filename}`;
+
+    const film = await this.filmsRepository.findOneBy({ id });
+
+    if (!film) {
+      throw new Error('Film not found');
+    }
+
+    film.avatar = filePath;
+
+    return this.filmsRepository.save(film);
+  }
+
+  async getImage(id: number, res: Response): Promise<void> {
+    const film = await this.filmsRepository.findOneBy({ id });
+
+    if (!film) {
+      throw new Error('Film not found');
+    }
+
+    let filename = film.avatar;
+
+    if (!filename) {
+      // Set default avatar
+      filename = './images/profile.png';
+    }
+
+    const filePath = filename;
+
+    // Sets headers to an image and sends it to client
+    await sendImage(filePath, filename, res);
   }
 }

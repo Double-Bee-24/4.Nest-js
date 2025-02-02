@@ -42,7 +42,6 @@ async function sendImage(filePath: string, filename: string, res: Response) {
     const fileData = await fs.readFile(filePath);
     const mimeType = getMimeType(filename);
 
-    console.log(mimeType);
     res.setHeader('Content-Type', mimeType);
     res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
 

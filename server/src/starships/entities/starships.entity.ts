@@ -59,4 +59,7 @@ export class Starships {
 
   @Column('simple-array', { nullable: true })
   pilotsIds: number[] = [];
+
+  @Column()
+  avatar: string = '';
 }

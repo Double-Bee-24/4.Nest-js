@@ -23,4 +23,23 @@ const getStarship = async (id: number): Promise<IStarship> => {
   }
 };
 
-export { getAllStarships, getStarship };
+const uploadStarshipAvatar = async (id: number, file: File) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await instance.post(`/starships/upload/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error performing uploadStarshipAvatar function: ", error);
+
+    return {} as IStarship;
+  }
+};
+
+export { getAllStarships, getStarship, uploadStarshipAvatar };

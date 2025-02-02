@@ -23,4 +23,23 @@ const getSpecies = async (id: number): Promise<ISpecies> => {
   }
 };
 
-export { getAllSpecies, getSpecies };
+const uploadSpeciesAvatar = async (id: number, file: File) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await instance.post(`/species/upload/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error performing uploadSpeciesAvatar function: ", error);
+
+    return {} as ISpecies;
+  }
+};
+
+export { getAllSpecies, getSpecies, uploadSpeciesAvatar };

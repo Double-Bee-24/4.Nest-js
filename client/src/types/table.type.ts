@@ -12,3 +12,11 @@ export type TableType =
   | ISpecies
   | IVehicle
   | IFilms;
+
+export type TableName =
+  | "people"
+  | "planets"
+  | "starships"
+  | "vehicles"
+  | "films"
+  | "species";

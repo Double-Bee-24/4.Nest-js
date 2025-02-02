@@ -64,7 +64,6 @@ export class PeopleController {
 
   @Put(':id')
   updatePerson(@Param('id') id: number, @Body() peopleDto: PeopleDto) {
-    console.log(peopleDto, 'here data here');
     return this.peopleService.updatePerson(id, peopleDto);
   }
 

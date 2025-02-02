@@ -65,4 +65,7 @@ export class Vehicles {
 
   @Column('simple-array', { nullable: true })
   filmsIds: number[] = [];
+
+  @Column()
+  avatar: string = '';
 }

@@ -23,4 +23,23 @@ const getVehicle = async (id: number): Promise<IVehicle> => {
   }
 };
 
-export { getAllVehicles, getVehicle };
+const uploadVehicleAvatar = async (id: number, file: File) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await instance.post(`/vehicles/upload/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error performing uploadVehicleAvatar function: ", error);
+
+    return {} as IVehicle;
+  }
+};
+
+export { getAllVehicles, getVehicle, uploadVehicleAvatar };

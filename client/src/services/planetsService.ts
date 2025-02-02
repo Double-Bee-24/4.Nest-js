@@ -23,4 +23,23 @@ const getPlanet = async (id: number): Promise<IPlanet> => {
   }
 };
 
-export { getAllPlanets, getPlanet };
+const uploadPlanetAvatar = async (id: number, file: File) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await instance.post(`/planets/upload/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error performing uploadPlanetAvatar function: ", error);
+
+    return {} as IPlanet;
+  }
+};
+
+export { getAllPlanets, getPlanet, uploadPlanetAvatar };

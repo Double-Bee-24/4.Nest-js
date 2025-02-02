@@ -38,6 +38,7 @@ export class PeopleService {
     return this.peopleRepository.delete(id);
   }
 
+  // Writes path to avatar to database
   async uploadImage(id: number, file: Express.Multer.File): Promise<People> {
     const filePath = `./images/${file.filename}`;
 

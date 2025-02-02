@@ -23,4 +23,23 @@ const getFilm = async (id: number): Promise<IFilms> => {
   }
 };
 
-export { getAllFilms, getFilm };
+const uploadFilmAvatar = async (id: number, file: File) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await instance.post(`/films/upload/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error performing uploadFilmAvatar function: ", error);
+
+    return {} as IFilms;
+  }
+};
+
+export { getAllFilms, getFilm, uploadFilmAvatar };

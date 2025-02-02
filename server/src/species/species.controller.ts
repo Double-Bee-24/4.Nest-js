@@ -6,9 +6,15 @@ import {
   Param,
   Post,
   Put,
+  Res,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { SpeciesService } from './species.service';
 import { SpeciesDto } from './dto/species.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiConsumes, ApiBody } from '@nestjs/swagger';
 
 @Controller('species')
 export class SpeciesController {
@@ -19,6 +25,11 @@ export class SpeciesController {
     return this.speciesService.getAllSpecies();
   }
 
+  @Get('image/:id')
+  getImage(@Param('id') id: number, @Res() res: Response) {
+    return this.speciesService.getImage(id, res);
+  }
+
   @Get(':id')
   getSpecies(@Param('id') id: number) {
     return this.speciesService.getSpecies(id);
@@ -27,6 +38,28 @@ export class SpeciesController {
   @Post()
   createSpecies(@Body() speciesDto: SpeciesDto) {
     return this.speciesService.createSpecies(speciesDto);
+  }
+
+  @Post('upload/:id')
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Upload a file',
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  uploadImage(
+    @Param('id') id: number,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.speciesService.uploadImage(id, file);
   }
 
   @Put(':id')

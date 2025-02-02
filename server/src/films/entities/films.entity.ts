@@ -99,4 +99,7 @@ export class Films {
 
   @Column('simple-array', { nullable: true })
   speciesIds?: number[]; // Array of species IDs
+
+  @Column()
+  avatar: string = '';
 }
