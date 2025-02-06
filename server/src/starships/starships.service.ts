@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { Starships } from './entities/starships.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { StarshipsDto } from './dto/starships.dto';
+import { CreateStarshipsDto } from './dto/create-starships.dto';
 import { sendImage } from 'src/utils/img-utils';
 import { Response } from 'express';
+import { UpdateStarshipsDto } from './dto/update-starships.dto';
 
 @Injectable()
 export class StarshipsService {
@@ -27,16 +28,22 @@ export class StarshipsService {
     return starship;
   }
 
-  createStarship(starshipsDto: StarshipsDto): Promise<Starships> {
+  createStarship(starshipsDto: CreateStarshipsDto) {
     const newStarship = this.starshipsRepository.create(starshipsDto);
+
+    console.log(starshipsDto);
     return this.starshipsRepository.save(newStarship);
   }
 
-  updateStarship(
+  async updateStarship(
     id: number,
-    starshipsDto: StarshipsDto,
+    starshipsDto: UpdateStarshipsDto,
   ): Promise<UpdateResult> {
-    return this.starshipsRepository.update(id, starshipsDto);
+    const starship = await this.starshipsRepository.findOneBy({ id });
+    return this.starshipsRepository.update(id, {
+      ...starship,
+      ...starshipsDto,
+    });
   }
 
   deleteStarship(id: number): Promise<DeleteResult> {

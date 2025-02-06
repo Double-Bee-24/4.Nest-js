@@ -4,7 +4,7 @@ export class CreateVehiclesTable1735302598512 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE vehicles (
-        id INT PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
         created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         model VARCHAR(255),

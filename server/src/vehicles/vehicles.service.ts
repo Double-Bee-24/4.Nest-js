@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { Vehicles } from './entities/vehicles.entity';
-import { VehiclesDto } from './dto/vehicles.dto';
+import { CreateVehiclesDto } from './dto/create-vehicles.dto';
 import { sendImage } from 'src/utils/img-utils';
 import { Response } from 'express';
+import { UpdateVehiclesDto } from './dto/update-vehicles.dto';
 
 @Injectable()
 export class VehiclesService {
@@ -27,13 +28,17 @@ export class VehiclesService {
     return vehicle;
   }
 
-  createVehicle(vehiclesDto: VehiclesDto): Promise<Vehicles> {
+  createVehicle(vehiclesDto: CreateVehiclesDto): Promise<Vehicles> {
     const newVehicle = this.vehiclesRepository.create(vehiclesDto);
     return this.vehiclesRepository.save(newVehicle);
   }
 
-  updateVehicle(id: number, vehiclesDto: VehiclesDto): Promise<UpdateResult> {
-    return this.vehiclesRepository.update(id, vehiclesDto);
+  async updateVehicle(
+    id: number,
+    vehiclesDto: UpdateVehiclesDto,
+  ): Promise<UpdateResult> {
+    const vehicle = await this.vehiclesRepository.findOneBy({ id });
+    return this.vehiclesRepository.update(id, { ...vehicle, ...vehiclesDto });
   }
 
   deleteVehicle(id: number): Promise<DeleteResult> {

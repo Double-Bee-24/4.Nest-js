@@ -28,7 +28,7 @@ async function bootstrap() {
   app.use(
     session({
       name: 'NESTJS_SESSION_ID',
-      secret: process.env.SESSION_SECRET || 'default_secret', // Use a complex secret key from environment variable
+      secret: process.env.SESSION_SECRET || 'default_secret',
       resave: false, // Do not save session if it hasn't been modified
       saveUninitialized: false, // Do not save new sessions if they are not initialized
       cookie: {
@@ -36,7 +36,7 @@ async function bootstrap() {
         httpOnly: true, // Prevents access to the cookie from client-side JS
         secure: false, // Set to true if you are using HTTPS
       },
-      store: new TypeormStore({ cleanupLimit: 10 }).connect(sessionRepository),
+      store: new TypeormStore().connect(sessionRepository),
     }),
   );
 

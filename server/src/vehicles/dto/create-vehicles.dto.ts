@@ -1,62 +1,59 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class VehiclesDto {
-  @ApiProperty({ example: 1, description: 'Unique identifier for the vehicle' })
-  id!: number;
-
+export class CreateVehiclesDto {
   @ApiProperty({ example: 'Speeder', description: 'Model of the vehicle' })
-  model: string = '';
+  model!: string;
 
   @ApiProperty({
     example: 'Repulsorcraft',
     description: 'Class of the vehicle',
   })
-  vehicleClass: string = '';
+  vehicleClass!: string;
 
   @ApiProperty({
     example: 'SoroSuub Corporation',
     description: 'Manufacturer of the vehicle',
   })
-  manufacturer: string = '';
+  manufacturer!: string;
 
   @ApiProperty({
     example: '150000',
     description: 'Cost of the vehicle in credits',
   })
-  costInCredits: string = '';
+  costInCredits!: string;
 
   @ApiProperty({
     example: '3.4',
     description: 'Length of the vehicle in meters',
   })
-  length: string = '';
+  length!: string;
 
   @ApiProperty({ example: '1', description: 'Crew capacity of the vehicle' })
-  crew: string = '';
+  crew!: string;
 
   @ApiProperty({
     example: '2',
     description: 'Passenger capacity of the vehicle',
   })
-  passengers: string = '';
+  passengers!: string;
 
   @ApiProperty({
     example: '650',
     description: 'Maximum speed of the vehicle in the atmosphere',
   })
-  maxAtmospheringSpeed: string = '';
+  maxAtmospheringSpeed!: string;
 
   @ApiProperty({
     example: '50',
     description: 'Cargo capacity of the vehicle in kilograms',
   })
-  cargoCapacity: string = '';
+  cargoCapacity!: string;
 
   @ApiProperty({
     example: '1 day',
     description: 'Consumables period of the vehicle',
   })
-  consumables: string = '';
+  consumables!: string;
 
   @ApiProperty({
     example: '["https://swapi.dev/api/people/1/"]',
@@ -65,24 +62,12 @@ export class VehiclesDto {
   })
   pilotsIds: number[] = [];
 
-  @ApiProperty({
-    example: '2023-01-01T00:00:00Z',
-    description: 'Creation date of the vehicle entry',
-  })
-  created: string = '';
-
-  @ApiProperty({
-    example: '2023-01-02T00:00:00Z',
-    description: 'Last edited date of the vehicle entry',
-  })
-  edited: string = '';
-
   @ApiProperty({ example: 'TIE Fighter', description: 'Name of the vehicle' })
-  name: string = '';
+  name!: string;
 
   @ApiProperty({
     example: 'A fast and maneuverable combat vehicle.',
     description: 'Description of the vehicle',
   })
-  description: string = '';
+  description!: string;
 }

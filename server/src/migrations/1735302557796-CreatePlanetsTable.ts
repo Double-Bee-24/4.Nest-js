@@ -4,7 +4,7 @@ export class CreatePlanetsTable1735302557796 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE planets (
-        id INT PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
         created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         description VARCHAR,

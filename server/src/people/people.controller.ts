@@ -12,9 +12,10 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { PeopleService } from './people.service';
-import { PeopleDto } from './dto/people.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { CreatePeopleDto } from './dto/create-people.dto';
+import { UpdatePeopleDto } from './dto/update-people.dto';
 
 @Controller('people')
 export class PeopleController {
@@ -36,7 +37,7 @@ export class PeopleController {
   }
 
   @Post()
-  createPerson(@Body() peopleDto: PeopleDto) {
+  createPerson(@Body() peopleDto: CreatePeopleDto) {
     return this.peopleService.createPerson(peopleDto);
   }
 
@@ -63,7 +64,7 @@ export class PeopleController {
   }
 
   @Put(':id')
-  updatePerson(@Param('id') id: number, @Body() peopleDto: PeopleDto) {
+  updatePerson(@Param('id') id: number, @Body() peopleDto: UpdatePeopleDto) {
     return this.peopleService.updatePerson(id, peopleDto);
   }
 

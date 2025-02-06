@@ -12,9 +12,10 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { SpeciesService } from './species.service';
-import { SpeciesDto } from './dto/species.dto';
+import { CreateSpeciesDto } from './dto/create-species.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { UpdateSpeciesDto } from './dto/update-species.dto';
 
 @Controller('species')
 export class SpeciesController {
@@ -36,7 +37,7 @@ export class SpeciesController {
   }
 
   @Post()
-  createSpecies(@Body() speciesDto: SpeciesDto) {
+  createSpecies(@Body() speciesDto: CreateSpeciesDto) {
     return this.speciesService.createSpecies(speciesDto);
   }
 
@@ -63,7 +64,7 @@ export class SpeciesController {
   }
 
   @Put(':id')
-  updateSpecies(@Param('id') id: number, @Body() speciesDto: SpeciesDto) {
+  updateSpecies(@Param('id') id: number, @Body() speciesDto: UpdateSpeciesDto) {
     return this.speciesService.updateSpeceis(id, speciesDto);
   }
 

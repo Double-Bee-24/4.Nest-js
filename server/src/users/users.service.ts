@@ -19,4 +19,10 @@ export class UsersService {
 
     return user;
   }
+
+  async create(username: string, password: string) {
+    const newUser = this.usersRepository.create({ username, password });
+
+    return this.usersRepository.save(newUser);
+  }
 }

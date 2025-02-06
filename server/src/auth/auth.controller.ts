@@ -1,10 +1,11 @@
 import { AuthService } from './auth.service';
-import { Controller, Req, Post, UseGuards, Get } from '@nestjs/common';
+import { Controller, Req, Post, UseGuards, Get, Body } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Users } from 'src/users/entities/users.entity';
 import { LoginDto } from './dto/login.dto';
-import { AuthenticatedGuard, LocalAuthGuard } from './local-auth.guard';
+import { AuthenticatedGuard, LocalAuthGuard } from './utils/local-auth.guard';
 import { Request } from 'express';
+import { RegisterDto } from './dto/register.dto';
 
 interface CustomRequest extends Request {
   user: Users;
@@ -32,5 +33,10 @@ export class AuthController {
   @Get('status')
   getAuthStatus(@Req() req: CustomRequest) {
     return req.user;
+  }
+
+  @Post('register')
+  register(@Body() registerDto: RegisterDto) {
+    return this.authService.register(registerDto);
   }
 }

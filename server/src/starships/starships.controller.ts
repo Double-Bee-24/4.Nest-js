@@ -12,9 +12,10 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { StarshipsService } from './starships.service';
-import { StarshipsDto } from './dto/starships.dto';
+import { CreateStarshipsDto } from './dto/create-starships.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { UpdateStarshipsDto } from './dto/update-starships.dto';
 
 @Controller('starships')
 export class StarshipsController {
@@ -36,7 +37,7 @@ export class StarshipsController {
   }
 
   @Post()
-  createStarship(@Body() starshipsDto: StarshipsDto) {
+  createStarship(@Body() starshipsDto: CreateStarshipsDto) {
     return this.starshipsService.createStarship(starshipsDto);
   }
 
@@ -63,7 +64,10 @@ export class StarshipsController {
   }
 
   @Put(':id')
-  updateStarship(@Param('id') id: number, @Body() starshipsDto: StarshipsDto) {
+  updateStarship(
+    @Param('id') id: number,
+    @Body() starshipsDto: UpdateStarshipsDto,
+  ) {
     return this.starshipsService.updateStarship(id, starshipsDto);
   }
 

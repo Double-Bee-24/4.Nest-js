@@ -37,11 +37,11 @@ export class Vehicles {
   @Column()
   consumables: string = '';
 
-  @Column()
-  created: string = '';
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created!: Date;
 
-  @Column()
-  edited: string = '';
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  edited!: Date;
 
   @Column()
   name: string = '';

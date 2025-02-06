@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { People } from './entities/people.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
-import { PeopleDto } from './dto/people.dto';
 import { Response } from 'express';
 import { sendImage } from 'src/utils/img-utils';
+import { CreatePeopleDto } from './dto/create-people.dto';
+import { UpdatePeopleDto } from './dto/update-people.dto';
 
 @Injectable()
 export class PeopleService {
@@ -20,18 +21,23 @@ export class PeopleService {
   async getPerson(id: number): Promise<People> {
     const person = await this.peopleRepository.findOneBy({ id });
     if (!person) {
-      throw new Error('Person not found');
+      throw new NotFoundException(`User with id ${id} not found`);
     }
     return person;
   }
 
-  createPerson(peopleDto: PeopleDto): Promise<People> {
+  createPerson(peopleDto: CreatePeopleDto): Promise<People> {
     const newPerson = this.peopleRepository.create(peopleDto);
     return this.peopleRepository.save(newPerson);
   }
 
-  updatePerson(id: number, updateDate: PeopleDto): Promise<UpdateResult> {
-    return this.peopleRepository.update(id, updateDate);
+  async updatePerson(
+    id: number,
+    peopleDto: UpdatePeopleDto,
+  ): Promise<UpdateResult> {
+    const person = await this.peopleRepository.findOneBy({ id });
+
+    return this.peopleRepository.update(id, { ...person, ...peopleDto });
   }
 
   deletePerson(id: number): Promise<DeleteResult> {
@@ -45,7 +51,7 @@ export class PeopleService {
     const person = await this.peopleRepository.findOneBy({ id });
 
     if (!person) {
-      throw new Error('Person not found');
+      throw new NotFoundException(`User with id ${id} not found`);
     }
 
     person.avatar = filePath;
@@ -57,7 +63,7 @@ export class PeopleService {
     const person = await this.peopleRepository.findOneBy({ id });
 
     if (!person) {
-      throw new Error('Person not found');
+      throw new NotFoundException(`User with id ${id} not found`);
     }
 
     let filename = person.avatar;

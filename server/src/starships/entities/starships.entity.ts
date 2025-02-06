@@ -42,11 +42,11 @@ export class Starships {
   @Column({ default: '' })
   consumables: string = '';
 
-  @Column({ default: '' })
-  created: string = '';
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created!: Date;
 
-  @Column({ default: '' })
-  edited: string = '';
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  edited!: Date;
 
   @Column({ default: '' })
   name: string = '';
@@ -57,7 +57,7 @@ export class Starships {
   @ManyToMany(() => Films, (films) => films.starships)
   films!: Films[];
 
-  @Column('simple-array', { nullable: true })
+  @Column('int', { array: true, default: [] })
   pilotsIds: number[] = [];
 
   @Column()

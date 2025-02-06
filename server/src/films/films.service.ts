@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { Films } from './entities/films.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FilmsDto } from './dto/films.dto';
+import { CreateFilmsDto } from './dto/create-films.dto';
 import { sendImage } from 'src/utils/img-utils';
 import { Response } from 'express';
+import { UpdateFilmsDto } from './dto/update-films.dto';
 
 @Injectable()
 export class FilmsService {
@@ -32,13 +33,17 @@ export class FilmsService {
     return film;
   }
 
-  createFilm(filmsDto: FilmsDto): Promise<Films> {
+  createFilm(filmsDto: CreateFilmsDto): Promise<Films> {
     const newFilm = this.filmsRepository.create(filmsDto);
     return this.filmsRepository.save(newFilm);
   }
 
-  updateFilm(id: number, filmsDto: FilmsDto): Promise<UpdateResult> {
-    return this.filmsRepository.update(id, filmsDto);
+  async updateFilm(
+    id: number,
+    filmsDto: UpdateFilmsDto,
+  ): Promise<UpdateResult> {
+    const film = await this.filmsRepository.findOneBy({ id });
+    return this.filmsRepository.update(id, { ...film, ...filmsDto });
   }
 
   deleteFilm(id: number): Promise<DeleteResult> {
@@ -52,7 +57,7 @@ export class FilmsService {
     const film = await this.filmsRepository.findOneBy({ id });
 
     if (!film) {
-      throw new Error('Film not found');
+      throw new NotFoundException(`Film with id ${id} not found`);
     }
 
     film.avatar = filePath;
@@ -64,7 +69,7 @@ export class FilmsService {
     const film = await this.filmsRepository.findOneBy({ id });
 
     if (!film) {
-      throw new Error('Film not found');
+      throw new NotFoundException(`Film with id ${id} not found`);
     }
 
     let filename = film.avatar;

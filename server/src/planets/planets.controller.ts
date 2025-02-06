@@ -12,9 +12,10 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { PlanetsService } from './planets.service';
-import { PlanetsDto } from './dto/planets.dto';
+import { CreatePlanetsDto } from './dto/create-planets.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { UpdatePlanetsDto } from './dto/update-planets.dto';
 
 @Controller('planets')
 export class PlanetsController {
@@ -36,7 +37,7 @@ export class PlanetsController {
   }
 
   @Post()
-  createPlanet(@Body() planetsDto: PlanetsDto) {
+  createPlanet(@Body() planetsDto: CreatePlanetsDto) {
     return this.planetsService.createPlanet(planetsDto);
   }
 
@@ -63,7 +64,7 @@ export class PlanetsController {
   }
 
   @Put(':id')
-  updatePlanet(@Param('id') id: number, @Body() planetsDto: PlanetsDto) {
+  updatePlanet(@Param('id') id: number, @Body() planetsDto: UpdatePlanetsDto) {
     return this.planetsService.updatePlanet(id, planetsDto);
   }
 

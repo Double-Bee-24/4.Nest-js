@@ -1,18 +1,24 @@
 import { Films } from 'src/films/entities/films.entity';
 import { Planets } from 'src/planets/entities/planets.entity';
 import { Vehicles } from 'src/vehicles/entities/vehicles.entity';
-import { Entity, Column, PrimaryColumn, ManyToMany, JoinTable } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 
 @Entity()
 export class People {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
   description: string = '';
 
   @Column()
-  height: string = '';
+  height!: string;
 
   @Column()
   mass: string = '';
@@ -32,11 +38,11 @@ export class People {
   @Column()
   gender: string = '';
 
-  @Column()
-  created: string = '';
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created!: Date;
 
-  @Column()
-  edited: string = '';
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  edited!: Date;
 
   @Column()
   name: string = '';

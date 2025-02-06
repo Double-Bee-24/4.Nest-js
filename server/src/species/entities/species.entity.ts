@@ -36,11 +36,11 @@ export class Species {
   @Column()
   language: string = '';
 
-  @Column()
-  created: string = '';
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created!: Date;
 
-  @Column()
-  edited: string = '';
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  edited!: Date;
 
   @Column()
   name: string = '';

@@ -12,9 +12,10 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { VehiclesService } from './vehicles.service';
-import { VehiclesDto } from './dto/vehicles.dto';
+import { CreateVehiclesDto } from './dto/create-vehicles.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { UpdateVehiclesDto } from './dto/update-vehicles.dto';
 
 @Controller('vehicles')
 export class VehiclesController {
@@ -36,7 +37,7 @@ export class VehiclesController {
   }
 
   @Post()
-  createVehicle(@Body() vehiclesDto: VehiclesDto) {
+  createVehicle(@Body() vehiclesDto: CreateVehiclesDto) {
     return this.vehicleService.createVehicle(vehiclesDto);
   }
 
@@ -63,7 +64,10 @@ export class VehiclesController {
   }
 
   @Put(':id')
-  updateVehicle(@Param('id') id: number, @Body() vehiclesDto: VehiclesDto) {
+  updateVehicle(
+    @Param('id') id: number,
+    @Body() vehiclesDto: UpdateVehiclesDto,
+  ) {
     return this.vehicleService.updateVehicle(id, vehiclesDto);
   }
 

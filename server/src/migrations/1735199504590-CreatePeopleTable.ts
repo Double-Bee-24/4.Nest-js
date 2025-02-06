@@ -4,7 +4,7 @@ export class CreatePeopleTable1735199504590 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE people (
-        id INT PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
         created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         description text,

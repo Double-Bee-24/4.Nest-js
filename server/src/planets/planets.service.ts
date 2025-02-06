@@ -2,9 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Planets } from './entities/planets.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
-import { PlanetsDto as PlanetsDto } from './dto/planets.dto';
+import { CreatePlanetsDto as CreatePlanetsDto } from './dto/create-planets.dto';
 import { sendImage } from 'src/utils/img-utils';
 import { Response } from 'express';
+import { UpdatePlanetsDto } from './dto/update-planets.dto';
 
 @Injectable()
 export class PlanetsService {
@@ -27,13 +28,17 @@ export class PlanetsService {
     return planet;
   }
 
-  createPlanet(planetsDto: PlanetsDto): Promise<Planets> {
+  createPlanet(planetsDto: CreatePlanetsDto): Promise<Planets> {
     const newPlanet = this.planetsRepository.create(planetsDto);
     return this.planetsRepository.save(newPlanet);
   }
 
-  updatePlanet(id: number, planetsDto: PlanetsDto): Promise<UpdateResult> {
-    return this.planetsRepository.update(id, planetsDto);
+  async updatePlanet(
+    id: number,
+    planetsDto: UpdatePlanetsDto,
+  ): Promise<UpdateResult> {
+    const planet = await this.planetsRepository.findOneBy({ id });
+    return this.planetsRepository.update(id, { ...planet, ...planetsDto });
   }
 
   deletePlanet(id: number): Promise<DeleteResult> {

@@ -12,9 +12,10 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { FilmsService } from './films.service';
-import { FilmsDto } from './dto/films.dto';
+import { CreateFilmsDto } from './dto/create-films.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { UpdateFilmsDto } from './dto/update-films.dto';
 
 @Controller('films')
 export class FilmsController {
@@ -36,7 +37,7 @@ export class FilmsController {
   }
 
   @Post()
-  createFilm(@Body() filmsDto: FilmsDto) {
+  createFilm(@Body() filmsDto: CreateFilmsDto) {
     return this.filmsService.createFilm(filmsDto);
   }
 
@@ -63,7 +64,7 @@ export class FilmsController {
   }
 
   @Put(':id')
-  updateFilm(@Param('id') id: number, @Body() filmsDto: FilmsDto) {
+  updateFilm(@Param('id') id: number, @Body() filmsDto: UpdateFilmsDto) {
     return this.filmsService.updateFilm(id, filmsDto);
   }
 
