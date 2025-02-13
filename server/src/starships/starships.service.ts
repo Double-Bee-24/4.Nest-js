@@ -31,7 +31,6 @@ export class StarshipsService {
   createStarship(starshipsDto: CreateStarshipsDto) {
     const newStarship = this.starshipsRepository.create(starshipsDto);
 
-    console.log(starshipsDto);
     return this.starshipsRepository.save(newStarship);
   }
 

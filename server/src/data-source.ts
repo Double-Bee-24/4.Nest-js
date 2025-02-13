@@ -7,7 +7,7 @@ import { Species } from './species/entities/species.entity';
 import { Vehicles } from './vehicles/entities/vehicles.entity';
 import { Films } from './films/entities/films.entity';
 import { Users } from './users/entities/users.entity';
-import { Sessions } from './utils/typeorm-session';
+import { Session } from './utils/typeorm-session';
 dotenv.config();
 
 export const AppDataSource = new DataSource({
@@ -25,8 +25,10 @@ export const AppDataSource = new DataSource({
     Vehicles,
     Films,
     Users,
-    Sessions,
+    Session,
   ],
   migrations: ['dist/migrations/*.js'],
   synchronize: false,
+  logging: true,
+  logger: 'advanced-console',
 });

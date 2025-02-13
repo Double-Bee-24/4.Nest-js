@@ -20,7 +20,7 @@ import { Films } from './films/entities/films.entity';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { Users } from './users/entities/users.entity';
-import { Sessions } from './utils/typeorm-session';
+import { Session } from './utils/typeorm-session';
 
 @Module({
   imports: [
@@ -43,7 +43,7 @@ import { Sessions } from './utils/typeorm-session';
           Vehicles,
           Films,
           Users,
-          Sessions,
+          Session,
         ],
         synchronize: false,
         migrations: [],

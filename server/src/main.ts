@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
@@ -6,13 +6,17 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import { TypeormStore } from 'connect-typeorm';
 import { DataSource } from 'typeorm';
-import { Sessions } from './utils/typeorm-session';
+import { Session } from './utils/typeorm-session';
+import { AllExceptionsFilter } from './all-exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const dataSource = app.get(DataSource);
-  const sessionRepository = dataSource.getRepository(Sessions);
+  const sessionRepository = dataSource.getRepository(Session);
+
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
 
   // Set global prefix
   app.setGlobalPrefix('api');
@@ -36,10 +40,14 @@ async function bootstrap() {
         httpOnly: true, // Prevents access to the cookie from client-side JS
         secure: false, // Set to true if you are using HTTPS
       },
-      store: new TypeormStore().connect(sessionRepository),
+      store: new TypeormStore({
+        cleanupLimit: 5,
+        // onError: (s: TypeormStore, e: Error) => {
+        //   console.error(e);
+        // },
+      }).connect(sessionRepository),
     }),
   );
-
   app.use(passport.initialize());
   app.use(passport.session());
 

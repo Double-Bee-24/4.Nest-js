@@ -9,8 +9,6 @@ const login = async (credentials: {
       withCredentials: true,
     });
 
-    console.log(response);
-
     return "success";
   } catch (error) {
     console.error("Error while fetching books: ", error);
