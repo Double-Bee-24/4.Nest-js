@@ -2,18 +2,10 @@ import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-import * as session from 'express-session';
-import * as passport from 'passport';
-import { TypeormStore } from 'connect-typeorm';
-import { DataSource } from 'typeorm';
-import { Session } from './utils/typeorm-session';
 import { AllExceptionsFilter } from './all-exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  const dataSource = app.get(DataSource);
-  const sessionRepository = dataSource.getRepository(Session);
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
@@ -28,28 +20,6 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-
-  app.use(
-    session({
-      name: 'NESTJS_SESSION_ID',
-      secret: process.env.SESSION_SECRET || 'default_secret',
-      resave: false, // Do not save session if it hasn't been modified
-      saveUninitialized: false, // Do not save new sessions if they are not initialized
-      cookie: {
-        maxAge: 6000000, // In miliseconds
-        httpOnly: true, // Prevents access to the cookie from client-side JS
-        secure: false, // Set to true if you are using HTTPS
-      },
-      store: new TypeormStore({
-        cleanupLimit: 5,
-        // onError: (s: TypeormStore, e: Error) => {
-        //   console.error(e);
-        // },
-      }).connect(sessionRepository),
-    }),
-  );
-  app.use(passport.initialize());
-  app.use(passport.session());
 
   // Creating Swagger UI
   SwaggerModule.setup('api', app, document);
@@ -68,6 +38,7 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 4000);
 }
+
 bootstrap().catch((error: unknown) => {
   console.error('Error during bootstrap:', error);
 });

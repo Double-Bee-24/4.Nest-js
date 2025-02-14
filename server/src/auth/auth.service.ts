@@ -3,13 +3,17 @@ import {
   ConflictException,
   Injectable,
 } from '@nestjs/common';
+import { Users } from 'src/users/entities/users.entity';
 import { UsersService } from 'src/users/users.service';
 import { RegisterDto } from './dto/register.dto';
-import { Request, Response } from 'express';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
   async validateUser(username: string, password: string) {
     const user = await this.usersService.findOneByUsername(username);
@@ -20,6 +24,14 @@ export class AuthService {
     }
 
     return null;
+  }
+
+  login(user: Users) {
+    const payload = { username: user.username, sub: user.id };
+
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 
   async register(registerDto: RegisterDto) {
@@ -43,21 +55,5 @@ export class AuthService {
     }
 
     return this.usersService.create(username, password);
-  }
-
-  logout(req: Request, res: Response) {
-    req.logout((err) => {
-      if (err) {
-        return res.status(500).json({ message: 'Logout failed' });
-      }
-
-      req.session.destroy((error) => {
-        if (error) {
-          return res.status(500).json({ message: 'Could not destroy session' });
-        }
-        res.clearCookie('connect.sid'); // Remove cookies
-        return res.status(200).json({ message: 'Logout successful' });
-      });
-    });
   }
 }
