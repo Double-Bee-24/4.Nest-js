@@ -36,6 +36,7 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
       myResponseObj.statusCode = exception.getStatus();
       myResponseObj.response = exception.getResponse();
     } else if (
+      // Typeorm error
       exception instanceof QueryFailedError &&
       exception.message.includes('duplicate key value')
     ) {

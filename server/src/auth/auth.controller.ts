@@ -1,19 +1,11 @@
 import { AuthService } from './auth.service';
-import {
-  Controller,
-  Req,
-  Post,
-  UseGuards,
-  Get,
-  Body,
-  Res,
-} from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { Controller, Req, Post, UseGuards, Get, Body } from '@nestjs/common';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Users } from 'src/users/entities/users.entity';
 import { LoginDto } from './dto/login.dto';
-import { AuthenticatedGuard, LocalAuthGuard } from './utils/local-auth.guard';
+import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { RegisterDto } from './dto/register.dto';
-import { Request, Response } from 'express';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
 interface CustomRequest extends Request {
   user: Users;
@@ -28,17 +20,14 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   @ApiBody({ type: LoginDto })
-  login(@Req() _req: CustomRequest) {
-    // return req.user;
+  login(@Req() req: CustomRequest) {
+    return this.authService.login(req.user);
   }
 
-  @Post('logout')
-  logout(@Req() _req: Request, @Res() _res: Response) {
-    // this.authService.logout(req, res);
-  }
-
-  @UseGuards(AuthenticatedGuard)
-  @Get('status')
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get authenticated user profile' })
   getAuthStatus(@Req() req: CustomRequest) {
     return req.user;
   }

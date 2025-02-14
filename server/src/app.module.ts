@@ -20,7 +20,6 @@ import { Films } from './films/entities/films.entity';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { Users } from './users/entities/users.entity';
-import { Session } from './utils/typeorm-session';
 
 @Module({
   imports: [
@@ -35,16 +34,7 @@ import { Session } from './utils/typeorm-session';
         username: configService.get<string>('POSTGRES_USER'),
         password: configService.get<string>('POSTGRES_PASSWORD'),
         database: configService.get<string>('POSTGRES_DB'),
-        entities: [
-          People,
-          Planets,
-          Species,
-          Starships,
-          Vehicles,
-          Films,
-          Users,
-          Session,
-        ],
+        entities: [People, Planets, Species, Starships, Vehicles, Films, Users],
         synchronize: false,
         migrations: [],
       }),
