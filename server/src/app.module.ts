@@ -4,22 +4,22 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
-import { PeopleModule } from './people/people.module';
-import { People } from './people/entities/people.entity';
-import { FilmsModule } from './films/films.module';
-import { PlanetsModule } from './planets/planets.module';
-import { SpeciesModule } from './species/species.module';
-import { StarshipsModule } from './starships/starships.module';
-import { VehiclesModule } from './vehicles/vehicles.module';
-import { SwapiModule } from './swapi/swapi.module';
-import { Planets } from './planets/entities/planets.entity';
-import { Species } from './species/entities/species.entity';
-import { Starships } from './starships/entities/starships.entity';
-import { Vehicles } from './vehicles/entities/vehicles.entity';
-import { Films } from './films/entities/films.entity';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { Users } from './users/entities/users.entity';
+import { PeopleModule } from './modules/people/people.module';
+import { People } from './modules/people/entities/people.entity';
+import { FilmsModule } from './modules/films/films.module';
+import { PlanetsModule } from './modules/planets/planets.module';
+import { SpeciesModule } from './modules/species/species.module';
+import { StarshipsModule } from './modules/starships/starships.module';
+import { VehiclesModule } from './modules/vehicles/vehicles.module';
+import { SwapiModule } from './modules/swapi/swapi.module';
+import { Planets } from './modules/planets/entities/planets.entity';
+import { Species } from './modules/species/entities/species.entity';
+import { Starships } from './modules/starships/entities/starships.entity';
+import { Vehicles } from './modules/vehicles/entities/vehicles.entity';
+import { Films } from './modules/films/entities/films.entity';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
+import { Users } from './modules/users/entities/users.entity';
 
 @Module({
   imports: [
