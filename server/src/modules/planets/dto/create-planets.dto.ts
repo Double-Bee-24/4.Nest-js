@@ -1,6 +1,6 @@
 import { IsString, IsArray } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { People } from 'src/modules/people/entities/people.entity';
+import { Person } from 'src/modules/people/entities/people.entity';
 
 export class CreatePlanetsDto {
   @ApiProperty({
@@ -79,5 +79,5 @@ export class CreatePlanetsDto {
   })
   @IsArray()
   @IsString({ each: true })
-  people: People[] = [];
+  people: Person[] = [];
 }

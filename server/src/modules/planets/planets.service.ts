@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Planets } from './entities/planets.entity';
+import { Planet } from './entities/planets.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreatePlanetsDto as CreatePlanetsDto } from './dto/create-planets.dto';
 import { sendImage } from 'src/utils/img-utils';
@@ -10,15 +10,15 @@ import { UpdatePlanetsDto } from './dto/update-planets.dto';
 @Injectable()
 export class PlanetsService {
   constructor(
-    @InjectRepository(Planets)
-    private planetsRepository: Repository<Planets>,
+    @InjectRepository(Planet)
+    private planetsRepository: Repository<Planet>,
   ) {}
 
-  getAllPlanets(): Promise<Planets[]> {
-    return this.planetsRepository.find();
+  getAllPlanets(): Promise<Planet[]> {
+    return this.planetsRepository.find({ relations: ['people'] });
   }
 
-  async getPlanet(id: number): Promise<Planets> {
+  async getPlanet(id: number): Promise<Planet> {
     const planet = await this.planetsRepository.findOneBy({ id });
 
     if (!planet) {
@@ -28,7 +28,7 @@ export class PlanetsService {
     return planet;
   }
 
-  createPlanet(planetsDto: CreatePlanetsDto): Promise<Planets> {
+  createPlanet(planetsDto: CreatePlanetsDto): Promise<Planet> {
     const newPlanet = this.planetsRepository.create(planetsDto);
     return this.planetsRepository.save(newPlanet);
   }
@@ -46,7 +46,7 @@ export class PlanetsService {
   }
 
   // Writes path to avatar to database
-  async uploadImage(id: number, file: Express.Multer.File): Promise<Planets> {
+  async uploadImage(id: number, file: Express.Multer.File): Promise<Planet> {
     const filePath = `./images/${file.filename}`;
 
     const planet = await this.planetsRepository.findOneBy({ id });

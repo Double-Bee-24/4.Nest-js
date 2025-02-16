@@ -3,7 +3,7 @@ import {
   ConflictException,
   Injectable,
 } from '@nestjs/common';
-import { Users } from 'src/modules/users/entities/users.entity';
+import { User } from 'src/modules/users/entities/users.entity';
 import { UsersService } from 'src/modules/users/users.service';
 import { RegisterDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -26,7 +26,7 @@ export class AuthService {
     return null;
   }
 
-  login(user: Users) {
+  login(user: User) {
     const payload = { username: user.username, sub: user.id };
 
     return {

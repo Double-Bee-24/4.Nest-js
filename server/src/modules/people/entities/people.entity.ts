@@ -1,16 +1,16 @@
-import { Films } from 'src/modules/films/entities/films.entity';
-import { Planets } from 'src/modules/planets/entities/planets.entity';
-import { Vehicles } from 'src/modules/vehicles/entities/vehicles.entity';
+import { Film } from 'src/modules/films/entities/films.entity';
+import { Planet } from 'src/modules/planets/entities/planets.entity';
+import { Vehicle } from 'src/modules/vehicles/entities/vehicles.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   ManyToMany,
-  JoinTable,
+  ManyToOne,
 } from 'typeorm';
 
-@Entity()
-export class People {
+@Entity('people')
+export class Person {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -50,19 +50,14 @@ export class People {
   @Column()
   homeworld!: number;
 
-  @ManyToMany(() => Planets, (planets) => planets.people, { cascade: true })
-  @JoinTable({
-    name: 'peopleplanets',
-    joinColumn: { name: 'peopleId', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'planetsId', referencedColumnName: 'id' },
-  })
-  planets!: Planets[];
+  @ManyToOne(() => Planet, (planet) => planet.people)
+  planet!: Planet;
 
-  @ManyToMany(() => Films, (films) => films.characters)
-  films!: Films[];
+  @ManyToMany(() => Film, (film) => film.characters)
+  films!: Film[];
 
-  @ManyToMany(() => Vehicles, (vehicles) => vehicles.pilots)
-  vehicles!: Vehicles[];
+  @ManyToMany(() => Vehicle, (vehicle) => vehicle.pilots)
+  vehicles!: Vehicle[];
 
   @Column()
   avatar: string = '';

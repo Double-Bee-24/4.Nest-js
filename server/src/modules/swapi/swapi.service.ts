@@ -1,15 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import { AxiosError } from 'axios';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { lastValueFrom } from 'rxjs';
-import { People } from 'src/modules/people/entities/people.entity';
-import { Planets } from 'src/modules/planets/entities/planets.entity';
+import { Person } from 'src/modules/people/entities/people.entity';
+import { Planet } from 'src/modules/planets/entities/planets.entity';
 import { Species } from 'src/modules/species/entities/species.entity';
-import { Starships } from 'src/modules/starships/entities/starships.entity';
-import { Vehicles } from 'src/modules/vehicles/entities/vehicles.entity';
+import { Starship } from 'src/modules/starships/entities/starships.entity';
+import { Vehicle } from 'src/modules/vehicles/entities/vehicles.entity';
 import {
   SpeciesResponseSchema,
   PeopleResponseSchema,
@@ -22,7 +22,7 @@ import {
 import { SwapiResult, EntityName } from './types';
 import { toCamelCase } from 'src/utils/object-utils';
 import { extractNumber } from 'src/utils/string-utils';
-import { Films } from 'src/modules/films/entities/films.entity';
+import { Film } from 'src/modules/films/entities/films.entity';
 
 @Injectable()
 export class SwapiService {
@@ -47,23 +47,23 @@ export class SwapiService {
   } as const;
 
   constructor(
-    @InjectRepository(People)
-    private peopleRepository: Repository<People>,
+    @InjectRepository(Person)
+    private peopleRepository: Repository<Person>,
 
-    @InjectRepository(Planets)
-    private planetsRepository: Repository<Planets>,
+    @InjectRepository(Planet)
+    private planetsRepository: Repository<Planet>,
 
     @InjectRepository(Species)
     private speciesRepository: Repository<Species>,
 
-    @InjectRepository(Starships)
-    private starshipsRepository: Repository<Starships>,
+    @InjectRepository(Starship)
+    private starshipsRepository: Repository<Starship>,
 
-    @InjectRepository(Vehicles)
-    private vehiclesRepository: Repository<Vehicles>,
+    @InjectRepository(Vehicle)
+    private vehiclesRepository: Repository<Vehicle>,
 
-    @InjectRepository(Films)
-    private filmsRepository: Repository<Films>,
+    @InjectRepository(Film)
+    private filmsRepository: Repository<Film>,
 
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
@@ -194,32 +194,95 @@ export class SwapiService {
       return;
     }
 
-    for (const film of films) {
-      for (const [repositoryName, repository] of Object.entries(
-        this.repositories,
-      )) {
-        if (repositoryName === 'films') {
-          continue;
-        }
+    const promises = films.map(async (film) => {
+      const relationshipsPromises = Object.entries(this.repositories)
+        .filter(([repositoryName]) => repositoryName !== 'films')
+        .map(([repositoryName, repository]) => {
+          return this.setFilmsRelationships(
+            film,
+            repositoryName as
+              | 'planets'
+              | 'vehicles'
+              | 'starships'
+              | 'species'
+              | 'people',
+            repository,
+          );
+        });
 
-        await this.setFilmsRelationships(
-          film,
-          repositoryName as
-            | 'planets'
-            | 'vehicles'
-            | 'starships'
-            | 'species'
-            | 'people',
-          repository,
-        );
-      }
-
+      await Promise.all(relationshipsPromises);
       await this.filmsRepository.save(film);
+    });
+
+    await Promise.all(promises);
+
+    await this.setPlanetsToPeopleRelationships();
+
+    await this.setVehiclesToPeopleRelationships();
+  }
+
+  async setVehiclesToPeopleRelationships() {
+    const vehicles = await this.vehiclesRepository.find({
+      relations: ['pilots'],
+    });
+
+    if (!vehicles.length) {
+      throw new NotFoundException('No entries in vehicles table');
     }
+
+    await Promise.all(
+      vehicles.map(async (vehicle) => {
+        if (vehicle.pilotsIds.length > 0) {
+          // Retrieve all people whose IDs are in pilotsIds
+          const pilots = await this.peopleRepository.findBy({
+            id: In(vehicle.pilotsIds), // Using In() to search for an array of IDs
+          });
+
+          if (!pilots.length) {
+            throw new NotFoundException(
+              `Pilots with IDs [${vehicle.pilotsIds.join(', ')}] not found`,
+            );
+          }
+
+          // Assign the retrieved people to the pilots relation
+          vehicle.pilots = pilots;
+        }
+      }),
+    );
+
+    return await this.vehiclesRepository.save(vehicles);
+  }
+
+  async setPlanetsToPeopleRelationships() {
+    const people = await this.peopleRepository.find({ relations: ['planet'] });
+
+    if (!people.length) {
+      throw new NotFoundException('No entries in people table');
+    }
+
+    await Promise.all(
+      people.map(async (person) => {
+        if (person.homeworld) {
+          const planet = await this.planetsRepository.findOne({
+            where: { id: person.homeworld },
+          });
+
+          if (!planet) {
+            throw new NotFoundException(
+              `Planet with ID ${person.homeworld} not found`,
+            );
+          }
+
+          person.planet = planet;
+        }
+      }),
+    );
+
+    return await this.peopleRepository.save(people);
   }
 
   async setFilmsRelationships(
-    film: Films,
+    film: Film,
     repositoryName:
       | 'people'
       | 'planets'
@@ -227,12 +290,13 @@ export class SwapiService {
       | 'starships'
       | 'species'
       | 'characters',
-    repository: Exclude<Repository<EntityName>, Repository<Films>>,
+    repository: Exclude<Repository<EntityName>, Repository<Film>>,
   ): Promise<void> {
+    if (repositoryName === 'people') {
+      repositoryName = 'characters';
+    }
+
     for (const [key, idsArray] of Object.entries(film)) {
-      if (repositoryName === 'people') {
-        repositoryName = 'characters';
-      }
       if (!(key === `${repositoryName}Ids` && Array.isArray(idsArray))) {
         continue;
       }
@@ -248,9 +312,7 @@ export class SwapiService {
 
           if (repositoryItem) {
             if (Array.isArray(film[repositoryName])) {
-              (film[repositoryName] as unknown as EntityName[]).push(
-                repositoryItem,
-              );
+              (film[repositoryName] as EntityName[]).push(repositoryItem);
             }
           }
         } catch (error: unknown) {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
-import { Vehicles } from './entities/vehicles.entity';
+import { Vehicle } from './entities/vehicles.entity';
 import { CreateVehiclesDto } from './dto/create-vehicles.dto';
 import { sendImage } from 'src/utils/img-utils';
 import { Response } from 'express';
@@ -10,15 +10,15 @@ import { UpdateVehiclesDto } from './dto/update-vehicles.dto';
 @Injectable()
 export class VehiclesService {
   constructor(
-    @InjectRepository(Vehicles)
-    private vehiclesRepository: Repository<Vehicles>,
+    @InjectRepository(Vehicle)
+    private vehiclesRepository: Repository<Vehicle>,
   ) {}
 
-  getAllVehicles(): Promise<Vehicles[]> {
-    return this.vehiclesRepository.find();
+  getAllVehicles(): Promise<Vehicle[]> {
+    return this.vehiclesRepository.find({ relations: ['pilots'] });
   }
 
-  async getVehicle(id: number): Promise<Vehicles> {
+  async getVehicle(id: number): Promise<Vehicle> {
     const vehicle = await this.vehiclesRepository.findOneBy({ id });
 
     if (!vehicle) {
@@ -28,7 +28,7 @@ export class VehiclesService {
     return vehicle;
   }
 
-  createVehicle(vehiclesDto: CreateVehiclesDto): Promise<Vehicles> {
+  createVehicle(vehiclesDto: CreateVehiclesDto): Promise<Vehicle> {
     const newVehicle = this.vehiclesRepository.create(vehiclesDto);
     return this.vehiclesRepository.save(newVehicle);
   }
@@ -46,7 +46,7 @@ export class VehiclesService {
   }
 
   // Writes path to avatar to database
-  async uploadImage(id: number, file: Express.Multer.File): Promise<Vehicles> {
+  async uploadImage(id: number, file: Express.Multer.File): Promise<Vehicle> {
     const filePath = `./images/${file.filename}`;
 
     const vehicle = await this.vehiclesRepository.findOneBy({ id });

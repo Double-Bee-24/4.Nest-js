@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
-import { Films } from './entities/films.entity';
+import { Film } from './entities/films.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateFilmsDto } from './dto/create-films.dto';
 import { sendImage } from 'src/utils/img-utils';
@@ -10,20 +10,17 @@ import { UpdateFilmsDto } from './dto/update-films.dto';
 @Injectable()
 export class FilmsService {
   constructor(
-    @InjectRepository(Films)
-    private readonly filmsRepository: Repository<Films>,
+    @InjectRepository(Film)
+    private readonly filmsRepository: Repository<Film>,
   ) {}
 
-  async getAllFilms(): Promise<Films[]> {
-    const films = await this.filmsRepository.find();
-    // return this.filmsRepository.find({
-    //   relations: ['planets', 'characters', 'vehicles', 'starships', 'species'],
-    // });
-    // return plainToInstance(Films, films, { excludeExtraneousValues: true });
-    return films;
+  async getAllFilms(): Promise<Film[]> {
+    return this.filmsRepository.find({
+      relations: ['planets', 'characters', 'vehicles', 'starships', 'species'],
+    });
   }
 
-  async getFilm(id: number): Promise<Films> {
+  async getFilm(id: number): Promise<Film> {
     const film = await this.filmsRepository.findOneBy({ id });
 
     if (!film) {
@@ -33,7 +30,7 @@ export class FilmsService {
     return film;
   }
 
-  createFilm(filmsDto: CreateFilmsDto): Promise<Films> {
+  createFilm(filmsDto: CreateFilmsDto): Promise<Film> {
     const newFilm = this.filmsRepository.create(filmsDto);
     return this.filmsRepository.save(newFilm);
   }
@@ -51,7 +48,7 @@ export class FilmsService {
   }
 
   // Writes path to avatar to database
-  async uploadImage(id: number, file: Express.Multer.File): Promise<Films> {
+  async uploadImage(id: number, file: Express.Multer.File): Promise<Film> {
     const filePath = `./images/${file.filename}`;
 
     const film = await this.filmsRepository.findOneBy({ id });

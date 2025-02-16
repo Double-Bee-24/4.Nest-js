@@ -18,6 +18,8 @@ export class CreatePeopleTable1735199504590 implements MigrationInterface {
         name varchar(255),
         homeworld INT,
         "speciesId" varchar(24),
+        "planetId" INT,
+        CONSTRAINT "fkPeoplePlanet" FOREIGN KEY ("planetId") REFERENCES planets(id) ON DELETE SET NULL,
         avatar varchar(255)
       );
     `);

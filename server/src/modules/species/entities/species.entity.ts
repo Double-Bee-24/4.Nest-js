@@ -1,4 +1,4 @@
-import { Films } from 'src/modules/films/entities/films.entity';
+import { Film } from 'src/modules/films/entities/films.entity';
 import { Entity, Column, PrimaryColumn, ManyToMany } from 'typeorm';
 
 @Entity()
@@ -45,8 +45,8 @@ export class Species {
   @Column()
   name: string = '';
 
-  @ManyToMany(() => Films, (films) => films.species)
-  films!: Films[];
+  @ManyToMany(() => Film, (film) => film.species)
+  films!: Film[];
 
   @Column('simple-array', { nullable: true })
   peopleIds: number[] = [];

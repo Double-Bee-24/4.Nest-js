@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
-import { Starships } from './entities/starships.entity';
+import { Starship } from './entities/starships.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStarshipsDto } from './dto/create-starships.dto';
 import { sendImage } from 'src/utils/img-utils';
@@ -10,15 +10,15 @@ import { UpdateStarshipsDto } from './dto/update-starships.dto';
 @Injectable()
 export class StarshipsService {
   constructor(
-    @InjectRepository(Starships)
-    private starshipsRepository: Repository<Starships>,
+    @InjectRepository(Starship)
+    private starshipsRepository: Repository<Starship>,
   ) {}
 
-  getAllStarships(): Promise<Starships[]> {
+  getAllStarships(): Promise<Starship[]> {
     return this.starshipsRepository.find();
   }
 
-  async getStarship(id: number): Promise<Starships> {
+  async getStarship(id: number): Promise<Starship> {
     const starship = await this.starshipsRepository.findOneBy({ id });
 
     if (!starship) {
@@ -50,7 +50,7 @@ export class StarshipsService {
   }
 
   // Writes path to avatar to database
-  async uploadImage(id: number, file: Express.Multer.File): Promise<Starships> {
+  async uploadImage(id: number, file: Express.Multer.File): Promise<Starship> {
     const filePath = `./images/${file.filename}`;
 
     const starship = await this.starshipsRepository.findOneBy({ id });

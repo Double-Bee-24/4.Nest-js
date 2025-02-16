@@ -5,21 +5,21 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { PeopleModule } from './modules/people/people.module';
-import { People } from './modules/people/entities/people.entity';
+import { Person } from './modules/people/entities/people.entity';
 import { FilmsModule } from './modules/films/films.module';
 import { PlanetsModule } from './modules/planets/planets.module';
 import { SpeciesModule } from './modules/species/species.module';
 import { StarshipsModule } from './modules/starships/starships.module';
 import { VehiclesModule } from './modules/vehicles/vehicles.module';
 import { SwapiModule } from './modules/swapi/swapi.module';
-import { Planets } from './modules/planets/entities/planets.entity';
+import { Planet } from './modules/planets/entities/planets.entity';
 import { Species } from './modules/species/entities/species.entity';
-import { Starships } from './modules/starships/entities/starships.entity';
-import { Vehicles } from './modules/vehicles/entities/vehicles.entity';
-import { Films } from './modules/films/entities/films.entity';
+import { Starship } from './modules/starships/entities/starships.entity';
+import { Vehicle } from './modules/vehicles/entities/vehicles.entity';
+import { Film } from './modules/films/entities/films.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
-import { Users } from './modules/users/entities/users.entity';
+import { User } from './modules/users/entities/users.entity';
 
 @Module({
   imports: [
@@ -34,7 +34,7 @@ import { Users } from './modules/users/entities/users.entity';
         username: configService.get<string>('POSTGRES_USER'),
         password: configService.get<string>('POSTGRES_PASSWORD'),
         database: configService.get<string>('POSTGRES_DB'),
-        entities: [People, Planets, Species, Starships, Vehicles, Films, Users],
+        entities: [Person, Planet, Species, Starship, Vehicle, Film, User],
         synchronize: false,
         migrations: [],
       }),

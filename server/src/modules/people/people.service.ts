@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { People } from './entities/people.entity';
+import { Person } from './entities/people.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { Response } from 'express';
 import { sendImage } from 'src/utils/img-utils';
@@ -10,15 +10,17 @@ import { UpdatePeopleDto } from './dto/update-people.dto';
 @Injectable()
 export class PeopleService {
   constructor(
-    @InjectRepository(People)
-    private peopleRepository: Repository<People>,
+    @InjectRepository(Person)
+    private peopleRepository: Repository<Person>,
   ) {}
 
-  getPeople(): Promise<People[]> {
-    return this.peopleRepository.find();
+  getPeople(): Promise<Person[]> {
+    return this.peopleRepository.find({
+      relations: ['planet', 'films', 'vehicles'],
+    });
   }
 
-  async getPerson(id: number): Promise<People> {
+  async getPerson(id: number): Promise<Person> {
     const person = await this.peopleRepository.findOneBy({ id });
     if (!person) {
       throw new NotFoundException(`User with id ${id} not found`);
@@ -26,7 +28,7 @@ export class PeopleService {
     return person;
   }
 
-  createPerson(peopleDto: CreatePeopleDto): Promise<People> {
+  createPerson(peopleDto: CreatePeopleDto): Promise<Person> {
     const newPerson = this.peopleRepository.create(peopleDto);
     return this.peopleRepository.save(newPerson);
   }
@@ -45,7 +47,7 @@ export class PeopleService {
   }
 
   // Writes path to avatar to database
-  async uploadImage(id: number, file: Express.Multer.File): Promise<People> {
+  async uploadImage(id: number, file: Express.Multer.File): Promise<Person> {
     const filePath = `./images/${file.filename}`;
 
     const person = await this.peopleRepository.findOneBy({ id });

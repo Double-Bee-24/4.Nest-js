@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { StarshipsController } from './starships.controller';
 import { StarshipsService } from './starships.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Starships } from './entities/starships.entity';
+import { Starship } from './entities/starships.entity';
 import { MulterModule } from '@nestjs/platform-express';
 import { getMulterConfig } from 'src/utils/multer-config';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Starships]),
+    TypeOrmModule.forFeature([Starship]),
     MulterModule.register(getMulterConfig()),
   ],
   controllers: [StarshipsController],

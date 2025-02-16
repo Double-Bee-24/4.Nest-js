@@ -5,14 +5,14 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { People } from 'src/modules/people/entities/people.entity';
-import { Planets } from 'src/modules/planets/entities/planets.entity';
-import { Starships } from 'src/modules/starships/entities/starships.entity';
-import { Vehicles } from 'src/modules/vehicles/entities/vehicles.entity';
+import { Person } from 'src/modules/people/entities/people.entity';
+import { Planet } from 'src/modules/planets/entities/planets.entity';
+import { Starship } from 'src/modules/starships/entities/starships.entity';
+import { Vehicle } from 'src/modules/vehicles/entities/vehicles.entity';
 import { Species } from 'src/modules/species/entities/species.entity';
 
-@Entity()
-export class Films {
+@Entity('films')
+export class Film {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -43,23 +43,23 @@ export class Films {
   @Column()
   description: string = '';
 
-  @ManyToMany(() => People, (people) => people.films, { cascade: true })
+  @ManyToMany(() => Person, (person) => person.films, { cascade: true })
   @JoinTable({
     name: 'filmspeople',
     joinColumn: { name: 'filmsId', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'peopleId', referencedColumnName: 'id' },
   })
-  characters!: People[];
+  characters!: Person[];
 
-  @ManyToMany(() => Planets, (planets) => planets.films, { cascade: true })
+  @ManyToMany(() => Planet, (planet) => planet.films, { cascade: true })
   @JoinTable({
     name: 'filmsplanets',
     joinColumn: { name: 'filmsId', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'planetsId', referencedColumnName: 'id' },
   })
-  planets!: Planets[];
+  planets!: Planet[];
 
-  @ManyToMany(() => Starships, (starships) => starships.films, {
+  @ManyToMany(() => Starship, (starships) => starships.films, {
     cascade: true,
   })
   @JoinTable({
@@ -67,15 +67,15 @@ export class Films {
     joinColumn: { name: 'filmsId', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'starshipsId', referencedColumnName: 'id' },
   })
-  starships!: Starships[];
+  starships!: Starship[];
 
-  @ManyToMany(() => Vehicles, (vehicles) => vehicles.films, { cascade: true })
+  @ManyToMany(() => Vehicle, (vehicle) => vehicle.films, { cascade: true })
   @JoinTable({
     name: 'filmsvehicles',
     joinColumn: { name: 'filmsId', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'vehiclesId', referencedColumnName: 'id' },
   })
-  vehicles!: Vehicles[];
+  vehicles!: Vehicle[];
 
   @ManyToMany(() => Species, (species) => species.films, { cascade: true })
   @JoinTable({

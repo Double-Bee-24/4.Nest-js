@@ -10,7 +10,7 @@ export class SwapiController {
     await this.swapiService.seedDatabase();
   }
 
-  @Get('reletionships')
+  @Get('relationships')
   async setDbRelationships() {
     await this.swapiService.setDbRelationships();
   }

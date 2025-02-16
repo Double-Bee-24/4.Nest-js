@@ -1,9 +1,9 @@
-import { Films } from 'src/modules/films/entities/films.entity';
-import { People } from 'src/modules/people/entities/people.entity';
-import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
+import { Film } from 'src/modules/films/entities/films.entity';
+import { Person } from 'src/modules/people/entities/people.entity';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
 
-@Entity()
-export class Planets {
+@Entity('planets')
+export class Planet {
   @PrimaryColumn()
   id!: number;
 
@@ -43,11 +43,11 @@ export class Planets {
   @Column()
   name: string = '';
 
-  @ManyToMany(() => People, (people) => people.planets)
-  people!: People[];
+  @OneToMany(() => Person, (people) => people.planet)
+  people!: Person[];
 
-  @ManyToMany(() => Films, (films) => films.planets)
-  films!: Films[];
+  @ManyToMany(() => Film, (film) => film.planets)
+  films!: Film[];
 
   @Column()
   avatar: string = '';

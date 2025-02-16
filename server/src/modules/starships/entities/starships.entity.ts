@@ -1,45 +1,45 @@
-import { Films } from 'src/modules/films/entities/films.entity';
+import { Film } from 'src/modules/films/entities/films.entity';
 import { Entity, PrimaryColumn, Column, ManyToMany } from 'typeorm';
 
-@Entity()
-export class Starships {
+@Entity('starships')
+export class Starship {
   @PrimaryColumn()
   id!: number;
 
-  @Column({ default: '' })
+  @Column()
   model: string = '';
 
-  @Column({ default: '' })
+  @Column()
   starshipClass: string = '';
 
-  @Column({ default: '' })
+  @Column()
   manufacturer: string = '';
 
-  @Column({ default: '' })
+  @Column()
   costInCredits: string = '';
 
-  @Column({ default: '' })
+  @Column()
   length: string = '';
 
-  @Column({ default: '' })
+  @Column()
   crew: string = '';
 
-  @Column({ default: '' })
+  @Column()
   passengers: string = '';
 
-  @Column({ default: '' })
+  @Column()
   maxAtmospheringSpeed: string = '';
 
-  @Column({ default: '' })
+  @Column()
   hyperdriveRating: string = '';
 
-  @Column({ default: '' })
+  @Column()
   MGLT: string = '';
 
-  @Column({ default: '' })
+  @Column()
   cargoCapacity: string = '';
 
-  @Column({ default: '' })
+  @Column()
   consumables: string = '';
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
@@ -48,14 +48,14 @@ export class Starships {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   edited!: Date;
 
-  @Column({ default: '' })
+  @Column()
   name: string = '';
 
-  @Column({ default: '' })
+  @Column()
   description: string = '';
 
-  @ManyToMany(() => Films, (films) => films.starships)
-  films!: Films[];
+  @ManyToMany(() => Film, (film) => film.starships)
+  films!: Film[];
 
   @Column('int', { array: true, default: [] })
   pilotsIds: number[] = [];
