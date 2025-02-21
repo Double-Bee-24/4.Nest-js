@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "typeorm-ts-node-commonjs",
     "typeorm:migrate": "typeorm migration:run -d dist/data-source.js",
-    "abc": "npm run build && npm run typeorm:migrate && npm run start:dev"
+    "quick": "npm run build && npm run typeorm:migrate && npm run start:dev"
   },
   "dependencies": {
     "@nestjs/axios": "^3.1.3",
