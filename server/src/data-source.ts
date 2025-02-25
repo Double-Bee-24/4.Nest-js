@@ -19,6 +19,4 @@ export const AppDataSource = new DataSource({
   entities: [Person, Planet, Starship, Species, Vehicle, Film, User],
   migrations: ['dist/database/migrations/*.js'],
   synchronize: false,
-  logging: true,
-  logger: 'advanced-console',
 });

@@ -36,7 +36,6 @@ import { User } from './modules/users/entities/users.entity';
         database: configService.get<string>('POSTGRES_DB'),
         entities: [Person, Planet, Species, Starship, Vehicle, Film, User],
         synchronize: false,
-        migrations: [],
       }),
     }),
     PeopleModule,

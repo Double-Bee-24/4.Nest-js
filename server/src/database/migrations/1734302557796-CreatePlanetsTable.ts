@@ -17,7 +17,8 @@ export class CreatePlanetsTable1734302557796 implements MigrationInterface {
         terrain VARCHAR,
         "surfaceWater" VARCHAR,
         name VARCHAR,
-        avatar varchar(255)
+        avatar varchar(255),
+        url varchar(255)
       );
     `);
   }

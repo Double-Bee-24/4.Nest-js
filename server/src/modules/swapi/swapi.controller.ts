@@ -9,14 +9,4 @@ export class SwapiController {
   async seedDatabase() {
     await this.swapiService.seedDatabase();
   }
-
-  @Get('relationships')
-  async setDbRelationships() {
-    await this.swapiService.setDbRelationships();
-  }
-
-  @Get('show')
-  async show() {
-    await this.swapiService.showFilms();
-  }
 }

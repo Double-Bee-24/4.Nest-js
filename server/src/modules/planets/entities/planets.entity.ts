@@ -51,4 +51,7 @@ export class Planet {
 
   @Column()
   avatar: string = '';
+
+  @Column()
+  url?: string;
 }

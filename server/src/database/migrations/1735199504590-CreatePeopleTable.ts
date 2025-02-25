@@ -5,8 +5,6 @@ export class CreatePeopleTable1735199504590 implements MigrationInterface {
     await queryRunner.query(`
       CREATE TABLE people (
         id SERIAL PRIMARY KEY,
-        created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         description text,
         height varchar(50),
         mass varchar(50),
@@ -16,11 +14,14 @@ export class CreatePeopleTable1735199504590 implements MigrationInterface {
         "birthYear" varchar(50),
         gender varchar(50),
         name varchar(255),
-        homeworld INT,
+        homeworld varchar(255),
         "speciesId" varchar(24),
         "planetId" INT,
+        avatar varchar(255),
+        url varchar(255)
+        created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         CONSTRAINT "fkPeoplePlanet" FOREIGN KEY ("planetId") REFERENCES planets(id) ON DELETE SET NULL,
-        avatar varchar(255)
       );
     `);
   }

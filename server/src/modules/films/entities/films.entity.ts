@@ -102,4 +102,7 @@ export class Film {
 
   @Column()
   avatar: string = '';
+
+  @Column()
+  url?: string;
 }

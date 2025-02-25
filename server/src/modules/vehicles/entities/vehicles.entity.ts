@@ -68,4 +68,7 @@ export class Vehicle {
 
   @Column()
   avatar: string = '';
+
+  @Column()
+  url?: string;
 }

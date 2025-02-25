@@ -4,7 +4,7 @@ import { PlanetsController } from './planets.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Planet } from './entities/planets.entity';
 import { MulterModule } from '@nestjs/platform-express';
-import { getMulterConfig } from 'src/utils/multer-config';
+import { getMulterConfig } from 'src/config/multer-config';
 
 @Module({
   imports: [

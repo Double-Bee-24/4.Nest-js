@@ -62,4 +62,7 @@ export class Starship {
 
   @Column()
   avatar: string = '';
+
+  @Column()
+  url?: string;
 }

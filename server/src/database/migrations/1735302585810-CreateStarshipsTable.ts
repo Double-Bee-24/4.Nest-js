@@ -23,7 +23,8 @@ export class CreateStarshipsTable1735302585810 implements MigrationInterface {
         pilots VARCHAR(255)[],
         name VARCHAR(255),
         description TEXT,
-        avatar varchar(255)
+        avatar varchar(255),
+        url varchar(255)
       );
     `);
   }

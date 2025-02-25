@@ -4,7 +4,7 @@ import { PeopleService } from './people.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Person } from './entities/people.entity';
 import { MulterModule } from '@nestjs/platform-express';
-import { getMulterConfig } from 'src/utils/multer-config';
+import { getMulterConfig } from 'src/config/multer-config';
 
 @Module({
   imports: [

@@ -4,7 +4,7 @@ import { SpeciesService } from './species.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Species } from './entities/species.entity';
 import { MulterModule } from '@nestjs/platform-express';
-import { getMulterConfig } from 'src/utils/multer-config';
+import { getMulterConfig } from 'src/config/multer-config';
 
 @Module({
   imports: [

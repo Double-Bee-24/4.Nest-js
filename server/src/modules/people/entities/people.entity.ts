@@ -61,4 +61,7 @@ export class Person {
 
   @Column()
   avatar: string = '';
+
+  @Column()
+  url?: string;
 }

@@ -21,7 +21,8 @@ export class CreateSpeciesTable1735302567277 implements MigrationInterface {
         "peopleIds" INT[],
         name VARCHAR(255),
         "speciesId" varchar(24),
-        avatar varchar(255)
+        avatar varchar(255),
+        url varchar(255)
       );
     `);
   }

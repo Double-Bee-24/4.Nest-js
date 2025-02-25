@@ -4,7 +4,7 @@ import { StarshipsService } from './starships.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Starship } from './entities/starships.entity';
 import { MulterModule } from '@nestjs/platform-express';
-import { getMulterConfig } from 'src/utils/multer-config';
+import { getMulterConfig } from 'src/config/multer-config';
 
 @Module({
   imports: [

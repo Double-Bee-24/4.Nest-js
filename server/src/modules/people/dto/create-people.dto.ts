@@ -56,4 +56,10 @@ export class CreatePeopleDto {
   })
   @IsNumber()
   homeworld!: number;
+
+  @ApiProperty({
+    description: 'Id',
+    example: 123,
+  })
+  id?: number;
 }

@@ -4,7 +4,7 @@ import { FilmsService } from './films.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Film } from './entities/films.entity';
 import { MulterModule } from '@nestjs/platform-express';
-import { getMulterConfig } from 'src/utils/multer-config';
+import { getMulterConfig } from 'src/config/multer-config';
 
 @Module({
   imports: [

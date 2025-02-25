@@ -19,7 +19,8 @@ export class CreateFilmsTable1735302546303 implements MigrationInterface {
         "starshipsIds" INT[],  -- Array of starship IDs
         "vehiclesIds" INT[],   -- Array of vehicle IDs
         "speciesIds" INT[],     -- Array of species IDs
-        avatar varchar(255)
+        avatar varchar(255),
+        url varchar(255)
       );
     `);
   }

@@ -30,6 +30,7 @@ export class PlanetsService {
 
   createPlanet(planetsDto: CreatePlanetsDto): Promise<Planet> {
     const newPlanet = this.planetsRepository.create(planetsDto);
+
     return this.planetsRepository.save(newPlanet);
   }
 

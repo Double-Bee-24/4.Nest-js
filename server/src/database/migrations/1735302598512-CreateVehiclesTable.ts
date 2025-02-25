@@ -22,7 +22,8 @@ export class CreateVehiclesTable1735302598512 implements MigrationInterface {
         "filmsIds" INT[],
         name VARCHAR(255),
         description TEXT,
-        avatar varchar(255)
+        avatar varchar(255),
+        url varchar(255)
       );
     `);
   }

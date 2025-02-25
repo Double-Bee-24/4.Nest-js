@@ -53,4 +53,7 @@ export class Species {
 
   @Column()
   avatar: string = '';
+
+  @Column()
+  url?: string;
 }
