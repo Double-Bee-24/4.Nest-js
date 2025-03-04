@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
   UploadedFile,
   UseInterceptors,
@@ -14,16 +15,24 @@ import { Response } from 'express';
 import { PlanetsService } from './planets.service';
 import { CreatePlanetsDto } from './dto/create-planets.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { ApiConsumes, ApiBody, ApiQuery } from '@nestjs/swagger';
 import { UpdatePlanetsDto } from './dto/update-planets.dto';
 
 @Controller('planets')
 export class PlanetsController {
   constructor(private planetsService: PlanetsService) {}
 
+  @ApiQuery({
+    name: 'page',
+    default: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    default: 10,
+  })
   @Get()
-  getAllPlanets() {
-    return this.planetsService.getAllPlanets();
+  getAllPlanets(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.planetsService.getAllPlanets(page, limit);
   }
 
   @Get('image/:id')

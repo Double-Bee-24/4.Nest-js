@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
-import { Film } from './entities/films.entity';
+import { Film } from '../../database/entities/films.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateFilmsDto } from './dto/create-films.dto';
 import { sendImage } from 'src/utils/img-utils';
@@ -14,10 +14,30 @@ export class FilmsService {
     private readonly filmsRepository: Repository<Film>,
   ) {}
 
-  async getAllFilms(): Promise<Film[]> {
-    return this.filmsRepository.find({
-      relations: ['planets', 'characters', 'vehicles', 'starships', 'species'],
+  async getAllFilms(page: number, limit: number) {
+    const [result, total] = await this.filmsRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      select: [
+        'title',
+        'director',
+        'producer',
+        'openingCrawl',
+        'releaseDate',
+        'avatar',
+        'description',
+        'id',
+        'episodeId',
+      ],
     });
+
+    return {
+      data: result,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async getFilm(id: number): Promise<Film> {

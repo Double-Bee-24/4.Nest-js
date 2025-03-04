@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
   UploadedFile,
   UseInterceptors,
@@ -14,16 +15,24 @@ import { Response } from 'express';
 import { SpeciesService } from './species.service';
 import { CreateSpeciesDto } from './dto/create-species.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { ApiConsumes, ApiBody, ApiQuery } from '@nestjs/swagger';
 import { UpdateSpeciesDto } from './dto/update-species.dto';
 
 @Controller('species')
 export class SpeciesController {
   constructor(private speciesService: SpeciesService) {}
 
+  @ApiQuery({
+    name: 'page',
+    default: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    default: 10,
+  })
   @Get()
-  getAllSpecies() {
-    return this.speciesService.getAllSpecies();
+  getAllSpecies(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.speciesService.getAllSpecies(page, limit);
   }
 
   @Get('image/:id')

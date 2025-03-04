@@ -5,21 +5,23 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { PeopleModule } from './modules/people/people.module';
-import { Person } from './modules/people/entities/people.entity';
 import { FilmsModule } from './modules/films/films.module';
 import { PlanetsModule } from './modules/planets/planets.module';
 import { SpeciesModule } from './modules/species/species.module';
 import { StarshipsModule } from './modules/starships/starships.module';
 import { VehiclesModule } from './modules/vehicles/vehicles.module';
-import { SwapiModule } from './modules/swapi/swapi.module';
-import { Planet } from './modules/planets/entities/planets.entity';
-import { Species } from './modules/species/entities/species.entity';
-import { Starship } from './modules/starships/entities/starships.entity';
-import { Vehicle } from './modules/vehicles/entities/vehicles.entity';
-import { Film } from './modules/films/entities/films.entity';
+import { SeedingModule } from './modules/seeding/seeding.module';
+import {
+  Planet,
+  Species,
+  Starship,
+  Vehicle,
+  Film,
+  User,
+  Person,
+} from './database/entities';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
-import { User } from './modules/users/entities/users.entity';
 
 @Module({
   imports: [
@@ -44,7 +46,7 @@ import { User } from './modules/users/entities/users.entity';
     SpeciesModule,
     StarshipsModule,
     VehiclesModule,
-    SwapiModule,
+    SeedingModule,
     AuthModule,
     UsersModule,
   ],

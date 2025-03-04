@@ -55,13 +55,6 @@ export class CreateVehiclesDto {
   })
   consumables!: string;
 
-  @ApiProperty({
-    example: '["https://swapi.dev/api/people/1/"]',
-    description: 'List of pilots associated with the vehicle',
-    type: 'string',
-  })
-  pilotsIds: number[] = [];
-
   @ApiProperty({ example: 'TIE Fighter', description: 'Name of the vehicle' })
   name!: string;
 

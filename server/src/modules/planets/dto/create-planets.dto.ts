@@ -1,6 +1,6 @@
 import { IsString, IsArray } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Person } from 'src/modules/people/entities/people.entity';
+import { Person } from 'src/database/entities/people.entity';
 
 export class CreatePlanetsDto {
   @ApiProperty({

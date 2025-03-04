@@ -9,21 +9,30 @@ import {
   Res,
   UploadedFile,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { VehiclesService } from './vehicles.service';
 import { CreateVehiclesDto } from './dto/create-vehicles.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { ApiConsumes, ApiBody, ApiQuery } from '@nestjs/swagger';
 import { UpdateVehiclesDto } from './dto/update-vehicles.dto';
 
 @Controller('vehicles')
 export class VehiclesController {
   constructor(private vehicleService: VehiclesService) {}
 
+  @ApiQuery({
+    name: 'page',
+    default: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    default: 10,
+  })
   @Get()
-  getAllVehicles() {
-    return this.vehicleService.getAllVehicles();
+  getAllVehicles(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.vehicleService.getAllVehicles(page, limit);
   }
 
   @Get('image/:id')

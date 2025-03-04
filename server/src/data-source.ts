@@ -1,12 +1,14 @@
 import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
-import { Person } from './modules/people/entities/people.entity';
-import { Planet } from './modules/planets/entities/planets.entity';
-import { Starship } from './modules/starships/entities/starships.entity';
-import { Species } from './modules/species/entities/species.entity';
-import { Vehicle } from './modules/vehicles/entities/vehicles.entity';
-import { Film } from './modules/films/entities/films.entity';
-import { User } from './modules/users/entities/users.entity';
+import {
+  Planet,
+  Species,
+  Starship,
+  Vehicle,
+  Film,
+  User,
+  Person,
+} from './database/entities';
 dotenv.config();
 
 export const AppDataSource = new DataSource({

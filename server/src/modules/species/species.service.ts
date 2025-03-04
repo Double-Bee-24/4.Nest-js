@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
-import { Species } from './entities/species.entity';
+import { Species } from '../../database/entities/species.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSpeciesDto } from './dto/create-species.dto';
 import { sendImage } from 'src/utils/img-utils';
@@ -14,8 +14,33 @@ export class SpeciesService {
     private speciesRepository: Repository<Species>,
   ) {}
 
-  getAllSpecies(): Promise<Species[]> {
-    return this.speciesRepository.find();
+  async getAllSpecies(page: number, limit: number) {
+    const [result, total] = await this.speciesRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      select: [
+        'description',
+        'classification',
+        'designation',
+        'averageHeight',
+        'averageLifespan',
+        'hairColors',
+        'skinColors',
+        'eyeColors',
+        'language',
+        'name',
+        'avatar',
+        'id',
+      ],
+    });
+
+    return {
+      data: result,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async getSpecies(id: number): Promise<Species> {

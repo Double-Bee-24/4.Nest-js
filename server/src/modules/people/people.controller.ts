@@ -9,6 +9,7 @@ import {
   UploadedFile,
   UseInterceptors,
   Res,
+  Query,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { PeopleService } from './people.service';
@@ -16,14 +17,23 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { CreatePeopleDto } from './dto/create-people.dto';
 import { UpdatePeopleDto } from './dto/update-people.dto';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('people')
 export class PeopleController {
   constructor(private peopleService: PeopleService) {}
 
+  @ApiQuery({
+    name: 'page',
+    default: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    default: 10,
+  })
   @Get()
-  getPeople() {
-    return this.peopleService.getPeople();
+  getPeople(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.peopleService.getPeople(page, limit);
   }
 
   @Get('image/:id')

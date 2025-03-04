@@ -7,18 +7,17 @@ export class CreatePlanetsTable1734302557796 implements MigrationInterface {
         id SERIAL PRIMARY KEY,
         created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         edited TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        description VARCHAR,
-        diameter VARCHAR,
-        "rotationPeriod" VARCHAR,
-        "orbitalPeriod" VARCHAR,
-        gravity VARCHAR,
-        population VARCHAR,
-        climate VARCHAR,
-        terrain VARCHAR,
-        "surfaceWater" VARCHAR,
-        name VARCHAR,
-        avatar varchar(255),
-        url varchar(255)
+        description TEXT,
+        diameter VARCHAR(255),
+        "rotationPeriod" VARCHAR(255),
+        "orbitalPeriod" VARCHAR(255),
+        gravity VARCHAR(255),
+        population VARCHAR(255),
+        climate VARCHAR(255),
+        terrain VARCHAR(255),
+        "surfaceWater" VARCHAR(255),
+        name VARCHAR(255),
+        avatar VARCHAR(255)
       );
     `);
   }

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Planet } from './entities/planets.entity';
+import { Planet } from '../../database/entities/planets.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CreatePlanetsDto as CreatePlanetsDto } from './dto/create-planets.dto';
 import { sendImage } from 'src/utils/img-utils';
@@ -14,8 +14,33 @@ export class PlanetsService {
     private planetsRepository: Repository<Planet>,
   ) {}
 
-  getAllPlanets(): Promise<Planet[]> {
-    return this.planetsRepository.find({ relations: ['people'] });
+  async getAllPlanets(page: number, limit: number) {
+    const [result, total] = await this.planetsRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      select: [
+        'description',
+        'diameter',
+        'rotationPeriod',
+        'orbitalPeriod',
+        'gravity',
+        'population',
+        'climate',
+        'terrain',
+        'surfaceWater',
+        'name',
+        'avatar',
+        'id',
+      ],
+    });
+
+    return {
+      data: result,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async getPlanet(id: number): Promise<Planet> {

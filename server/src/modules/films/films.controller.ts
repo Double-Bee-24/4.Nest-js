@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
   UploadedFile,
   UseInterceptors,
@@ -14,16 +15,24 @@ import { Response } from 'express';
 import { FilmsService } from './films.service';
 import { CreateFilmsDto } from './dto/create-films.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { ApiConsumes, ApiBody, ApiQuery } from '@nestjs/swagger';
 import { UpdateFilmsDto } from './dto/update-films.dto';
 
 @Controller('films')
 export class FilmsController {
   constructor(private readonly filmsService: FilmsService) {}
 
+  @ApiQuery({
+    name: 'page',
+    default: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    default: 10,
+  })
   @Get()
-  getAllFilms() {
-    return this.filmsService.getAllFilms();
+  getAllFilms(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.filmsService.getAllFilms(page, limit);
   }
 
   @Get('image/:id')

@@ -75,12 +75,6 @@ export class CreateStarshipsDto {
   consumables!: string;
 
   @ApiProperty({
-    description: 'A list of pilots associated with the starship',
-    example: '["Luke Skywalker", "Wedge Antilles"]',
-  })
-  pilots: string[] = [];
-
-  @ApiProperty({
     description: 'The name of the starship',
     example: 'X-Wing',
   })
@@ -91,10 +85,4 @@ export class CreateStarshipsDto {
     example: 'A nimble starfighter used by the Rebel Alliance.',
   })
   description!: string;
-
-  @ApiProperty({
-    description: 'Array with ids to set connections',
-    example: [],
-  })
-  pilotsIds!: number[];
 }

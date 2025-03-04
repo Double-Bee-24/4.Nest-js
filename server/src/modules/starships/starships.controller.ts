@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
   UploadedFile,
   UseInterceptors,
@@ -14,16 +15,24 @@ import { Response } from 'express';
 import { StarshipsService } from './starships.service';
 import { CreateStarshipsDto } from './dto/create-starships.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { ApiConsumes, ApiBody, ApiQuery } from '@nestjs/swagger';
 import { UpdateStarshipsDto } from './dto/update-starships.dto';
 
 @Controller('starships')
 export class StarshipsController {
   constructor(private starshipsService: StarshipsService) {}
 
+  @ApiQuery({
+    name: 'page',
+    default: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    default: 10,
+  })
   @Get()
-  getAllStarships() {
-    return this.starshipsService.getAllStarships();
+  getAllStarships(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.starshipsService.getAllStarships(page, limit);
   }
 
   @Get('image/:id')

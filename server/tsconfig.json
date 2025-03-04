@@ -17,6 +17,11 @@
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "strict": true
+    "strict": true,
+    "paths": {
+      "@modules/*": ["src/modules/*"],
+      "@database/*": ["src/database/*"],
+      "src/*": ["src/*"]
+    }
   }
 }

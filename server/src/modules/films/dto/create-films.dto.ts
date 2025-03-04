@@ -42,14 +42,4 @@ export class CreateFilmsDto {
     description: 'A short description of the film',
   })
   description!: string;
-
-  charactersIds?: number[]; // Array of character IDs
-
-  planetsIds?: number[]; // Array of planet IDs
-
-  starshipsIds?: number[]; // Array of starship IDs
-
-  vehiclesIds?: number[]; // Array of vehicle IDs
-
-  speciesIds?: number[]; // Array of species IDs
 }

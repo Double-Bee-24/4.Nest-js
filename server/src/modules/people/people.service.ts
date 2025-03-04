@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Person } from './entities/people.entity';
+import { Person } from '../../database/entities/people.entity';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { Response } from 'express';
 import { sendImage } from 'src/utils/img-utils';
@@ -14,10 +14,32 @@ export class PeopleService {
     private peopleRepository: Repository<Person>,
   ) {}
 
-  getPeople(): Promise<Person[]> {
-    return this.peopleRepository.find({
-      relations: ['planet', 'films', 'vehicles'],
+  async getPeople(page: number, limit: number) {
+    const [result, total] = await this.peopleRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      select: [
+        'description',
+        'mass',
+        'hairColor',
+        'skinColor',
+        'eyeColor',
+        'birthYear',
+        'gender',
+        'name',
+        'avatar',
+        'id',
+        'height',
+      ],
     });
+
+    return {
+      data: result,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async getPerson(id: number): Promise<Person> {

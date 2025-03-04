@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
-import { Starship } from './entities/starships.entity';
+import { Starship } from '../../database/entities/starships.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStarshipsDto } from './dto/create-starships.dto';
 import { sendImage } from 'src/utils/img-utils';
@@ -14,8 +14,37 @@ export class StarshipsService {
     private starshipsRepository: Repository<Starship>,
   ) {}
 
-  getAllStarships(): Promise<Starship[]> {
-    return this.starshipsRepository.find();
+  async getAllStarships(page: number, limit: number) {
+    const [result, total] = await this.starshipsRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      select: [
+        'model',
+        'starshipClass',
+        'manufacturer',
+        'costInCredits',
+        'length',
+        'crew',
+        'passengers',
+        'maxAtmospheringSpeed',
+        'hyperdriveRating',
+        'MGLT',
+        'cargoCapacity',
+        'consumables',
+        'name',
+        'description',
+        'avatar',
+        'id',
+      ],
+    });
+
+    return {
+      data: result,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async getStarship(id: number): Promise<Starship> {
