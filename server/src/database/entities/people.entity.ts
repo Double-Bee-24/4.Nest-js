@@ -70,6 +70,6 @@ export class Person {
   @ManyToMany(() => Film, (film) => film.characters)
   films!: Film[];
 
-  @ManyToMany(() => Vehicle, (vehicle) => vehicle.pilots)
-  vehicles!: Vehicle[];
+  @ManyToOne(() => Vehicle, (vehicle) => vehicle.pilots)
+  vehicle!: Vehicle;
 }

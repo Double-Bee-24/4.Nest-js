@@ -132,6 +132,8 @@ export class SeedingService {
     await this.setPeopleRelationships();
     await this.setSpeciesRelationships();
     await this.setStarshipsRelationships();
+    await this.setVehiclesRelationships();
+    await this.setFilmsRelationships();
   }
 
   // Add 'planet' to 'person' entity
@@ -198,7 +200,7 @@ export class SeedingService {
       return species;
     });
 
-    await this.peopleRepository.save(updatedSpecies);
+    await this.speciesRepository.save(updatedSpecies);
   }
 
   async setStarshipsRelationships() {
@@ -240,6 +242,58 @@ export class SeedingService {
       return vehicle;
     });
 
-    await this.starshipsRepository.save(updatedVehicles);
+    await this.vehiclesRepository.save(updatedVehicles);
+  }
+
+  async setFilmsRelationships() {
+    const allFilms = await this.filmsRepository.find();
+    const allPeople = await this.peopleRepository.find();
+    const allPlanets = await this.planetsRepository.find();
+    const allStarships = await this.starshipsRepository.find();
+    const allVehicles = await this.vehiclesRepository.find();
+    const allSpecies = await this.speciesRepository.find();
+
+    const peopleMap = new Map(allPeople.map((person) => [person.id, person]));
+    const planetsMap = new Map(allPlanets.map((planet) => [planet.id, planet]));
+    const starshipsMap = new Map(
+      allStarships.map((starship) => [starship.id, starship]),
+    );
+    const vehiclesMap = new Map(
+      allVehicles.map((vehicle) => [vehicle.id, vehicle]),
+    );
+    const speciesMap = new Map(
+      allSpecies.map((species) => [species.id, species]),
+    );
+
+    const updatedFilms = allFilms.map((film) => {
+      const pilots = film.charactersIds
+        .map((id) => peopleMap.get(Number(id)))
+        .filter((person): person is Person => person !== undefined);
+      film.characters = pilots;
+
+      const planets = film.planetsIds
+        .map((id) => planetsMap.get(Number(id)))
+        .filter((planet): planet is Planet => planet !== undefined);
+      film.planets = planets;
+
+      const starships = film.starshipsIds
+        .map((id) => starshipsMap.get(Number(id)))
+        .filter((starship): starship is Starship => starship !== undefined);
+      film.starships = starships;
+
+      const vehicles = film.vehiclesIds
+        .map((id) => vehiclesMap.get(Number(id)))
+        .filter((vehicle): vehicle is Vehicle => vehicle !== undefined);
+      film.vehicles = vehicles;
+
+      const species = film.speciesIds
+        .map((id) => speciesMap.get(Number(id)))
+        .filter((species): species is Species => species !== undefined);
+      film.species = species;
+
+      return film;
+    });
+
+    await this.filmsRepository.save(updatedFilms);
   }
 }

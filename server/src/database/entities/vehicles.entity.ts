@@ -60,7 +60,7 @@ export class Vehicle {
   filmsIds!: string[];
 
   // Relationships
-  @OneToMany(() => Person, (person) => person.vehicles, { cascade: true })
+  @OneToMany(() => Person, (person) => person.vehicle, { cascade: true })
   pilots!: Person[];
 
   @ManyToMany(() => Film, (film) => film.vehicles)

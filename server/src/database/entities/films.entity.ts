@@ -48,15 +48,15 @@ export class Film {
 
   // Ids to set relationships
   @Column('text', { array: true })
-  charactersIds?: string[];
+  charactersIds!: string[];
   @Column('text', { array: true })
-  planetsIds?: string[];
+  planetsIds!: string[];
   @Column('text', { array: true })
-  starshipsIds?: string[];
+  starshipsIds!: string[];
   @Column('text', { array: true })
-  vehiclesIds?: string[];
+  vehiclesIds!: string[];
   @Column('text', { array: true })
-  speciesIds?: string[];
+  speciesIds!: string[];
 
   // Relationships
   @ManyToMany(() => Person, (person) => person.films, { cascade: true })

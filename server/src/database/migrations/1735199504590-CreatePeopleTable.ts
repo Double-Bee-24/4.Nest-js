@@ -21,9 +21,11 @@ export class CreatePeopleTable1735199504590 implements MigrationInterface {
         "speciesId" INT,
         "planetId" INT,
         "starshipId" INT,
+        "vehicleId" INT,
         CONSTRAINT "fkPeoplePlanet" FOREIGN KEY ("planetId") REFERENCES planets(id) ON DELETE SET NULL,
         CONSTRAINT "fkPeopleSpecies" FOREIGN KEY ("speciesId") REFERENCES species(id) ON DELETE SET NULL,
-        CONSTRAINT "fkPeopleStarships" FOREIGN KEY ("starshipId") REFERENCES starships(id) ON DELETE SET NULL
+        CONSTRAINT "fkPeopleStarships" FOREIGN KEY ("starshipId") REFERENCES starships(id) ON DELETE SET NULL,
+        CONSTRAINT "fkPeopleVehicles" FOREIGN KEY ("vehicleId") REFERENCES vehicles(id) ON DELETE SET NULL
       );
     `);
   }
