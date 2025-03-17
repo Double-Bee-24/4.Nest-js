@@ -19,6 +19,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { z } from 'zod';
 import { SeedingObjectType } from './types/seeding-object';
+import { Schemas } from './schemas';
 
 @Injectable()
 export class SeedingService {
@@ -89,28 +90,28 @@ export class SeedingService {
         Object.keys(this.repositoryMap) as (keyof typeof this.repositoryMap)[]
       ).map(
         async (filename) =>
-          [filename, await this.readJsonFile(filename)] as [
-            keyof typeof this.repositoryMap,
-            SeedingObjectType[] | null,
-          ],
+          [
+            filename,
+            z.array(Schemas).parse(await this.readJsonFile(filename)),
+          ] as const,
       ),
     );
   }
 
+  // as [
+  //   keyof typeof this.repositoryMap,
+  //   SeedingObjectType[] | null,
+  // ]
   async seedDatabase() {
-    const seedingData = (await this.getSeedingData()).filter(
-      (tuple) => tuple[1] !== null,
-    );
+    const seedingData = await this.getSeedingData();
 
     await Promise.all(
       seedingData.map(async ([repositoryName, repositoryData]) => {
-        if (!repositoryData) {
-          throw new Error('Repository data is empty');
-        }
+        // const repository = this.repositoryMap[
+        //   repositoryName
+        // ] as Repository<any>;
 
-        const repository = this.repositoryMap[
-          repositoryName
-        ] as Repository<any>;
+        const repository = this.repositoryMap[repositoryName];
 
         const count = await repository.count();
 

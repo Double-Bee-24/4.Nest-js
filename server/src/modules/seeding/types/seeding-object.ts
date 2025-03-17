@@ -1,16 +1,28 @@
+import { z } from 'zod';
 import {
-  FilmType,
-  PersonType,
-  PlanetType,
-  SpeciesType,
-  StarshipType,
-  VehicleType,
+  FilmSchema,
+  PersonSchema,
+  PlanetSchema,
+  SpeciesSchema,
+  StarshipSchema,
+  VehicleSchema,
 } from '../schemas';
 
-export type SeedingObjectType =
-  | PersonType
-  | FilmType
-  | PlanetType
-  | SpeciesType
-  | StarshipType
-  | VehicleType;
+// export type SeedingObjectType =
+//   | PersonType
+//   | FilmType
+//   | PlanetType
+//   | SpeciesType
+//   | StarshipType
+//   | VehicleType;
+
+export const SeedingObjectSchema = z.union([
+  PersonSchema,
+  PlanetSchema,
+  FilmSchema,
+  SpeciesSchema,
+  StarshipSchema,
+  VehicleSchema,
+]);
+
+export type SeedingObjectType = z.infer<typeof SeedingObjectSchema>;
