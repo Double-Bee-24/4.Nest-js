@@ -18,7 +18,6 @@ import { Film } from 'src/database/entities/films.entity';
 import * as fs from 'fs';
 import * as path from 'path';
 import { z } from 'zod';
-import { SeedingObjectType } from './types/seeding-object';
 import { Schemas } from './schemas';
 
 @Injectable()
@@ -111,7 +110,9 @@ export class SeedingService {
         //   repositoryName
         // ] as Repository<any>;
 
-        const repository = this.repositoryMap[repositoryName];
+        const repository = this.repositoryMap[
+          repositoryName
+        ] as Repository<any>;
 
         const count = await repository.count();
 
