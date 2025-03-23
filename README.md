@@ -26,7 +26,7 @@ A project for displaying data from the Star Wars universe in tables. It uses Nes
 
 ## Description
 
-This project collects data from the public API [swapi.tech](https://www.swapi.tech/), which contains information about characters, planets, starships, species, and other entities from the Star Wars universe. The data is fetched through the API, stored in a PostgreSQL database, and displayed in tables on the frontend.
+This project collects data from the public API [swapi.tech](https://www.swapi.tech/), which contains information about characters, planets, starships, and other entities from the Star Wars universe. The data is fetched through the API, stored in a PostgreSQL database, and displayed in tables on the frontend.
 
 ## Project Structure
 
