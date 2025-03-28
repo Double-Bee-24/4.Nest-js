@@ -97,19 +97,11 @@ export class SeedingService {
     );
   }
 
-  // as [
-  //   keyof typeof this.repositoryMap,
-  //   SeedingObjectType[] | null,
-  // ]
   async seedDatabase() {
     const seedingData = await this.getSeedingData();
 
     await Promise.all(
       seedingData.map(async ([repositoryName, repositoryData]) => {
-        // const repository = this.repositoryMap[
-        //   repositoryName
-        // ] as Repository<any>;
-
         const repository = this.repositoryMap[
           repositoryName
         ] as Repository<any>;

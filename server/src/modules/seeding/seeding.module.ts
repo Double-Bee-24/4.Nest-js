@@ -7,6 +7,7 @@ import { Species } from 'src/database/entities/species.entity';
 import { Starship } from 'src/database/entities/starships.entity';
 import { Vehicle } from 'src/database/entities/vehicles.entity';
 import { Film } from 'src/database/entities/films.entity';
+import { SeedingController } from './seeding.controller';
 
 @Module({
   imports: [
@@ -20,5 +21,6 @@ import { Film } from 'src/database/entities/films.entity';
     ]),
   ],
   providers: [SeedingService],
+  controllers: [SeedingController],
 })
 export class SeedingModule {}

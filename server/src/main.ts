@@ -1,7 +1,6 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule } from '@nestjs/swagger';
-import { SeedingService } from './modules/seeding/seeding.service';
 import { ValidationPipe } from '@nestjs/common';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { createSwaggerConfig } from './config/swagger.config';
@@ -9,10 +8,6 @@ import { createCorsConfig } from './config/cors.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  const _seedingService = app.get(SeedingService);
-  // await seedingService.seedDatabase();
-  // await seedingService.setRelationships();
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));

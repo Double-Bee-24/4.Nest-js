@@ -1,30 +1,42 @@
+networks:
+  caddy:
 services:
-  swapi_dev:
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    container_name: caddy
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - caddy
+  swapi_app:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 4000:4000
-    environment:
-      - PORT=4000
-      - NODE_ENV=development
+      - '4000:4000'
     volumes:
       - ./src:/usr/src/app/src
+    networks:
+      - caddy
   postgres_db:
+    container_name: postgres_db
+    env_file:
+      - .env
     image: postgres
     restart: always
     # set shared memory limit when using docker-compose
     shm_size: 128mb
     ports:
       - '5433:5432'
-
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 'F7Hl3*HU8g67#bh91'
-      POSTGRES_DB: starwars_db
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+    networks:
+      - caddy
+volumes:
+  caddy_data:
+  caddy_config:
