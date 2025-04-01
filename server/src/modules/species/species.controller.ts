@@ -31,7 +31,10 @@ export class SpeciesController {
     default: 10,
   })
   @Get()
-  getAllSpecies(@Query('page') page: number, @Query('limit') limit: number) {
+  getAllSpecies(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
     return this.speciesService.getAllSpecies(page, limit);
   }
 

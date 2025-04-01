@@ -31,7 +31,10 @@ export class VehiclesController {
     default: 10,
   })
   @Get()
-  getAllVehicles(@Query('page') page: number, @Query('limit') limit: number) {
+  getAllVehicles(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
     return this.vehicleService.getAllVehicles(page, limit);
   }
 

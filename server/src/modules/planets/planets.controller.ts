@@ -31,7 +31,10 @@ export class PlanetsController {
     default: 10,
   })
   @Get()
-  getAllPlanets(@Query('page') page: number, @Query('limit') limit: number) {
+  getAllPlanets(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
     return this.planetsService.getAllPlanets(page, limit);
   }
 

@@ -32,7 +32,10 @@ export class PeopleController {
     default: 10,
   })
   @Get()
-  getPeople(@Query('page') page: number, @Query('limit') limit: number) {
+  getPeople(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
     return this.peopleService.getPeople(page, limit);
   }
 
