@@ -1,3 +1,6 @@
-bbilokin.stud.shpp.me {
-    reverse_proxy swapi_app:4000
+:80 {
+    root * /static/client
+    reverse_proxy /api/* swapi_app:4000
+    reverse_proxy /swagger/* swapi_app:4000
+    file_server
 }

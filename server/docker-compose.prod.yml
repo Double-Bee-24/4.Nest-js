@@ -1,12 +1,51 @@
+networks:
+  caddy:
 services:
-  swapi_prod:
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    container_name: caddy
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - $PWD/../client/dist:/static/client
+      - $PWD/conf:/etc/caddy
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - caddy
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+  swapi_app:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: Dockerfile.prod
     ports:
-      - 4001:4001
-    environment:
-      - PORT=4001
-      - NODE_ENV=production
-    volumes:
-      - ./src:/usr/src/app/src
+      - '4000:4000'
+    networks:
+      - caddy
+  postgres_db:
+    container_name: postgres_db
+    env_file:
+      - .env
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    ports:
+      - '5433:5432'
+    networks:
+      - caddy
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+volumes:
+  caddy_data:
+  caddy_config:

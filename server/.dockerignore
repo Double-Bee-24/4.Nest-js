@@ -5,3 +5,6 @@ test
 .prettierrc
 Dockerfile
 README.md
+logs
+dist
+coverage
