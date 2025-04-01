@@ -1,22 +1,40 @@
 .table-preview {
-  width: 400px;
-  height: 200px;
-  background-color: #f4f9f4;
-  border: 2px solid #86c232;
-  border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
   font-family: "Arial", sans-serif;
   font-size: 1.2rem;
   color: #344e41;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin: 20px;
   cursor: pointer;
+  position: relative;
 
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.1);
+  &:hover .table-preview-image,
+  &:hover .preview-name {
+    transform: scale(1.1);
   }
+}
+
+.preview-name {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  white-space: nowrap;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0.8;
+}
+
+.table-preview-image {
+  height: 200px;
+  transition: transform 0.5s ease;
+}
+
+.table-preview-image:hover + .preview-name {
+  transform: scale(1.1);
 }

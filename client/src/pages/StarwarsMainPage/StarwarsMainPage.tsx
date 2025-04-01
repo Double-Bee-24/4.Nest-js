@@ -4,24 +4,26 @@ import TablePreview from "../../components/TablePreview/TablePreview";
 import Header from "../../components/Header/Header";
 
 export default function StarwarsMainPage(): JSX.Element {
-  const tablePreviewNames = [
-    "Films",
-    "People",
-    "Planets",
-    "Species",
-    "Starships",
-    "Vehicles",
-  ];
+  const tablePreviewNames = {
+    Films: "jupiter.png",
+    People: "mars.png",
+    Planets: "planet.png",
+    Species: "mercury.png",
+    Starships: "green.png",
+    Vehicles: "pluto.png",
+  };
 
-  const tablePreviews = tablePreviewNames.map((item, index) => (
-    <Link
-      key={index}
-      to={`/table/${item.toLowerCase()}`}
-      className={styles["table-link"]}
-    >
-      <TablePreview previewName={item} />
-    </Link>
-  ));
+  const tablePreviews = Object.entries(tablePreviewNames).map(
+    ([entityName, imgName], index) => (
+      <Link
+        key={index}
+        to={`/table/${entityName.toLowerCase()}`}
+        className={styles["table-link"]}
+      >
+        <TablePreview previewName={entityName} imgName={imgName} />
+      </Link>
+    )
+  );
 
   return (
     <>
