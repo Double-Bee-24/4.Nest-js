@@ -1,9 +1,11 @@
 import { instance } from "../api/axiosConfig";
 import { IFilms } from "../interfaces/IFilms";
 
-const getAllFilms = async (): Promise<IFilms[]> => {
+const getAllFilms = async (page = 1, limit = 10): Promise<IFilms[]> => {
   try {
-    return instance.get("/films");
+    return instance.get("/films", {
+      params: { page, limit },
+    });
   } catch (error) {
     console.error("Error performing getAllFilms function: ", error);
 

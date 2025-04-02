@@ -1,9 +1,9 @@
 import { instance } from "../api/axiosConfig";
 import { IVehicle } from "../interfaces/IVehicles";
 
-const getAllVehicles = async (): Promise<IVehicle[]> => {
+const getAllVehicles = async (page = 1, limit = 10): Promise<IVehicle[]> => {
   try {
-    return instance.get("/vehicles");
+    return instance.get("/vehicles", { params: { page, limit } });
   } catch (error) {
     console.error("'getAllVehicles' - error trying get data: ", error);
 

@@ -1,9 +1,9 @@
 import { instance } from "../api/axiosConfig";
 import { IPlanet } from "../interfaces/IPlanet";
 
-const getAllPlanets = async (): Promise<IPlanet[]> => {
+const getAllPlanets = async (page = 1, limit = 10): Promise<IPlanet[]> => {
   try {
-    return instance.get("/planets");
+    return instance.get("/planets", { params: { page, limit } });
   } catch (error) {
     console.error("'getAllPlanets' - error trying get data: ", error);
 

@@ -2,9 +2,9 @@
 import { instance } from "../api/axiosConfig";
 import IPerson from "../interfaces/IPerson";
 
-const getAllPeople = async (): Promise<IPerson[]> => {
+const getAllPeople = async (page = 1, limit = 10): Promise<IPerson[]> => {
   try {
-    return instance.get("/people");
+    return instance.get("/people", { params: { page, limit } });
   } catch (error) {
     console.error("Error performing getAllPeople function: ", error);
 
