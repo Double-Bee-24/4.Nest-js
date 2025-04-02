@@ -3,4 +3,11 @@
     reverse_proxy /api/* swapi_app:4000
     reverse_proxy /swagger/* swapi_app:4000
     file_server
+
+    # Add redirect for react
+    @notFound {
+        not file
+        path_regexp .*
+    }
+    rewrite @notFound /index.html
 }
