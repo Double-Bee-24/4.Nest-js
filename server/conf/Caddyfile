@@ -1,13 +1,22 @@
-:80 {
-    root * /static/client
+bbilokin.duckdns.org {
+    reverse_proxy frontend:3000
     reverse_proxy /api/* swapi_app:4000
     reverse_proxy /swagger/* swapi_app:4000
-    file_server
-
-    # Add redirect for react
-    @notFound {
-        not file
-        path_regexp .*
-    }
-    rewrite @notFound /index.html
 }
+
+
+# Local config with caddy serving static and api and swagger
+
+# :80 {
+#     root * /static/client
+#     reverse_proxy /api/* swapi_app:4000
+#     reverse_proxy /swagger/* swapi_app:4000
+#     file_server
+
+#     # Add redirect for react
+#     @notFound {
+#         not file
+#         path_regexp .*
+#     }
+#     rewrite @notFound /index.html
+# }

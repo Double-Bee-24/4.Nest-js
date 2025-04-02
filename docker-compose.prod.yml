@@ -6,11 +6,11 @@ services:
     image: caddy:2.9.1-alpine
     restart: unless-stopped
     ports:
-      - '80:80'
-      - '443:443'
+      - "80:80"
+      - "443:443"
     volumes:
-      - $PWD/../client/dist:/static/client
-      - $PWD/conf:/etc/caddy
+      # - $PWD/../client/dist:/static/client
+      - $PWD/server/conf:/etc/caddy
       - caddy_data:/data
       - caddy_config:/config
     networks:
@@ -19,39 +19,55 @@ services:
       resources:
         limits:
           memory: 128M
-          cpus: '0.2'
+          cpus: "0.2"
   swapi_app:
     container_name: swapi_app
     env_file:
-      - .env
+      - server/.env
     build:
-      context: .
+      context: ./server
       dockerfile: Dockerfile.prod
     ports:
-      - '4000:4000'
+      - "4000:4000"
     networks:
       - caddy
     deploy:
       resources:
         limits:
           memory: 128M
-          cpus: '0.3'
+          cpus: "0.3"
   postgres_db:
     container_name: postgres_db
     image: postgres:17.4-alpine3.21
     env_file:
-      - .env
+      - server/.env
     restart: always
     # set shared memory limit when using docker-compose
     shm_size: 128mb
     ports:
-      - '5433:5432'
+      - "5433:5432"
     networks:
       - caddy
     deploy:
       resources:
         limits:
           memory: 128M
+  frontend:
+    container_name: frontend
+    env_file:
+      - ./client/.env
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:3000"
+    networks:
+      - caddy
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: "0.2"
 volumes:
   caddy_data:
   caddy_config:
