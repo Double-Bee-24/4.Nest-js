@@ -63,7 +63,7 @@ export class SeedingService {
   async readJsonFile(fileName: keyof typeof this.schemaMap) {
     const filePath = path.resolve(
       process.cwd(),
-      `src/database/seedingData/${fileName}.json`,
+      `seeding_data/${fileName}.json`,
     );
 
     try {
