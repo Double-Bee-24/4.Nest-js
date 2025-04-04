@@ -1,3 +1,4 @@
+import { IEntityResponse } from "../interfaces/IEntityResponse";
 import { getAllFilms, getFilm } from "../services/filmsService";
 import { getAllPeople, getPerson } from "../services/peopleService";
 import { getAllPlanets, getPlanet } from "../services/planetsService";
@@ -14,7 +15,10 @@ const getTableConfig = (): Record<
   string,
   {
     headers: string[];
-    getData: () => Promise<TableType[]>;
+    getData: (
+      page?: number,
+      limit?: number
+    ) => Promise<IEntityResponse<TableType> | null>;
   }
 > => {
   const tableConfig = {

@@ -2,17 +2,20 @@ import { instance } from "../api/axiosConfig";
 import { IEntityResponse } from "../interfaces/IEntityResponse";
 import { ISpecies } from "../interfaces/ISpecies";
 
-const getAllSpecies = async (page = 1, limit = 10): Promise<ISpecies[]> => {
+const getAllSpecies = async (
+  page = 1,
+  limit = 10
+): Promise<IEntityResponse<ISpecies> | null> => {
   try {
     const response: IEntityResponse<ISpecies> = await instance.get("/species", {
       params: { page, limit },
     });
 
-    return response.entityData;
+    return response;
   } catch (error) {
     console.error("'getAllSpecies' - error trying get data: ", error);
 
-    return [];
+    return null;
   }
 };
 

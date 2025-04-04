@@ -6,12 +6,23 @@ import styles from "./TablePage.module.scss";
 import TableHead from "../../components/TableHead/TableHead";
 import TableBody from "../../components/TableBody/TableBody";
 
-import { useFetch } from "../../hooks/useFetch";
 import { TableType } from "../../types/table.type";
 import Header from "../../components/Header/Header";
 import { getTableConfig } from "../../utils/table-config";
+import { useEffect, useState } from "react";
+import { IEntityResponse } from "../../interfaces/IEntityResponse";
 
 export default function TablePage(): JSX.Element {
+  const [entityResponse, setEntityResponse] = useState<
+    IEntityResponse<TableType>
+  >({
+    entityData: [],
+    limit: "",
+    page: "",
+    total: 0,
+    totalPages: 0,
+  });
+
   const { tableName } = useParams<{ tableName?: string }>();
   const defaultTableName = tableName || "people";
 
@@ -28,16 +39,49 @@ export default function TablePage(): JSX.Element {
     ),
   }));
 
-  const tableData = useFetch(getData);
+  useEffect(() => {
+    (async function () {
+      const data = await getData();
+
+      if (!data) return;
+      setEntityResponse(data);
+    })();
+  }, []);
 
   const table = useReactTable<TableType>({
-    data: tableData || [],
+    data: entityResponse.entityData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getRowId: (row) => row.id.toString(),
   });
 
-  const navButtonStyle = styles["navigation-button"];
+  const handleNextPage = async () => {
+    const nextPage = Number(entityResponse.page) + 1;
+    const data = await getData(nextPage);
+
+    if (!data) return;
+    setEntityResponse(data);
+  };
+
+  const handlePrevPage = async () => {
+    const prevPage = Number(entityResponse.page) - 1;
+    const data = await getData(prevPage);
+
+    if (!data) return;
+    setEntityResponse(data);
+  };
+
+  // Disable navigation buttons if there are no data received
+  const prevButtonStyle =
+    entityResponse.total === 0 || entityResponse.page === "1"
+      ? styles["invisible"]
+      : styles["navigation-button"];
+
+  const nextButtonStyle =
+    entityResponse.total === 0 ||
+    entityResponse.page === String(entityResponse.totalPages)
+      ? styles["invisible"]
+      : styles["navigation-button"];
 
   return (
     <>
@@ -52,8 +96,12 @@ export default function TablePage(): JSX.Element {
           <TableBody table={table} />
         </table>
         <div className={styles["pagination-container"]}>
-          <button className={navButtonStyle}>Previous page</button>
-          <button className={navButtonStyle}>Next page</button>
+          <button className={prevButtonStyle} onClick={handlePrevPage}>
+            Previous page
+          </button>
+          <button className={nextButtonStyle} onClick={handleNextPage}>
+            Next page
+          </button>
         </div>
       </div>
     </>

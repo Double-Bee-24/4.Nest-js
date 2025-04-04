@@ -1,34 +1,40 @@
 import { useParams } from "react-router-dom";
-import { useFetch } from "../../hooks/useFetch";
 import Header from "../../components/Header/Header";
 import { getEntityConfig } from "../../utils/table-config";
 import "./EntityDetailsPage.scss";
 import { fromCamelToHumanCase } from "../../utils/string-utils";
 import { getImageUploadConfig } from "../../utils/image-upload-config";
 import { TableName } from "../../types/table.type";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
 export default function EntityDetailsPage(): JSX.Element {
   const { id, tableName } = useParams<{ id: string; tableName: TableName }>();
-
   if (!tableName || !id) {
     throw new Error("Table name incorrect or not found");
   }
+
+  const [entityDetails, setEntityDetails] = useState<{
+    name?: string;
+    title?: string;
+    description: string;
+  }>({
+    description: "No description available",
+  });
   const [imageSrc, setImageSrc] = useState(`${apiUrl}${tableName}/image/${id}`);
 
-  const tableConfig = getEntityConfig();
+  useEffect(() => {
+    (async function () {
+      const tableConfig = getEntityConfig();
 
-  const getData = tableConfig[tableName];
+      const getData = tableConfig[tableName];
 
-  const defaultEntityDetails = {
-    name: "Unknown Entity",
-    title: "Unknown Title",
-    description: "No description available",
-  };
-
-  let entityDetails =
-    useFetch(() => getData(Number(id))) ?? defaultEntityDetails;
+      const data = await getData(Number(id));
+      if (data) {
+        setEntityDetails(data);
+      }
+    })();
+  });
 
   const excludedKeys = ["created", "edited", "id", "avatar"];
 
@@ -47,7 +53,9 @@ export default function EntityDetailsPage(): JSX.Element {
     : [];
 
   const entityName =
-    "title" in entityDetails ? entityDetails.title : entityDetails.name;
+    entityDetails.title !== "Unknown Title"
+      ? entityDetails.title
+      : entityDetails.name;
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const imageUploadConfig = getImageUploadConfig();

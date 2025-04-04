@@ -3,17 +3,19 @@ import { instance } from "../api/axiosConfig";
 import { IEntityResponse } from "../interfaces/IEntityResponse";
 import { IPerson } from "../interfaces/IPerson";
 
-const getAllPeople = async (page = 1, limit = 10): Promise<IPerson[]> => {
+const getAllPeople = async (
+  page = 1,
+  limit = 10
+): Promise<IEntityResponse<IPerson> | null> => {
   try {
     const response: IEntityResponse<IPerson> = await instance.get("/people", {
       params: { page, limit },
     });
 
-    return response.entityData;
+    return response;
   } catch (error) {
     console.error("Error performing getAllPeople function: ", error);
-
-    return [];
+    return null;
   }
 };
 
