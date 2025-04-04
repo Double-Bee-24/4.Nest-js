@@ -34,7 +34,7 @@ export class PeopleService {
     });
 
     return {
-      data: result,
+      entityData: result,
       total,
       page,
       limit,

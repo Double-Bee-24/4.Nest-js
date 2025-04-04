@@ -1,4 +1,4 @@
-export interface IFilms {
+export interface IFilm {
   id: number;
   title: string;
   episodeId: number;

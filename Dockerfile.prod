@@ -36,7 +36,7 @@ RUN npm install --omit=dev
 COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/seeding_data ./seeding_data
 
-COPY --from=frontend-builder /usr/src/frontend/dist static/client
+# COPY --from=frontend-builder /usr/src/frontend/dist static/client
 
 EXPOSE 4000
 

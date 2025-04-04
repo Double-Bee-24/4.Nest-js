@@ -1,11 +1,14 @@
 import { instance } from "../api/axiosConfig";
-import { IFilms } from "../interfaces/IFilms";
+import { IEntityResponse } from "../interfaces/IEntityResponse";
+import { IFilm } from "../interfaces/IFilm";
 
-const getAllFilms = async (page = 1, limit = 10): Promise<IFilms[]> => {
+const getAllFilms = async (page = 1, limit = 10): Promise<IFilm[]> => {
   try {
-    return instance.get("/films", {
+    const response: IEntityResponse<IFilm> = await instance.get("/films", {
       params: { page, limit },
     });
+
+    return response.entityData;
   } catch (error) {
     console.error("Error performing getAllFilms function: ", error);
 
@@ -13,15 +16,15 @@ const getAllFilms = async (page = 1, limit = 10): Promise<IFilms[]> => {
   }
 };
 
-const getFilm = async (id: number): Promise<IFilms> => {
+const getFilm = async (id: number): Promise<IFilm> => {
   try {
-    const data: IFilms = await instance.get(`/films/${id}`);
+    const data: IFilm = await instance.get(`/films/${id}`);
 
     return data;
   } catch (error) {
     console.error("Error performing getFilm function: ", error);
 
-    return {} as IFilms;
+    return {} as IFilm;
   }
 };
 
@@ -40,7 +43,7 @@ const uploadFilmAvatar = async (id: number, file: File) => {
   } catch (error) {
     console.error("Error performing uploadFilmAvatar function: ", error);
 
-    return {} as IFilms;
+    return {} as IFilm;
   }
 };
 

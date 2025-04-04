@@ -35,7 +35,7 @@ export class SpeciesService {
     });
 
     return {
-      data: result,
+      entityData: result,
       total,
       page,
       limit,

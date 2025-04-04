@@ -37,6 +37,8 @@ export default function TablePage(): JSX.Element {
     getRowId: (row) => row.id.toString(),
   });
 
+  const navButtonStyle = styles["navigation-button"];
+
   return (
     <>
       <Header />
@@ -49,6 +51,10 @@ export default function TablePage(): JSX.Element {
           <TableHead table={table} />
           <TableBody table={table} />
         </table>
+        <div className={styles["pagination-container"]}>
+          <button className={navButtonStyle}>Previous page</button>
+          <button className={navButtonStyle}>Next page</button>
+        </div>
       </div>
     </>
   );

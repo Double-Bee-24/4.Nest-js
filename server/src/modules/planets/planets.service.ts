@@ -35,7 +35,7 @@ export class PlanetsService {
     });
 
     return {
-      data: result,
+      entityData: result,
       total,
       page,
       limit,

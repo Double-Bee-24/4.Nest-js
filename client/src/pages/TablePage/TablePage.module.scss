@@ -1,3 +1,8 @@
+$primary-color: #1e40af;
+$primary-hover: #1e3a8a;
+$disabled-color: #9ca3af;
+$white: #ffffff;
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -7,7 +12,7 @@
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  min-height: 86vh;
+  flex-grow: 1;
 
   h1 {
     color: white;
@@ -81,4 +86,35 @@
 
 .starwars-page {
   height: 100%;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.navigation-button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  background-color: $primary-color;
+  color: $white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: $primary-hover;
+  }
+
+  &:disabled {
+    background-color: $disabled-color;
+    cursor: not-allowed;
+  }
+}
+
+.invisible {
+  display: none;
 }

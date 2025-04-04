@@ -1,9 +1,17 @@
 import { instance } from "../api/axiosConfig";
-import IStarship from "../interfaces/IStarships";
+import { IEntityResponse } from "../interfaces/IEntityResponse";
+import { IStarship } from "../interfaces/IStarship";
 
 const getAllStarships = async (page = 1, limit = 10): Promise<IStarship[]> => {
   try {
-    return instance.get("/starships", { params: { page, limit } });
+    const response: IEntityResponse<IStarship> = await instance.get(
+      "/starships",
+      {
+        params: { page, limit },
+      }
+    );
+
+    return response.entityData;
   } catch (error) {
     console.error("'getAllStarships' - error trying get data: ", error);
 

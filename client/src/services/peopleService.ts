@@ -1,10 +1,15 @@
 // import typia from "typia";
 import { instance } from "../api/axiosConfig";
-import IPerson from "../interfaces/IPerson";
+import { IEntityResponse } from "../interfaces/IEntityResponse";
+import { IPerson } from "../interfaces/IPerson";
 
 const getAllPeople = async (page = 1, limit = 10): Promise<IPerson[]> => {
   try {
-    return instance.get("/people", { params: { page, limit } });
+    const response: IEntityResponse<IPerson> = await instance.get("/people", {
+      params: { page, limit },
+    });
+
+    return response.entityData;
   } catch (error) {
     console.error("Error performing getAllPeople function: ", error);
 

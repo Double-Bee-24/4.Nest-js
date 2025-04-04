@@ -32,7 +32,7 @@ export class FilmsService {
     });
 
     return {
-      data: result,
+      entityData: result,
       total,
       page,
       limit,

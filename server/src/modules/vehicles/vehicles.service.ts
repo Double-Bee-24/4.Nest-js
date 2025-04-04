@@ -37,7 +37,7 @@ export class VehiclesService {
     });
 
     return {
-      data: result,
+      entityData: result,
       total,
       page,
       limit,

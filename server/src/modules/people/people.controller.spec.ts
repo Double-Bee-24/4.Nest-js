@@ -16,7 +16,6 @@ describe('PeopleController', () => {
 
   const mockPersonRepository = {
     findAndCount: (p: FindAndCountParams) => {
-      console.log(p);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-return
       return jest.fn().mockResolvedValue([getPeopleData(), 5])(p);
     },

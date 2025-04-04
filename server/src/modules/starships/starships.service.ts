@@ -39,7 +39,7 @@ export class StarshipsService {
     });
 
     return {
-      data: result,
+      entityData: result,
       total,
       page,
       limit,

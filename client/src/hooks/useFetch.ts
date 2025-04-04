@@ -11,9 +11,9 @@ function useFetch<T>(fetchFunction: () => Promise<T>): T | undefined {
   useEffect(() => {
     (async function () {
       try {
-        const receivedPeopleData = await fetchFunction();
+        const entityData = await fetchFunction();
 
-        setData(receivedPeopleData);
+        setData(entityData);
       } catch (error) {
         console.error("'useFetch' performing error: ", error);
       }

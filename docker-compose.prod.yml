@@ -12,7 +12,7 @@ services:
       - $PWD/server/conf:/etc/caddy
       - caddy_data:/data
       - caddy_config:/config
-      - frontend:/static/client
+      - $PWD/client/dist:/static/client
     networks:
       - caddy
     deploy:
@@ -37,7 +37,7 @@ services:
           memory: 128M
           cpus: "0.3"
     volumes:
-      - frontend:/usr/src/app/static/client
+      - $PWD/client/dist:/usr/src/app/static/client
   postgres_db:
     container_name: postgres_db
     image: postgres:17.4-alpine3.21
@@ -57,4 +57,4 @@ services:
 volumes:
   caddy_data:
   caddy_config:
-  frontend:
+  # frontend:

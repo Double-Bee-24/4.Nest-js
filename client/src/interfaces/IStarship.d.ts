@@ -1,4 +1,4 @@
-export default interface IStarship {
+export interface IStarship {
   id: number;
   model: string;
   starshipClass: string;

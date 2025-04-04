@@ -31,5 +31,6 @@ module.exports = {
     ],
     '@typescript-eslint/restrict-template-expressions': 'off',
     '@typescript-eslint/no-extraneous-class': 'off',
+    '@typescript-eslint/no-misused-spread': 'off',
   },
 };
