@@ -34,7 +34,7 @@ export default function EntityDetailsPage(): JSX.Element {
         setEntityDetails(data);
       }
     })();
-  });
+  }, []);
 
   const excludedKeys = ["created", "edited", "id", "avatar"];
 

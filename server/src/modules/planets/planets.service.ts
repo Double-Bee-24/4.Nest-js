@@ -6,6 +6,7 @@ import { CreatePlanetsDto as CreatePlanetsDto } from './dto/create-planets.dto';
 import { sendImage } from 'src/utils/img-utils';
 import { Response } from 'express';
 import { UpdatePlanetsDto } from './dto/update-planets.dto';
+import { join } from 'path';
 
 @Injectable()
 export class PlanetsService {
@@ -97,10 +98,10 @@ export class PlanetsService {
 
     if (!filename) {
       // Set default avatar
-      filename = './images/profile.png';
+      filename = 'images/profile.png';
     }
 
-    const filePath = filename;
+    const filePath = join(process.cwd(), filename);
 
     // Sets headers to an image and sends it to client
     await sendImage(filePath, filename, res);

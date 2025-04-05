@@ -36,6 +36,7 @@ function getMimeType(filename: string): string {
 async function sendImage(filePath: string, filename: string, res: Response) {
   try {
     if (!filePath) {
+      console.error('File path is empty');
       return;
     }
 
