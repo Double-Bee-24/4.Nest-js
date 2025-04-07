@@ -1,4 +1,4 @@
-:80 {
+http://34.234.73.57 {
     # Handle API and Swagger routes first
     handle /api/* {
         reverse_proxy swapi_app:4000
