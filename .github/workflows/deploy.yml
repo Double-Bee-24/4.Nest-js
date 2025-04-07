@@ -31,7 +31,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Create .env file
-        run: echo "${{ secrets.SERVER_ENV }}" > ./server/.env
+        run: |
+          echo '${{ secrets.SERVER_ENV }}' > ./server/.env
 
       - name: Build and push Docker image
         run: |

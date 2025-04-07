@@ -97,7 +97,7 @@ This will allow the client side to interact with the server-side API.
 
 ### Running the project
 
-In the server folder you can once run this command
+In the server folder you can once run this command:
 
 ```bash
 npm run quick
