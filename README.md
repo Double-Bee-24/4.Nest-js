@@ -113,7 +113,7 @@ npm run start:dev
 
 If you would like to download data from Starwars api, go to http://localhost:4000/swagger/ , find Swapi section and execute GET: /api/swapi, then GET: /api/swapi/relationships
 
-In the client folder to run frontend code of the app you can just use:
+In the client folder to run frontend code of thee app you can just use:
 
 ```bash
 npm run dev
