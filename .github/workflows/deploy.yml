@@ -48,7 +48,10 @@ jobs:
           echo -e "$EC2_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << 'EOF'
-            cd ~/4.Nest-js
+            if [ ! -d "/home/ubuntu/4.Nest-js" ]; then
+              git clone https://github.com/your-repo/your-project.git /home/ubuntu/4.Nest-js
+            fi
+            cd /home/ubuntu/4.Nest-js
             docker compose -f docker-compose.prod.yml pull
             docker compose -f docker-compose.prod.yml up -d
           EOF
