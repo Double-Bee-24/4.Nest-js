@@ -91,7 +91,7 @@ In the `client` folder, create a `.env` file and add the following environment v
 VITE_BASE_API_URL=http://localhost:4000/api/
 ```
 
-This will allow the client-side to interact with the server-side API.
+This will allow the client side to interact with the server-side API.
 
 ---
 
