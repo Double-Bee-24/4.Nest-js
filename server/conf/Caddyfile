@@ -1,6 +1,4 @@
 :80 {
-    root * /static/client
-    
     # Handle API and Swagger routes first
     handle /api/* {
         reverse_proxy swapi_app:4000
@@ -12,12 +10,8 @@
     
     # Handle static files and SPA routing
     handle {
+        root * /static/client
+        try_files {path} /index.html
         file_server
-        
-        @notFound {
-            not file
-            path_regexp .*
-        }
-        rewrite @notFound /index.html
     }
 }
