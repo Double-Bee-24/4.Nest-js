@@ -2,8 +2,13 @@ import { Link } from "react-router-dom";
 import styles from "./StarwarsMainPage.module.scss";
 import TablePreview from "../../components/TablePreview/TablePreview";
 import Header from "../../components/Header/Header";
+import { useEffect } from "react";
 
 export default function StarwarsMainPage(): JSX.Element {
+  useEffect(() => {
+    console.log("Here I am testing staff");
+  }, []);
+
   const tablePreviewNames = {
     Films: "jupiter.png",
     People: "mars.png",

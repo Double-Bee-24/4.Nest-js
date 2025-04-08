@@ -1,4 +1,4 @@
-http://34.234.73.57 {
+:80 {
     # Handle API and Swagger routes first
     handle /api/* {
         reverse_proxy swapi_app:4000
@@ -8,10 +8,8 @@ http://34.234.73.57 {
         reverse_proxy swapi_app:4000
     }
     
-    # Handle static files and SPA routing
+    # Handle static frontend container
     handle {
-        root * /static/client
-        try_files {path} /index.html
-        file_server
+        reverse_proxy frontend:3000
     }
 }
