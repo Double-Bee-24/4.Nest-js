@@ -28,6 +28,7 @@ FROM node:22-alpine AS production
 WORKDIR /usr/src/app
 COPY server/package*.json ./
 RUN npm install --omit=dev --frozen-lockfile
+
 COPY --from=server-builder /usr/src/app/dist ./dist
 COPY --from=server-builder /usr/src/app/seeding_data ./seeding_data
 COPY --from=server-builder /usr/src/app/images ./images
