@@ -8,7 +8,6 @@
         reverse_proxy swapi_app:4000
     }
     
-    # Handle static frontend container
     handle {
         reverse_proxy frontend:3000
     }

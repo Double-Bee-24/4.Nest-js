@@ -22,6 +22,7 @@ import {
 } from './database/entities';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { UsersModule } from './modules/users/users.module';
         synchronize: false,
       }),
     }),
+    PrometheusModule.register(),
     PeopleModule,
     FilmsModule,
     PlanetsModule,

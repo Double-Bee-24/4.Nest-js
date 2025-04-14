@@ -43,7 +43,7 @@ services:
       context: ./client
       dockerfile: Dockerfile.prod
     ports:
-      - "3000:3000"
+      - "3001:3001"
     networks:
       - caddy
     deploy:
@@ -67,6 +67,40 @@ services:
       resources:
         limits:
           memory: 128M
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.53.4
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - caddy
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:11.6.0
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/datasource.yml:/var/lib/grafana/datasource.yml
+    networks:
+      - caddy
+  postgres_exporter:
+    container_name: postgres_exporter
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    environment:
+      DATA_SOURCE_NAME: "postgresql://postgres:F7Hl3*HU8g67%23bh91@postgres_db:5432/starwars_db?sslmode=disable"
+    ports:
+      - "9187:9187"
+    networks:
+      - caddy
+    depends_on:
+      - postgres_db
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+          cpus: "0.1"
 volumes:
   caddy_data:
   caddy_config:
