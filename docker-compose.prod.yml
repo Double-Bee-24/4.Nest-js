@@ -1,5 +1,6 @@
 networks:
   caddy:
+
 services:
   caddy:
     container_name: caddy
@@ -19,6 +20,7 @@ services:
         limits:
           memory: 128M
           cpus: "0.2"
+
   swapi_app:
     container_name: swapi_app
     env_file:
@@ -35,6 +37,7 @@ services:
         limits:
           memory: 128M
           cpus: "0.3"
+
   frontend:
     container_name: frontend
     env_file:
@@ -51,6 +54,7 @@ services:
         limits:
           memory: 128M
           cpus: "0.2"
+
   postgres_db:
     container_name: postgres_db
     image: postgres:17.4-alpine3.21
@@ -59,6 +63,11 @@ services:
     restart: always
     # set shared memory limit when using docker-compose
     shm_size: 128mb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d starwars_db -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     ports:
       - "5433:5432"
     networks:
@@ -67,40 +76,52 @@ services:
       resources:
         limits:
           memory: 128M
+
   prometheus:
     container_name: prometheus
     image: prom/prometheus:v2.53.4
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - caddy
+
   grafana:
     container_name: grafana
     image: grafana/grafana:11.6.0
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: FH9hy3F9hF9h3190KL
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana/datasource.yml:/var/lib/grafana/datasource.yml
+      - ./docker/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./docker/grafana/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml
+      - ./docker/grafana/dashboards:/etc/grafana/provisioning/dashboards
     networks:
       - caddy
+
   postgres_exporter:
+    image: prometheuscommunity/postgres-exporter:v0.17.0
     container_name: postgres_exporter
-    image: prometheuscommunity/postgres-exporter:v0.15.0
-    environment:
-      DATA_SOURCE_NAME: "postgresql://postgres:F7Hl3*HU8g67%23bh91@postgres_db:5432/starwars_db?sslmode=disable"
+    env_file:
+      - server/.env
     ports:
       - "9187:9187"
     networks:
       - caddy
     depends_on:
-      - postgres_db
+      prometheus:
+        condition: service_started
+      postgres_db:
+        condition: service_healthy
     deploy:
       resources:
         limits:
           memory: 64M
           cpus: "0.1"
+
 volumes:
   caddy_data:
   caddy_config:

@@ -1,4 +1,5 @@
 global:
+  evaluation_interval: 15s # How often to scrape targets
   scrape_interval: 15s # Metric collection interval
 
 scrape_configs:
