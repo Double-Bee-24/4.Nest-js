@@ -46,7 +46,7 @@ services:
       context: ./client
       dockerfile: Dockerfile.prod
     ports:
-      - "3001:3001"
+      - "4173:4173"
     networks:
       - caddy
     deploy:
