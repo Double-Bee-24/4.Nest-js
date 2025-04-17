@@ -1,50 +1,57 @@
 # Star Wars Universe
 
-A project for displaying data from the Star Wars universe in tables. It uses NestJS, TypeORM with PostgreSQL for the backend and React for the frontend. Currently under development.
+Fullstack project for displaying data from the Star Wars universe in tables. It uses NestJS, TypeORM with PostgreSQL for the backend and React for the frontend. Currently under development.
+
+## Prerequisites
+
+To run this project you need to have installed:
+
+- [Docker](https://www.docker.com/)
+- Docker Compose
+
+Make sure that Docker Engine is running
 
 ## Technologies
 
-- **NestJS**: A framework for building server-side applications in Node.js.
-- **TypeORM**: An ORM for working with PostgreSQL.
+- **NestJS**: A framework for building server-side applications in Node.js. Built on top of ExpressJS.
 - **PostgreSQL**: A relational database management system.
+- **TypeORM**: An ORM for working with PostgreSQL.
 - **React**: A library for building user interfaces.
-- **Axios**: For making HTTP requests.
-- **Typescript**: Development with stricter type safety
-- **Zod**: A library that helps to check data that typescripts passes.
-- **Eslint**: Statically analyzes your code to quickly find problems.
-- **Prettier**: Code style formatter.
-- **Swagger**: Different use cases - development, interaction with APIs, and documentation.
+- **TypeScript**: A superset of JavaScript that provides stricter type safety.
+- **Axios**: A library for making HTTP requests.
+- **Zod**: A library that helps with data validation in TypeScript.
+- **ESLint**: A static code analysis tool for finding problems in your code.
+- **Prettier**: A code formatter for maintaining consistent style.
+- **Swagger**: A tool for API interaction and automatic documentation generation.
+- **REST**: An architectural style for interacting with web services.
+- **Docker**: A tool to run your code in isolated environments.
+- **Docker Compose**: Simplier way to configure app with multiple containers.
+- **Prometheus**: Tool for collecting metrics from the app.
+- **Grafana**: Tool for metrics visualization, used along with Prometheus.
+- **Caddy**:
+  - Used to reverse proxy requests on different services
+  - Automatically updates TLS certificate (domain name required)
 
 ## Features
 
 - **Migrations to fetch and set up data from Starwars API**
 - **CRUD operations with Starwars API data**
 - **Ability to upload an image as an avatar**
-- **Simple jwt authentication - in process**
+- **Predifined grafana datasource and dashobards**
 
-> **Note:** To retrieve some data, the Star Wars API website was used: https://swapi.dev/
-
-## Description
-
-This project collects data from the public API [swapi.tech](https://www.swapi.tech/), which contains information about characters, planets, starships, and other entities from the Star Wars universe. The data is fetched through the API, stored in a PostgreSQL database, and displayed in tables on the frontend.
+> **Note:** To retrieve some data, the Star Wars API website was used: https://swapi.dev/, but due to recent and frequent SW api changes, data was downloaded into seeding_data.json
 
 ## Project Structure
 
-1. **Backend**:
-
-   - API implementation using **NestJS**.
-   - **TypeORM** is used for interacting with PostgreSQL.
-   - Models and migrations for storing data.
-
-2. **Frontend**:
-   - **React** for displaying the data.
-   - Tables to display data for each category (People, Planets, Species, Starships, Vehicles, Films).
-3. **Database**:
-   - PostgreSQL for storing Star Wars data.
+- 📁.github - Deploy workflow
+- 📁bash - Some useful scripts (migrations, seeding, swap increase, )
+- 📁client - React UI code
+- 📁docker - Docker configurations for prometheus and grafana
+- 📁server - NestJS server code
 
 ## Running the Project
 
-### 1. Backend Setup (NestJS)
+### 1. Project Setup
 
 1. Clone the repository:
 
@@ -52,69 +59,27 @@ This project collects data from the public API [swapi.tech](https://www.swapi.te
    git clone https://github.com/Double-Bee-24/4.Nest-js.git
 ```
 
-2. Install dependencies in both server and client directories:
-
-```bash
-   npm i
-```
-
 ### 2. Environment Setup for the Project
 
-### Server Configuration (server)
+To simplify this step .env.template files were provided to both 'client' and 'server' folder. You can configure it up to your needs
 
-In the root folder of `server`, create a `.env` file and add the following environment variables:
+### 3. Running the project
 
-```
-PORT=4000
-CLIENT_PORT=3000
-
-DB_HOST=localhost
-DB_PORT=5432
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=your_database_password
-POSTGRES_DB=starwars_db
-
-SWAPI_URL="https://www.swapi.tech/api"
-
-JWT_SECRET=your_jwt_secret
-```
-
-> **Note:** Replace `your_database_password` with your actual database password and `your_jwt_secret` with your own JWT secret key.
-
----
-
-### Client Configuration (client)
-
-In the `client` folder, create a `.env` file and add the following environment variable:
-
-```
-VITE_BASE_API_URL=http://localhost:4000/api/
-```
-
-This will allow the client side to interact with the server-side API.
-
----
-
-### Running the project
-
-In the server folder you can once run this command:
+In the root folder execute the next command
 
 ```bash
-npm run quick
+docker compose -f docker-compose.prod.yml up --build
 ```
 
-to quickly build, run migrations and start the server
+Enter the 'bash' folder and run next scripts:
 
-After that you can run the project by running:
-
-```bash
-npm run start:dev
+```
+./run_migrations.sh
 ```
 
-If you would like to download data from Starwars api, go to http://localhost:4000/swagger/ , find Swapi section and execute GET: /api/swapi, then GET: /api/swapi/relationships
-
-In the client folder to run frontend code of thee app you can just use:
-
-```bash
-npm run dev
 ```
+./run_seeding.sh
+```
+
+Or you can look into these scripts and perform the logic manually.
+Other script might be useful in case if you want to execute your app on Amazon EC2 instance.
