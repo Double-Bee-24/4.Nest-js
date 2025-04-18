@@ -28,7 +28,6 @@ const RegisterPage = (): JSX.Element => {
     const registerStatus = await register({
       username: formData.username,
       password: formData.password,
-      email: "",
     });
 
     if (registerStatus === "success") {

@@ -10,7 +10,6 @@ export default function Login(): JSX.Element {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log(value, "value");
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 

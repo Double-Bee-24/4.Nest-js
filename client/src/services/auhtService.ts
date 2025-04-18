@@ -9,7 +9,7 @@ const login = async (credentials: { username: string; password: string }) => {
     console.log(response);
     return "success";
   } catch (error) {
-    console.error("Error while fetching books: ", error);
+    console.error("Error during login attempt: ", error);
     return "unseccess";
   }
 };
@@ -17,7 +17,6 @@ const login = async (credentials: { username: string; password: string }) => {
 const register = async (credentials: {
   username: string;
   password: string;
-  email: string;
 }) => {
   try {
     const response = await instance.post("/auth/register", credentials, {
@@ -27,7 +26,7 @@ const register = async (credentials: {
     console.log(response);
     return "success";
   } catch (error) {
-    console.error("Error while fetching books: ", error);
+    console.error("Error during register attempt: ", error);
     return "unseccess";
   }
 };
