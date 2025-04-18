@@ -98,3 +98,20 @@ $button-hover: #2c5282;
     }
   }
 }
+
+.switch-auth {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: $reditect-color;
+  text-align: center;
+}
+
+.link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

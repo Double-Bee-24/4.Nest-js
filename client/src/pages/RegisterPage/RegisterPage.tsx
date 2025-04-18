@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { register } from "../../services/auhtService";
 import styles from "./RegisterPage.module.scss";
 
@@ -31,7 +31,7 @@ const RegisterPage = (): JSX.Element => {
     });
 
     if (registerStatus === "success") {
-      navigate("/admin");
+      navigate("/");
     }
   };
 
@@ -69,7 +69,12 @@ const RegisterPage = (): JSX.Element => {
             Sign Up
           </button>
           <p className={styles["login-redirect"]}>
-            Already have an account? <a href="/login">Log in</a>
+            Already have an account? <Link to="/login">Log in</Link>
+          </p>
+          <p className={styles["switch-auth"]}>
+            <Link to="/" className={styles["link"]}>
+              {"<-"} Back to Home
+            </Link>
           </p>
         </form>
       </div>

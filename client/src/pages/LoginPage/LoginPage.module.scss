@@ -1,6 +1,7 @@
 $bg-color: #0d0d0d;
 $accent-color: #ffe81f;
 $text-color: #000000;
+$reditect-color: #ffffff;
 $input-bg: #ffffff;
 $input-border: #444;
 $button-hover: #f0c000;
@@ -78,5 +79,22 @@ $button-hover: #f0c000;
       background-color: $button-hover;
       box-shadow: 0 0 10px $accent-color;
     }
+  }
+}
+
+.switch-auth {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: $reditect-color;
+  text-align: center;
+}
+
+.link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+
+  &:hover {
+    text-decoration: underline;
   }
 }

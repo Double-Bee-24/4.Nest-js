@@ -1,16 +1,17 @@
 import { instance } from "../api/axiosConfig";
 
+interface ILoginResponse {
+  access_token: string;
+}
+
 const login = async (credentials: { username: string; password: string }) => {
   try {
-    const response = await instance.post("/auth/login", credentials, {
-      withCredentials: true,
-    });
+    await instance.post("/auth/login", credentials);
 
-    console.log(response);
     return "success";
   } catch (error) {
     console.error("Error during login attempt: ", error);
-    return "unseccess";
+    return "unsuccess";
   }
 };
 
@@ -19,15 +20,16 @@ const register = async (credentials: {
   password: string;
 }) => {
   try {
-    const response = await instance.post("/auth/register", credentials, {
-      withCredentials: true,
-    });
+    const response: ILoginResponse = await instance.post(
+      "/auth/register",
+      credentials
+    );
+    localStorage.setItem("access_token", response.access_token);
 
-    console.log(response);
     return "success";
   } catch (error) {
     console.error("Error during register attempt: ", error);
-    return "unseccess";
+    return "unsuccess";
   }
 };
 

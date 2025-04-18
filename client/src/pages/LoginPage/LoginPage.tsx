@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../services/auhtService";
 import styles from "./LoginPage.module.scss";
 
@@ -19,7 +19,7 @@ export default function Login(): JSX.Element {
     const loginStatus = await login(formData);
 
     if (loginStatus === "success") {
-      navigate("/admin");
+      navigate("/");
     }
   };
 
@@ -45,6 +45,17 @@ export default function Login(): JSX.Element {
             className={styles["auth-input"]}
           />
           <button className={styles["register-button"]}>Log In</button>
+          <p className={styles["switch-auth"]}>
+            Don’t have an account?{" "}
+            <Link to="/register" className={styles["link"]}>
+              Register here
+            </Link>
+          </p>
+          <p className={styles["switch-auth"]}>
+            <Link to="/" className={styles["link"]}>
+              {"<-"} Back to Home
+            </Link>
+          </p>
         </form>
       </div>
     </div>

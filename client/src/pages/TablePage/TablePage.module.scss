@@ -1,7 +1,12 @@
-$primary-color: #1e40af;
-$primary-hover: #1e3a8a;
-$disabled-color: #9ca3af;
+$primary-color: #ffe81f;
+$primary-hover: #ffd700;
+$disabled-color: #555;
 $white: #ffffff;
+$background-dark: #0b0c10;
+$glow-blue: #00bfff;
+$glow-green: #00ff7f;
+
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap");
 
 .wrapper {
   display: flex;
@@ -14,59 +19,71 @@ $white: #ffffff;
   background-attachment: fixed;
   flex-grow: 1;
   padding-bottom: 40px;
+  font-family: "Orbitron", sans-serif;
 
   h1 {
-    color: white;
+    color: $primary-color;
     margin: 20px 0;
-    font-size: 40px;
+    font-size: 42px;
     font-weight: bold;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 10px 20px;
-    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 12px 24px;
+    border-radius: 8px;
     text-align: center;
+    text-shadow: 0 0 10px $primary-color;
   }
 
   table {
     border-collapse: collapse;
     width: 80%;
     margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: $white;
+    border-radius: 10px;
+    overflow: hidden;
 
     th,
     td {
-      padding: 0.8rem;
+      padding: 1rem;
       text-align: left;
-      font-size: 14px;
+      font-size: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     th {
-      background-color: #b0e6b0;
-      color: #333;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: $primary-color;
       font-weight: bold;
       text-transform: uppercase;
+      text-shadow: 0 0 5px $primary-color;
     }
 
     tr:nth-child(odd) {
-      background-color: #eafbe9;
+      background-color: rgba(255, 255, 255, 0.05);
     }
 
     tr:nth-child(even) {
-      background-color: #d4f7d4;
+      background-color: rgba(255, 255, 255, 0.03);
     }
 
     td {
       cursor: pointer;
-      color: #666;
+      color: #ddd;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
     }
 
     .resizer {
       width: 10px;
       height: 100%;
       cursor: col-resize;
-      background-color: #27bbff;
+      background-color: $glow-blue;
     }
 
     .resizer.isResizing {
-      background-color: #2eff31;
+      background-color: $glow-green;
     }
 
     .date-wrapper {
@@ -77,9 +94,10 @@ $white: #ffffff;
 
     td input {
       padding: 0.5rem;
-      background: transparent;
-      border: 1px solid #ccc;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #888;
       border-radius: 4px;
+      color: $white;
       width: 100%;
     }
   }
@@ -100,19 +118,22 @@ $white: #ffffff;
   padding: 0.6rem 1.2rem;
   font-size: 1rem;
   background-color: $primary-color;
-  color: $white;
+  color: #000;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px $primary-color;
 
   &:hover {
     background-color: $primary-hover;
+    box-shadow: 0 0 15px $primary-hover;
   }
 
   &:disabled {
     background-color: $disabled-color;
     cursor: not-allowed;
+    box-shadow: none;
   }
 }
 
