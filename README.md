@@ -7,7 +7,7 @@ Fullstack project for displaying data from the Star Wars universe in tables. It 
 To run this project you need to have installed:
 
 - [Docker](https://www.docker.com/)
-- Docker Compose
+- [Docker Compose](https://docs.docker.com/compose/)
 
 Make sure that Docker Engine is running
 
@@ -73,11 +73,11 @@ docker compose -f docker-compose.prod.yml up --build
 
 Enter the 'bash' folder and run next scripts:
 
-```
+```bash
 ./run_migrations.sh
 ```
 
-```
+```bash
 ./run_seeding.sh
 ```
 
