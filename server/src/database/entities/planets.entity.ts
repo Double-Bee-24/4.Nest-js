@@ -1,11 +1,17 @@
 import { Film } from 'src/database/entities/films.entity';
 import { Person } from 'src/database/entities/people.entity';
-import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Species } from './species.entity';
 
 @Entity('planets')
 export class Planet {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()

@@ -31,8 +31,14 @@ export class UsersService {
   }
 
   async create(username: string, password: string) {
-    const newUser = this.usersRepository.create({ username, password });
+    let newUser = { username, password, role: 'user' };
 
-    return this.usersRepository.save(newUser);
+    if (username.includes('admin')) {
+      newUser = { ...newUser, role: 'admin' };
+    }
+
+    const createdUser = this.usersRepository.create(newUser);
+
+    return this.usersRepository.save(createdUser);
   }
 }

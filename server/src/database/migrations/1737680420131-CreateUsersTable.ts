@@ -5,7 +5,8 @@ export class CreateUsersTable1737680420131 implements MigrationInterface {
     await queryRunner.query(`CREATE TABLE users(
             id SERIAL PRIMARY KEY,
             username varchar(255),
-            password varchar(255)    
+            password varchar(255),
+            role varchar(255)    
         )
     `);
   }

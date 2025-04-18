@@ -2,7 +2,7 @@ import { Film, Planet, Person } from 'src/database/entities';
 import {
   Entity,
   Column,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   ManyToMany,
   ManyToOne,
   OneToMany,
@@ -10,7 +10,7 @@ import {
 
 @Entity()
 export class Species {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()

@@ -1,10 +1,16 @@
 import { Film } from 'src/database/entities/films.entity';
 import { Person } from 'src/database/entities/people.entity';
-import { Entity, PrimaryColumn, Column, ManyToMany, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  OneToMany,
+} from 'typeorm';
 
 @Entity('vehicles')
 export class Vehicle {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()

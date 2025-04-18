@@ -41,7 +41,7 @@ export class AuthService {
       throw new BadRequestException('Username and password are required');
     }
 
-    let user;
+    let user: User | null;
 
     try {
       user = await this.usersService.findOneByUsername(username);

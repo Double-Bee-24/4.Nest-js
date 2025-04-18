@@ -10,6 +10,7 @@ import {
   UseInterceptors,
   Res,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { PeopleService } from './people.service';
@@ -18,8 +19,11 @@ import { ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { CreatePeopleDto } from './dto/create-people.dto';
 import { UpdatePeopleDto } from './dto/update-people.dto';
 import { ApiQuery } from '@nestjs/swagger';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
 @Controller('people')
+@UseGuards(RolesGuard)
 export class PeopleController {
   constructor(private peopleService: PeopleService) {}
 
@@ -50,6 +54,7 @@ export class PeopleController {
   }
 
   @Post()
+  @Roles('admin')
   createPerson(@Body() peopleDto: CreatePeopleDto) {
     return this.peopleService.createPerson(peopleDto);
   }
