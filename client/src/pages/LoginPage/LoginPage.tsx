@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/auhtService";
-import "./LoginPage.scss";
+import styles from "./LoginPage.module.scss";
 
 export default function Login(): JSX.Element {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -10,6 +10,7 @@ export default function Login(): JSX.Element {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    console.log(value, "value");
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -24,25 +25,29 @@ export default function Login(): JSX.Element {
   };
 
   return (
-    <div className="login-container">
-      <h1>Вхід</h1>
-      <form onSubmit={handleSubmit} className="register-form">
-        <input
-          type="login"
-          name="login"
-          value={formData.username}
-          onChange={handleChange}
-          className="auth-input"
-        />
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          className="auth-input"
-        />
-        <button className="register-button">увійти</button>
-      </form>
+    <div className={styles["login-wrapper"]}>
+      <div className={styles["login-container"]}>
+        <h1>Log In</h1>
+        <form onSubmit={handleSubmit} className={styles["register-form"]}>
+          <input
+            type="login"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+            className={styles["auth-input"]}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            className={styles["auth-input"]}
+          />
+          <button className={styles["register-button"]}>Log In</button>
+        </form>
+      </div>
     </div>
   );
 }

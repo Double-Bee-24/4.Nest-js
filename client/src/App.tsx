@@ -4,6 +4,7 @@ import TablePage from "./pages/TablePage/TablePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import EntityDetailsPage from "./pages/EntityDetailsPage/EntityDetailsPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -18,6 +19,7 @@ function App() {
     { path: "table/:tableName/:id", element: <EntityDetailsPage /> },
     { path: "login", element: <LoginPage /> },
     { path: "admin", element: <AdminPage /> },
+    { path: "register", element: <RegisterPage /> },
   ]);
 
   return <RouterProvider router={router} />;
