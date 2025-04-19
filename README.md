@@ -83,3 +83,12 @@ Enter the 'bash' folder and run next scripts:
 
 Or you can look into these scripts and perform the logic manually.
 Other script might be useful in case if you want to execute your app on Amazon EC2 instance.
+
+### 4. Useful services
+
+You can access the following services:
+
+- Grafana: http://localhost:3000 - check the metrics dashboards
+- Swagger: http://localhost/swagger/# - check the API documentation
+
+> **Note:** Assumed that the app is running on 'localhost', you can change it in the .env file and run in your way
