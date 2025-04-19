@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { register } from "../../services/auhtService";
+import { register } from "../../services/authService";
 import styles from "./RegisterPage.module.scss";
 
 const RegisterPage = (): JSX.Element => {

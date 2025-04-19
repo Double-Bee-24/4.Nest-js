@@ -21,9 +21,9 @@ import { UpdatePeopleDto } from './dto/update-people.dto';
 import { ApiQuery } from '@nestjs/swagger';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 @Controller('people')
-@UseGuards(RolesGuard)
 export class PeopleController {
   constructor(private peopleService: PeopleService) {}
 
@@ -53,6 +53,7 @@ export class PeopleController {
     return this.peopleService.getPerson(id);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   @Roles('admin')
   createPerson(@Body() peopleDto: CreatePeopleDto) {

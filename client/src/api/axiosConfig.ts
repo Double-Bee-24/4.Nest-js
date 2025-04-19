@@ -36,4 +36,4 @@ instance.interceptors.response.use(
   (error) => Promise.reject(error)
 );
 
-export { instance };
+export { instance, adminInstance };

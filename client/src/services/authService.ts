@@ -6,7 +6,12 @@ interface ILoginResponse {
 
 const login = async (credentials: { username: string; password: string }) => {
   try {
-    await instance.post("/auth/login", credentials);
+    const response: ILoginResponse = await instance.post(
+      "/auth/login",
+      credentials
+    );
+
+    localStorage.setItem("access_token", response.access_token);
 
     return "success";
   } catch (error) {

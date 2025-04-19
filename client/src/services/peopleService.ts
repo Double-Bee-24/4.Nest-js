@@ -1,5 +1,5 @@
 // import typia from "typia";
-import { instance } from "../api/axiosConfig";
+import { adminInstance, instance } from "../api/axiosConfig";
 import { IEntityResponse } from "../interfaces/IEntityResponse";
 import { IPerson } from "../interfaces/IPerson";
 
@@ -50,4 +50,26 @@ const uploadPersonAvatar = async (id: number, file: File) => {
   }
 };
 
-export { getAllPeople, getPerson, uploadPersonAvatar };
+const createPerson = async (): Promise<void> => {
+  try {
+    const testPerson = {
+      name: "Luke Skywalker",
+      description: "Jedi Master and hero of the Clone Wars",
+      height: "180",
+      mass: "75",
+      hairColor: "Blond",
+      skinColor: "Fair",
+      eyeColor: "Blue",
+      birthYear: "17BBY",
+      gender: "Male",
+      homeworld: 123,
+    };
+    const data: IPerson = await adminInstance.post("/people", testPerson);
+
+    console.log(data);
+  } catch (error) {
+    console.error("Error performing createPerson function: ", error);
+  }
+};
+
+export { getAllPeople, getPerson, uploadPersonAvatar, createPerson };

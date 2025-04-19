@@ -6,6 +6,7 @@ dotenv.config();
 type Payload = {
   sub: string;
   username: string;
+  role: string;
 };
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -18,6 +19,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(payload: Payload) {
-    return { userId: payload.sub, username: payload.username };
+    console.log(payload, 'payload');
+    return {
+      userId: payload.sub,
+      username: payload.username,
+      role: payload.role,
+    };
   }
 }
